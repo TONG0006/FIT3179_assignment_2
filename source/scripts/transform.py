@@ -3,6 +3,8 @@
 import csv
 import os
 
+import matplotlib.pyplot as plt
+
 
 def set_current_dir(filepath: str = os.path.dirname(os.path.realpath(__file__))) -> None:
     os.chdir(filepath)
@@ -90,8 +92,6 @@ def GM_count_normalised():
         "country name", "country name", "total players", False
     )
 
-    print(joined)
-
     def _transformation(data, filter):
         try:
             return round(data[filter] / joined[data["country"]] * 10000)
@@ -106,6 +106,26 @@ def GM_count_normalised():
     return final
 
 
+def GM_normalised_histogram():
+
+    gm_normal_dataset = GM_count_normalised()
+    gm_normal_count = [gm_country["count_normal"] for gm_country in gm_normal_dataset._data]
+    gm_normal_count.sort()
+
+    non_zero_gm_normal = []
+    for gm_normal in gm_normal_count:
+        if gm_normal != 0:
+            non_zero_gm_normal.append(gm_normal)
+
+    plt.hist(non_zero_gm_normal, bins=500)
+    plt.ylabel("The number of chess GrandMasters per 10,000 people")
+    plt.xlabel("Country occurence")
+    plt.show()
+
+    return non_zero_gm_normal
+
+
 if __name__ == "__main__":
     print(GM_count())
     print(GM_count_normalised())
+    print(GM_normalised_histogram())
