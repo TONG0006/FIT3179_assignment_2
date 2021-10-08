@@ -125,7 +125,43 @@ def GM_normalised_histogram():
     return non_zero_gm_normal
 
 
+def chess_scatter():
+    chess_players = Dataset("source/datasets/reference/players.csv")
+    continents = Dataset("source/datasets/reference/continents2.csv")
+    chess_ratings = Dataset("source/datasets/reference/ratings_2021.csv")
+
+    continents.rename("name", "country name")
+    titled_country = join(chess_players, continents, "federation", "alpha-3").filter(["title", "country name"])
+
+    final = dict()
+    for data in titled_country._data:
+        if data["title"]:
+            if data["country name"] in final:
+                final[data["country name"]]["total players"] += 1
+                final[data["country name"]]["titled players"] += 1
+            else:
+                final[data["country name"]] = {"total players": 1, "titled players": 1}
+        else:
+            if data["country name"] in final:
+                final[data["country name"]]["total players"] += 1
+            else:
+                final[data["country name"]] = {"total players": 1, "titled players": 0}
+
+    dataset = []
+    for country in final:
+        print(country)
+        a = {"country name": country}
+        a.update(final[country])
+        dataset.append(a)
+
+    final_dataset = join(Dataset(data=dataset), continents, "country name", "country name").filter(
+        ["country name", "total players", "titled players", "region"]
+    )
+    final_dataset.export("source/datasets/transformed/Titled players.csv")
+
+
 if __name__ == "__main__":
-    print(GM_count())
-    print(GM_count_normalised())
-    print(GM_normalised_histogram())
+    # print(GM_count())
+    # print(GM_count_normalised())
+    # print(GM_normalised_histogram())
+    chess_scatter()
