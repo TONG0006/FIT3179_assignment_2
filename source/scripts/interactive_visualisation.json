@@ -1,0 +1,107 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 500,
+    "height": 400,
+    "title": "Titled players per Country",
+    "data": {
+        "url": "../datasets/transformed/Titled players.csv"
+    },
+    "transform": [
+        {
+            "calculate": "datum.titled_players/datum.total_players * 100",
+            "as": "Titled players per 100 players"
+        },
+        {
+            "filter": "datum.total_players > 0"
+        },
+        {
+            "filter": "datum.titled_players > 0"
+        }
+    ],
+    "mark": "circle",
+    "encoding": {
+        "tooltip": [
+            {
+                "field": "country_name",
+                "title": "Country",
+                "type": "nominal"
+            },
+            {
+                "field": "continent",
+                "title": "Continent",
+                "type": "nominal"
+            },
+            {
+                "field": "titled_players",
+                "title": "Titled players",
+                "type": "quantitative",
+                "format": ","
+            },
+            {
+                "field": "total_players",
+                "title": "Total players",
+                "type": "quantitative",
+                "format": ","
+            },
+            {
+                "field": "Titled players per 100 players",
+                "type": "quantitative",
+                "format": ".2f"
+            }
+        ],
+        "x": {
+            "field": "total_players",
+            "type": "quantitative",
+            "title": "Total players",
+            "axis": {
+                "tickCount": 4
+            },
+            "scale": {
+                "type": "log",
+                "domain": [
+                    1,
+                    50000
+                ]
+            }
+        },
+        "y": {
+            "field": "titled_players",
+            "type": "quantitative",
+            "title": "Titled players",
+            "axis": {
+                "tickCount": 4
+            },
+            "scale": {
+                "type": "log",
+                "domain": [
+                    1,
+                    3000
+                ]
+            }
+        },
+        "color": {
+            "field": "continent",
+            "type": "nominal",
+            "title": "Continent",
+            "scale": {
+                "domain": [
+                    "Americas",
+                    "Europe",
+                    "Africa",
+                    "Asia",
+                    "Oceania"
+                ],
+                "range": [
+                    "#e41a1c",
+                    "#ff7f00",
+                    "#a6cee3",
+                    "#377eb8",
+                    "#a65628"
+                ]
+            }
+        },
+        "opacity": {
+            "value": 0.6
+        }
+    }
+}

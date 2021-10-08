@@ -149,7 +149,6 @@ def chess_scatter():
 
     dataset = []
     for country in final:
-        print(country)
         a = {"country name": country}
         a.update(final[country])
         dataset.append(a)
@@ -157,6 +156,10 @@ def chess_scatter():
     final_dataset = join(Dataset(data=dataset), continents, "country name", "country name").filter(
         ["country name", "total players", "titled players", "region"]
     )
+    final_dataset.rename("country name", "country_name")
+    final_dataset.rename("total players", "total_players")
+    final_dataset.rename("titled players", "titled_players")
+    final_dataset.rename("region", "continent")
     final_dataset.export("source/datasets/transformed/Titled players.csv")
 
 
