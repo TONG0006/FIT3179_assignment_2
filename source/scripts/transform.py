@@ -258,34 +258,40 @@ def chess_scatter_3():
         columns={"rating_blitz": "average_rating_blitz"}
     )
 
-    highest_standard_rating = (full_data.groupby("name_y").agg({"rating_standard": lambda x: valid_max(x)})).rename(
-        columns={"rating_standard": "highest_standard_rating"}
+    highest_rating_standard = (full_data.groupby("name_y").agg({"rating_standard": lambda x: valid_max(x)})).rename(
+        columns={"rating_standard": "highest_rating_standard"}
     )
 
-    highest_rapid_rating = (full_data.groupby("name_y").agg({"rating_rapid": lambda x: valid_max(x)})).rename(
-        columns={"rating_rapid": "highest_rapid_rating"}
+    highest_rating_rapid = (full_data.groupby("name_y").agg({"rating_rapid": lambda x: valid_max(x)})).rename(
+        columns={"rating_rapid": "highest_rating_rapid"}
     )
 
-    highest_blitz_rating = (full_data.groupby("name_y").agg({"rating_blitz": lambda x: valid_max(x)})).rename(
-        columns={"rating_blitz": "highest_blitz_rating"}
+    highest_rating_blitz = (full_data.groupby("name_y").agg({"rating_blitz": lambda x: valid_max(x)})).rename(
+        columns={"rating_blitz": "highest_rating_blitz"}
     )
 
-    total_standard_players = (
+    total_players = (
+        full_data.groupby("name_y")
+        .agg({"rating_standard": lambda x: len(x)})
+        .rename(columns={"rating_standard": "total_players"})
+    )
+
+    total_players_standard = (
         full_data.groupby("name_y")
         .agg({"rating_standard": lambda x: valid_len(x)})
-        .rename(columns={"rating_standard": "total_standard_players"})
+        .rename(columns={"rating_standard": "total_players_standard"})
     )
 
-    total_rapid_players = (
+    total_players_rapid = (
         full_data.groupby("name_y")
         .agg({"rating_rapid": lambda x: valid_len(x)})
-        .rename(columns={"rating_rapid": "total_rapid_players"})
+        .rename(columns={"rating_rapid": "total_players_rapid"})
     )
 
-    total_blitz_players = (
+    total_players_blitz = (
         full_data.groupby("name_y")
         .agg({"rating_blitz": lambda x: valid_len(x)})
-        .rename(columns={"rating_blitz": "total_blitz_players"})
+        .rename(columns={"rating_blitz": "total_players_blitz"})
     )
 
     total_titles = (
@@ -296,16 +302,34 @@ def chess_scatter_3():
         average_rating_standard,
         average_rating_rapid,
         average_rating_blitz,
-        highest_standard_rating,
-        highest_rapid_rating,
-        highest_blitz_rating,
-        total_standard_players,
-        total_rapid_players,
-        total_blitz_players,
+        highest_rating_standard,
+        highest_rating_rapid,
+        highest_rating_blitz,
+        total_players,
+        total_players_standard,
+        total_players_rapid,
+        total_players_blitz,
         total_titles,
     ]
     country_stats = reduce(lambda left, right: pd.merge(left, right, on="name_y"), stats).fillna("NaN")
     country_stats = pd.merge(country_stats, continents[["name", "region"]], left_on="name_y", right_on="name")
+    country_stats = country_stats[
+        [
+            "name",
+            "region",
+            "average_rating_standard",
+            "average_rating_rapid",
+            "average_rating_blitz",
+            "highest_rating_standard",
+            "highest_rating_rapid",
+            "highest_rating_blitz",
+            "total_players",
+            "total_players_standard",
+            "total_players_rapid",
+            "total_players_blitz",
+            "total_titles",
+        ]
+    ]
 
     country_stats.to_csv("source/datasets/transformed/country_stats.csv")
 
