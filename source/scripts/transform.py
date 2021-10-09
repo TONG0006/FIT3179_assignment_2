@@ -2,8 +2,10 @@
 
 import csv
 import os
+import pandas as pd
 
 import matplotlib.pyplot as plt
+from functools import reduce
 
 
 def set_current_dir(filepath: str = os.path.dirname(os.path.realpath(__file__))) -> None:
@@ -125,7 +127,217 @@ def GM_normalised_histogram():
     return non_zero_gm_normal
 
 
+def chess_scatter():
+    chess_players = Dataset("source/datasets/reference/players.csv")
+    continents = Dataset("source/datasets/reference/continents2.csv")
+    chess_ratings = Dataset("source/datasets/reference/ratings_2021.csv")
+
+    continents.rename("name", "country name")
+    titled_country = join(chess_players, continents, "federation", "alpha-3").filter(["title", "country name"])
+
+    final = dict()
+    for data in titled_country._data:
+        if data["title"]:
+            if data["country name"] in final:
+                final[data["country name"]]["total players"] += 1
+                final[data["country name"]]["titled players"] += 1
+            else:
+                final[data["country name"]] = {"total players": 1, "titled players": 1}
+        else:
+            if data["country name"] in final:
+                final[data["country name"]]["total players"] += 1
+            else:
+                final[data["country name"]] = {"total players": 1, "titled players": 0}
+
+    dataset = []
+    for country in final:
+        a = {"country name": country}
+        a.update(final[country])
+        dataset.append(a)
+
+    final_dataset = join(Dataset(data=dataset), continents, "country name", "country name").filter(
+        ["country name", "total players", "titled players", "region"]
+    )
+    final_dataset.rename("country name", "country_name")
+    final_dataset.rename("total players", "total_players")
+    final_dataset.rename("titled players", "titled_players")
+    final_dataset.rename("region", "continent")
+    final_dataset.export("source/datasets/transformed/Titled players.csv")
+
+
+def chess_scatter_2():
+    chess_players = pd.read_csv("source/datasets/reference/players.csv")
+    chess_ratings = pd.read_csv("source/datasets/reference/ratings_2021.csv")
+    continents = pd.read_csv("source/datasets/reference/continents2.csv")
+
+    final = pd.merge(chess_players, continents, left_on="federation", right_on="alpha-3")
+    final = pd.merge(
+        final,
+        chess_ratings[(chess_ratings["month"] == 1) & (chess_ratings["rating_standard"].notnull())],
+        left_on="fide_id",
+        right_on="fide_id",
+    )
+    final.to_csv("source/datasets/reference/titled_players.csv")
+
+    print(final)
+
+    final = final[["gender", "title", "name_y", "region", "sub-region", "intermediate-region", "rating_standard"]]
+
+    average_rating = (final.groupby("name_y").agg({"rating_standard": lambda x: sum(x) / len(x)})).rename(
+        columns={"rating_standard": "average_rating"}
+    )
+
+    highest_rating = (final.groupby("name_y").agg({"rating_standard": lambda x: max(x)})).rename(
+        columns={"rating_standard": "highest_rating"}
+    )
+
+    total_players = (
+        final.groupby("name_y")
+        .agg({"rating_standard": lambda x: len(x)})
+        .rename(columns={"rating_standard": "total_player"})
+    )
+
+    total_titles = (
+        final.groupby("name_y").agg({"title": lambda x: sum(x.notnull())}).rename(columns={"title": "total_titles"})
+    )
+
+    stats = [average_rating, highest_rating, total_players, total_titles]
+    country_stats = reduce(lambda left, right: pd.merge(left, right, on="name_y"), stats).fillna("void")
+    country_stats = pd.merge(country_stats, continents[["name", "region"]], left_on="name_y", right_on="name")
+
+    print(country_stats)
+
+    final.to_csv("source/datasets/transformed/titled_players.csv")
+
+    # chess_players.to_csv("source/datasets/reference/out.csv")
+
+
+def valid_type(x):
+    return x == x
+
+
+def valid_sum(x: list):
+    return sum([y if valid_type(y) else 0 for y in x])
+
+
+def valid_len(x: list):
+    return sum([1 if valid_type(y) else 0 for y in x])
+
+
+def valid_avg(x: list):
+    a, b = valid_len(x), valid_sum(x)
+
+    return b / a if a != 0 else 0
+
+
+def valid_max(x: list):
+    return max([y if valid_type(y) else 0 for y in x])
+
+
+def chess_scatter_3():
+    chess_players = pd.read_csv("source/datasets/reference/players.csv")
+    chess_ratings = pd.read_csv("source/datasets/reference/ratings_2021.csv")
+    continents = pd.read_csv("source/datasets/reference/continents2.csv")
+
+    full_data = pd.merge(
+        pd.merge(chess_players, continents, left_on="federation", right_on="alpha-3"),
+        chess_ratings[(chess_ratings["month"] == 1)],
+        left_on="fide_id",
+        right_on="fide_id",
+    )
+
+    average_rating_standard = (full_data.groupby("name_y").agg({"rating_standard": lambda x: valid_avg(x)})).rename(
+        columns={"rating_standard": "average_rating_standard"}
+    )
+
+    average_rating_rapid = (full_data.groupby("name_y").agg({"rating_rapid": lambda x: valid_avg(x)})).rename(
+        columns={"rating_rapid": "average_rating_rapid"}
+    )
+
+    average_rating_blitz = (full_data.groupby("name_y").agg({"rating_blitz": lambda x: valid_avg(x)})).rename(
+        columns={"rating_blitz": "average_rating_blitz"}
+    )
+
+    highest_rating_standard = (full_data.groupby("name_y").agg({"rating_standard": lambda x: valid_max(x)})).rename(
+        columns={"rating_standard": "highest_rating_standard"}
+    )
+
+    highest_rating_rapid = (full_data.groupby("name_y").agg({"rating_rapid": lambda x: valid_max(x)})).rename(
+        columns={"rating_rapid": "highest_rating_rapid"}
+    )
+
+    highest_rating_blitz = (full_data.groupby("name_y").agg({"rating_blitz": lambda x: valid_max(x)})).rename(
+        columns={"rating_blitz": "highest_rating_blitz"}
+    )
+
+    total_players = (
+        full_data.groupby("name_y")
+        .agg({"rating_standard": lambda x: len(x)})
+        .rename(columns={"rating_standard": "total_players"})
+    )
+
+    total_players_standard = (
+        full_data.groupby("name_y")
+        .agg({"rating_standard": lambda x: valid_len(x)})
+        .rename(columns={"rating_standard": "total_players_standard"})
+    )
+
+    total_players_rapid = (
+        full_data.groupby("name_y")
+        .agg({"rating_rapid": lambda x: valid_len(x)})
+        .rename(columns={"rating_rapid": "total_players_rapid"})
+    )
+
+    total_players_blitz = (
+        full_data.groupby("name_y")
+        .agg({"rating_blitz": lambda x: valid_len(x)})
+        .rename(columns={"rating_blitz": "total_players_blitz"})
+    )
+
+    total_titles = (
+        full_data.groupby("name_y").agg({"title": lambda x: valid_len(x)}).rename(columns={"title": "total_titles"})
+    )
+
+    stats = [
+        average_rating_standard,
+        average_rating_rapid,
+        average_rating_blitz,
+        highest_rating_standard,
+        highest_rating_rapid,
+        highest_rating_blitz,
+        total_players,
+        total_players_standard,
+        total_players_rapid,
+        total_players_blitz,
+        total_titles,
+    ]
+    country_stats = reduce(lambda left, right: pd.merge(left, right, on="name_y"), stats).fillna("NaN")
+    country_stats = pd.merge(country_stats, continents[["name", "region"]], left_on="name_y", right_on="name")
+    country_stats = country_stats[
+        [
+            "name",
+            "region",
+            "average_rating_standard",
+            "average_rating_rapid",
+            "average_rating_blitz",
+            "highest_rating_standard",
+            "highest_rating_rapid",
+            "highest_rating_blitz",
+            "total_players",
+            "total_players_standard",
+            "total_players_rapid",
+            "total_players_blitz",
+            "total_titles",
+        ]
+    ]
+
+    country_stats.to_csv("source/datasets/transformed/country_stats.csv")
+
+
 if __name__ == "__main__":
-    print(GM_count())
-    print(GM_count_normalised())
-    print(GM_normalised_histogram())
+    # print(GM_count())
+    # print(GM_count_normalised())
+    # print(GM_normalised_histogram())
+    # chess_scatter()
+    # chess_scatter_2()
+    chess_scatter_3()
