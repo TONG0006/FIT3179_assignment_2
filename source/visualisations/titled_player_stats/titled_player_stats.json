@@ -1,7 +1,7 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 500,
-    "height": 400,
+    "width": 800,
+    "height": 480,
     "title": "Chess player statistics (2021 January)",
     "data": {
         "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/data_transformation/source/datasets/transformed/country_stats.csv"
@@ -118,7 +118,7 @@
         },
         "y": {
             "field": "rating_calculation",
-            "title": "Highest rating",
+            "title": "Rating (FIDE)",
             "type": "quantitative",
             "scale": {
                 "type": "linear",
@@ -197,7 +197,7 @@
                 },
                 "y": {
                     "field": "rating_calculation",
-                    "title": "Highest rating",
+                    "title": "Rating (FIDE)",
                     "type": "quantitative",
                     "scale": {
                         "type": "linear",
@@ -240,7 +240,7 @@
                 },
                 "size": {
                     "field": "total_titles",
-                    "title": "The total number of title holders",
+                    "title": "Title holder count",
                     "type": "quantitative",
                     "scale": {
                         "type": "threshold",
@@ -285,7 +285,7 @@
                 },
                 "opacity": {
                     "condition": {
-                        "test": "datum.name == 'China' || datum.name == 'Singapore' || datum.name == 'Australia' || datum.name == 'New Zealand' || datum.name == 'Italy' || datum.name == 'Yemen' || datum.name == 'United States'",
+                        "test": "datum.name == 'Russia' || datum.name == 'Laos' || datum.name == 'Australia' || datum.name == 'India' || datum.name == 'China' || datum.name == 'Egypt' || datum.name == 'United States' || datum.name == 'Norway'",
                         "value": 1
                     },
                     "value": 0

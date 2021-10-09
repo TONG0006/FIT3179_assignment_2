@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Embedding Vega-Lite</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+</head>
+
+<body>
+    <div id="vis"></div>
+
+    <script type="text/javascript">
+        var yourVlSpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 800,
+            "height": 480,
+            "title": "Chess player statistics (2021 January)",
+            "data": {
+                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/data_transformation/source/datasets/transformed/country_stats.csv"
+            },
+            "params": [
+                {
+                    "name": "time_control_selection",
+                    "bind": {
+                        "input": "select",
+                        "options": [
+                            "standard",
+                            "rapid",
+                            "blitz"
+                        ],
+                        "labels": [
+                            "Standard",
+                            "Rapid",
+                            "Blitz"
+                        ],
+                        "name": "Time control: "
+                    }
+                },
+                {
+                    "name": "calculate_type_selection",
+                    "bind": {
+                        "input": "select",
+                        "options": [
+                            "highest",
+                            "average"
+                        ],
+                        "labels": [
+                            "Highest",
+                            "Average"
+                        ],
+                        "name": "Calculate by: "
+                    }
+                },
+                {
+                    "name": "continent_selection",
+                    "bind": {
+                        "input": "select",
+                        "options": [
+                            null,
+                            "Americas",
+                            "Europe",
+                            "Africa",
+                            "Asia",
+                            "Oceania"
+                        ],
+                        "labels": [
+                            "Show All",
+                            "Americas",
+                            "Europe",
+                            "Africa",
+                            "Asia",
+                            "Oceania"
+                        ],
+                        "name": "Select continent: "
+                    }
+                },
+                {
+                    "name": "minimum_players",
+                    "value": 0,
+                    "bind": {
+                        "input": "range",
+                        "min": 0,
+                        "max": 10000,
+                        "step": 1,
+                        "name": "Minimum player count: "
+                    }
+                }
+            ],
+            "transform": [
+                {
+                    "calculate": "datum[join([calculate_type_selection == null ? 'highest' : calculate_type_selection,'rating',time_control_selection == null ? 'standard' : time_control_selection], '_')]",
+                    "as": "rating_calculation"
+                },
+                {
+                    "calculate": "datum[join(['total_players',toString((time_control_selection == null ? 'standard' : time_control_selection))], '_')]",
+                    "as": "total_player"
+                },
+                {
+                    "calculate": "datum.total_titles/datum.total_player * 100",
+                    "as": "Titles per 100 players"
+                },
+                {
+                    "filter": "datum.rating_calculation > 0"
+                },
+                {
+                    "filter": "datum.total_player > 0"
+                },
+                {
+                    "filter": "continent_selection == null || continent_selection == datum.region"
+                },
+                {
+                    "filter": "minimum_players < datum.total_player"
+                }
+            ],
+            "encoding": {
+                "x": {
+                    "field": "total_player",
+                    "title": "Player count",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "log",
+                        "domain": [
+                            1,
+                            100000
+                        ]
+                    },
+                    "axis": {
+                        "tickCount": 5
+                    }
+                },
+                "y": {
+                    "field": "rating_calculation",
+                    "title": "Rating (FIDE)",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "linear",
+                        "domain": [
+                            1000,
+                            3000
+                        ]
+                    },
+                    "axis": {
+                        "tickCount": 2
+                    }
+                }
+            },
+            "layer": [
+                {
+                    "mark": "circle",
+                    "params": [
+                        {
+                            "name": "continent_highlight",
+                            "select": {
+                                "type": "point",
+                                "fields": [
+                                    "region"
+                                ],
+                                "on": "mouseover"
+                            }
+                        }
+                    ],
+                    "encoding": {
+                        "tooltip": [
+                            {
+                                "field": "name",
+                                "title": "Country",
+                                "type": "nominal"
+                            },
+                            {
+                                "field": "region",
+                                "title": "Continent",
+                                "type": "nominal"
+                            },
+                            {
+                                "field": "rating_calculation",
+                                "title": "Player rating calculation",
+                                "type": "quantitative"
+                            },
+                            {
+                                "field": "total_player",
+                                "title": "Players",
+                                "type": "quantitative"
+                            },
+                            {
+                                "field": "total_players",
+                                "title": "Total players all time control",
+                                "type": "quantitative"
+                            },
+                            {
+                                "field": "Titles per 100 players",
+                                "type": "quantitative",
+                                "format": ".2f"
+                            }
+                        ],
+                        "x": {
+                            "field": "total_player",
+                            "title": "Player count",
+                            "type": "quantitative",
+                            "scale": {
+                                "type": "log",
+                                "domain": [
+                                    1,
+                                    100000
+                                ]
+                            },
+                            "axis": {
+                                "tickCount": 5
+                            }
+                        },
+                        "y": {
+                            "field": "rating_calculation",
+                            "title": "Rating (FIDE)",
+                            "type": "quantitative",
+                            "scale": {
+                                "type": "linear",
+                                "domain": [
+                                    1000,
+                                    3000
+                                ]
+                            },
+                            "axis": {
+                                "tickCount": 2
+                            }
+                        },
+                        "color": {
+                            "field": "region",
+                            "title": "Continent",
+                            "type": "nominal",
+                            "scale": {
+                                "domain": [
+                                    "Africa",
+                                    "Americas",
+                                    "Asia",
+                                    "Europe",
+                                    "Oceania"
+                                ],
+                                "range": [
+                                    "#1b9e77",
+                                    "#d95f02",
+                                    "#7570b3",
+                                    "#e7298a",
+                                    "#66a61e"
+                                ]
+                            }
+                        },
+                        "opacity": {
+                            "condition": {
+                                "param": "continent_highlight",
+                                "value": 0.5
+                            },
+                            "value": 0.2
+                        },
+                        "size": {
+                            "field": "total_titles",
+                            "title": "Title holder count",
+                            "type": "quantitative",
+                            "scale": {
+                                "type": "threshold",
+                                "domain": [
+                                    1,
+                                    10,
+                                    100,
+                                    1000,
+                                    10000
+                                ],
+                                "range": [
+                                    10,
+                                    50,
+                                    100,
+                                    300,
+                                    500,
+                                    750
+                                ]
+                            },
+                            "legend": {
+                                "format": ".1s"
+                            }
+                        }
+                    }
+                },
+                {
+                    "mark": {
+                        "type": "text",
+                        "align": "right",
+                        "baseline": "middle",
+                        "dx": -12,
+                        "fontSize": 11.5,
+                        "fontStyle": "italic"
+                    },
+                    "encoding": {
+                        "text": {
+                            "field": "name",
+                            "type": "nominal"
+                        },
+                        "color": {
+                            "value": "black"
+                        },
+                        "opacity": {
+                            "condition": {
+                                "test": "datum.name == 'Russia' || datum.name == 'Laos' || datum.name == 'Australia' || datum.name == 'India' || datum.name == 'China' || datum.name == 'Egypt' || datum.name == 'United States' || datum.name == 'Norway'",
+                                "value": 1
+                            },
+                            "value": 0
+                        }
+                    }
+                }
+            ]
+        };
+        vegaEmbed('#vis', yourVlSpec);
+    </script>
+</body>
+
+</html>
