@@ -4,7 +4,7 @@
     "height": 400,
     "title": "Pro chess players in the world",
     "data": {
-        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/data_transformation/source/datasets/transformed/titled_players.csv"
+        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/data_transformation/source/datasets/transformed/country_stats.csv"
     },
     "transform": [
         {
