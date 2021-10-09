@@ -4,7 +4,7 @@
     "height": 400,
     "title": "Chess player statistics (2021 January)",
     "data": {
-        "url": "../datasets/transformed/country_stats.csv"
+        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/data_transformation/source/datasets/transformed/country_stats.csv"
     },
     "params": [
         {
@@ -63,13 +63,14 @@
             }
         },
         {
-            "name": "continent_highlight",
-            "select": {
-                "type": "point",
-                "fields": [
-                    "continent"
-                ],
-                "on": "mouseover"
+            "name": "minimum_players",
+            "value": 0,
+            "bind": {
+                "input": "range",
+                "min": 0,
+                "max": 10000,
+                "step": 1,
+                "name": "Minimum player count: "
             }
         }
     ],
@@ -91,42 +92,15 @@
         },
         {
             "filter": "datum.total_player > 0"
+        },
+        {
+            "filter": "continent_selection == null || continent_selection == datum.region"
+        },
+        {
+            "filter": "minimum_players < datum.total_player"
         }
     ],
-    "mark": "circle",
     "encoding": {
-        "tooltip": [
-            {
-                "field": "name",
-                "title": "Country",
-                "type": "nominal"
-            },
-            {
-                "field": "region",
-                "title": "Continent",
-                "type": "nominal"
-            },
-            {
-                "field": "rating_calculation",
-                "title": "Player rating calculation",
-                "type": "quantitative"
-            },
-            {
-                "field": "total_player",
-                "title": "Players",
-                "type": "quantitative"
-            },
-            {
-                "field": "total_players",
-                "title": "Total players all time control",
-                "type": "quantitative"
-            },
-            {
-                "field": "Titles per 100 players",
-                "type": "quantitative",
-                "format": ".2f"
-            }
-        ],
         "x": {
             "field": "total_player",
             "title": "Player count",
@@ -156,60 +130,167 @@
             "axis": {
                 "tickCount": 2
             }
-        },
-        "color": {
-            "field": "region",
-            "title": "Continent",
-            "type": "nominal",
-            "scale": {
-                "domain": [
-                    "Africa",
-                    "Americas",
-                    "Asia",
-                    "Europe",
-                    "Ocenia"
+        }
+    },
+    "layer": [
+        {
+            "mark": "circle",
+            "params": [
+                {
+                    "name": "continent_highlight",
+                    "select": {
+                        "type": "point",
+                        "fields": [
+                            "region"
+                        ],
+                        "on": "mouseover"
+                    }
+                }
+            ],
+            "encoding": {
+                "tooltip": [
+                    {
+                        "field": "name",
+                        "title": "Country",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "region",
+                        "title": "Continent",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "rating_calculation",
+                        "title": "Player rating calculation",
+                        "type": "quantitative"
+                    },
+                    {
+                        "field": "total_player",
+                        "title": "Players",
+                        "type": "quantitative"
+                    },
+                    {
+                        "field": "total_players",
+                        "title": "Total players all time control",
+                        "type": "quantitative"
+                    },
+                    {
+                        "field": "Titles per 100 players",
+                        "type": "quantitative",
+                        "format": ".2f"
+                    }
                 ],
-                "range": [
-                    "#1b9e77",
-                    "#d95f02",
-                    "#7570b3",
-                    "#e7298a",
-                    "#66a61e"
-                ]
+                "x": {
+                    "field": "total_player",
+                    "title": "Player count",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "log",
+                        "domain": [
+                            1,
+                            100000
+                        ]
+                    },
+                    "axis": {
+                        "tickCount": 5
+                    }
+                },
+                "y": {
+                    "field": "rating_calculation",
+                    "title": "Highest rating",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "linear",
+                        "domain": [
+                            1000,
+                            3000
+                        ]
+                    },
+                    "axis": {
+                        "tickCount": 2
+                    }
+                },
+                "color": {
+                    "field": "region",
+                    "title": "Continent",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": [
+                            "Africa",
+                            "Americas",
+                            "Asia",
+                            "Europe",
+                            "Oceania"
+                        ],
+                        "range": [
+                            "#1b9e77",
+                            "#d95f02",
+                            "#7570b3",
+                            "#e7298a",
+                            "#66a61e"
+                        ]
+                    }
+                },
+                "opacity": {
+                    "condition": {
+                        "param": "continent_highlight",
+                        "value": 0.5
+                    },
+                    "value": 0.2
+                },
+                "size": {
+                    "field": "total_titles",
+                    "title": "The total number of title holders",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "threshold",
+                        "domain": [
+                            1,
+                            10,
+                            100,
+                            1000,
+                            10000
+                        ],
+                        "range": [
+                            10,
+                            50,
+                            100,
+                            300,
+                            500,
+                            750
+                        ]
+                    },
+                    "legend": {
+                        "format": ".1s"
+                    }
+                }
             }
         },
-        "opacity": {
-            "condition": {
-                "param": "continent_highlight",
-                "value": 0.5
+        {
+            "mark": {
+                "type": "text",
+                "align": "right",
+                "baseline": "middle",
+                "dx": -12,
+                "fontSize": 11.5,
+                "fontStyle": "italic"
             },
-            "value": 0.2
-        },
-        "size": {
-            "field": "total_titles",
-            "title": "The total number of title holders",
-            "type": "quantitative",
-            "scale": {
-                "type": "threshold",
-                "domain": [
-                    1,
-                    10,
-                    100,
-                    1000,
-                    10000
-                ],
-                "range": [
-                    10,
-                    50,
-                    100,
-                    300,
-                    500,
-                    750
-                ]
-            },
-            "legend": {
-                "format": ".1s"
+            "encoding": {
+                "text": {
+                    "field": "name",
+                    "type": "nominal"
+                },
+                "color": {
+                    "value": "black"
+                },
+                "opacity": {
+                    "condition": {
+                        "test": "datum.name == 'China' || datum.name == 'Singapore' || datum.name == 'Australia' || datum.name == 'New Zealand' || datum.name == 'Italy' || datum.name == 'Yemen' || datum.name == 'United States'",
+                        "value": 1
+                    },
+                    "value": 0
+                }
             }
         }
-    }
+    ]
 }
