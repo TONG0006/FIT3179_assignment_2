@@ -2,6 +2,7 @@
 
 import csv
 import os
+import pandas as pd
 
 import matplotlib.pyplot as plt
 
@@ -163,8 +164,37 @@ def chess_scatter():
     final_dataset.export("source/datasets/transformed/Titled players.csv")
 
 
+def chess_scatter_2():
+    chess_players = pd.read_csv("source/datasets/reference/players_test.csv")
+    chess_ratings = pd.read_csv("source/datasets/reference/ratings_2021.csv")
+    continents = pd.read_csv("source/datasets/reference/continents2.csv")
+
+    print(
+        chess_ratings[
+            (chess_ratings["month"] == 1)
+            & (chess_ratings["rating_standard"] != "")
+            & (chess_ratings["rating_standard"].notnull())
+        ]
+    )
+
+    final = pd.merge(chess_players, continents, left_on="federation", right_on="alpha-3")
+    final = pd.merge(
+        final,
+        chess_ratings[(chess_ratings["month"] == 1) & (chess_ratings["rating_standard"].notnull())],
+        left_on="fide_id",
+        right_on="fide_id",
+    )
+    final.to_csv("source/datasets/reference/titled_players.csv")
+
+    final = final[["gender", "title", "name_y", "region", "sub-region", "intermediate-region", "rating_standard"]]
+
+    final.to_csv("source/datasets/reference/out.csv")
+    # chess_players.to_csv("source/datasets/reference/out.csv")
+
+
 if __name__ == "__main__":
     # print(GM_count())
     # print(GM_count_normalised())
     # print(GM_normalised_histogram())
-    chess_scatter()
+    # chess_scatter()
+    chess_scatter_2()

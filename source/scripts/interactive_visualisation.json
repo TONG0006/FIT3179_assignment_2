@@ -4,8 +4,43 @@
     "height": 400,
     "title": "Titled players per Country",
     "data": {
-        "url": "../datasets/transformed/Titled players.csv"
+        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/data_transformation/source/datasets/transformed/Titled%20players.csv"
     },
+    "params": [
+        {
+            "name": "continent_selection",
+            "bind": {
+                "input": "select",
+                "options": [
+                    null,
+                    "Americas",
+                    "Europe",
+                    "Africa",
+                    "Asia",
+                    "Oceania"
+                ],
+                "labels": [
+                    "Show All",
+                    "Americas",
+                    "Europe",
+                    "Africa",
+                    "Asia",
+                    "Oceania"
+                ],
+                "name": "Select continent: "
+            }
+        },
+        {
+            "name": "continent_highlight",
+            "select": {
+                "type": "point",
+                "fields": [
+                    "continent"
+                ],
+                "on": "mouseover"
+            }
+        }
+    ],
     "transform": [
         {
             "calculate": "datum.titled_players/datum.total_players * 100",
@@ -16,6 +51,9 @@
         },
         {
             "filter": "datum.titled_players > 0"
+        },
+        {
+            "filter": "continent_selection == null || datum.continent == continent_selection"
         }
     ],
     "mark": "circle",
@@ -101,7 +139,11 @@
             }
         },
         "opacity": {
-            "value": 0.6
+            "condition": {
+                "param": "continent_highlight",
+                "value": 0.6
+            },
+            "value": 0.2
         }
     }
 }
