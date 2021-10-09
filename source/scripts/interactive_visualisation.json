@@ -2,148 +2,28 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 500,
     "height": 400,
-    "title": "Titled players per Country",
+    "title": "COVID-19 Cases per Country (13 Oct 2020)",
     "data": {
-        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/data_transformation/source/datasets/transformed/Titled%20players.csv"
+        "url": "https://raw.githubusercontent.com/KaneSec/vega_lite/main/4_interactive_scatter_plot/data/COVID_19_10_Oct_2020.csv"
     },
-    "params": [
-        {
-            "name": "continent_selection",
-            "bind": {
-                "input": "select",
-                "options": [
-                    null,
-                    "Americas",
-                    "Europe",
-                    "Africa",
-                    "Asia",
-                    "Oceania"
-                ],
-                "labels": [
-                    "Show All",
-                    "Americas",
-                    "Europe",
-                    "Africa",
-                    "Asia",
-                    "Oceania"
-                ],
-                "name": "Select continent: "
-            }
-        },
-        {
-            "name": "continent_highlight",
-            "select": {
-                "type": "point",
-                "fields": [
-                    "continent"
-                ],
-                "on": "mouseover"
-            }
-        }
-    ],
-    "transform": [
-        {
-            "calculate": "datum.titled_players/datum.total_players * 100",
-            "as": "Titled players per 100 players"
-        },
-        {
-            "filter": "datum.total_players > 0"
-        },
-        {
-            "filter": "datum.titled_players > 0"
-        },
-        {
-            "filter": "continent_selection == null || datum.continent == continent_selection"
-        }
-    ],
     "mark": "circle",
     "encoding": {
-        "tooltip": [
-            {
-                "field": "country_name",
-                "title": "Country",
-                "type": "nominal"
-            },
-            {
-                "field": "continent",
-                "title": "Continent",
-                "type": "nominal"
-            },
-            {
-                "field": "titled_players",
-                "title": "Titled players",
-                "type": "quantitative",
-                "format": ","
-            },
-            {
-                "field": "total_players",
-                "title": "Total players",
-                "type": "quantitative",
-                "format": ","
-            },
-            {
-                "field": "Titled players per 100 players",
-                "type": "quantitative",
-                "format": ".2f"
-            }
-        ],
         "x": {
-            "field": "total_players",
+            "field": "Confirmed",
             "type": "quantitative",
-            "title": "Total players",
-            "axis": {
-                "tickCount": 4
-            },
-            "scale": {
-                "type": "log",
-                "domain": [
-                    1,
-                    50000
-                ]
-            }
+            "title": "Confirmed Cases"
         },
         "y": {
-            "field": "titled_players",
-            "type": "quantitative",
-            "title": "Titled players",
-            "axis": {
-                "tickCount": 4
-            },
-            "scale": {
-                "type": "log",
-                "domain": [
-                    1,
-                    3000
-                ]
-            }
+            "field": "Deaths",
+            "type": "quantitative"
         },
         "color": {
-            "field": "continent",
-            "type": "nominal",
-            "title": "Continent",
-            "scale": {
-                "domain": [
-                    "Americas",
-                    "Europe",
-                    "Africa",
-                    "Asia",
-                    "Oceania"
-                ],
-                "range": [
-                    "#e41a1c",
-                    "#ff7f00",
-                    "#a6cee3",
-                    "#377eb8",
-                    "#a65628"
-                ]
-            }
+            "field": "Continent",
+            "type": "nominal"
         },
-        "opacity": {
-            "condition": {
-                "param": "continent_highlight",
-                "value": 0.6
-            },
-            "value": 0.2
+        "size": {
+            "field": "Population",
+            "type": "quantitative"
         }
     }
 }

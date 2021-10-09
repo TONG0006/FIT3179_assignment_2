@@ -188,7 +188,7 @@ def chess_scatter_2():
 
     final = final[["gender", "title", "name_y", "region", "sub-region", "intermediate-region", "rating_standard"]]
 
-    final.to_csv("source/datasets/reference/out.csv")
+    final.to_csv("source/datasets/transformed/titled_players.csv")
     # chess_players.to_csv("source/datasets/reference/out.csv")
 
 
