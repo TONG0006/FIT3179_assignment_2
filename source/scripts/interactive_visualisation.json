@@ -2,27 +2,33 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 500,
     "height": 400,
-    "title": "COVID-19 Cases per Country (13 Oct 2020)",
+    "title": "Pro chess players in the world",
     "data": {
-        "url": "https://raw.githubusercontent.com/KaneSec/vega_lite/main/4_interactive_scatter_plot/data/COVID_19_10_Oct_2020.csv"
+        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/data_transformation/source/datasets/transformed/titled_players.csv"
     },
+    "transform": [
+        {
+            "calculate": "length(datum)",
+            "as": "test"
+        }
+    ],
     "mark": "circle",
     "encoding": {
         "x": {
-            "field": "Confirmed",
+            "field": "test",
             "type": "quantitative",
             "title": "Confirmed Cases"
         },
         "y": {
-            "field": "Deaths",
+            "field": "rating_standard",
             "type": "quantitative"
         },
         "color": {
-            "field": "Continent",
+            "field": "region",
             "type": "nominal"
         },
         "size": {
-            "field": "Population",
+            "field": "rating_standard",
             "type": "quantitative"
         }
     }

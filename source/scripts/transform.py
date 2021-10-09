@@ -5,6 +5,7 @@ import os
 import pandas as pd
 
 import matplotlib.pyplot as plt
+from functools import reduce
 
 
 def set_current_dir(filepath: str = os.path.dirname(os.path.realpath(__file__))) -> None:
@@ -165,17 +166,9 @@ def chess_scatter():
 
 
 def chess_scatter_2():
-    chess_players = pd.read_csv("source/datasets/reference/players_test.csv")
+    chess_players = pd.read_csv("source/datasets/reference/players.csv")
     chess_ratings = pd.read_csv("source/datasets/reference/ratings_2021.csv")
     continents = pd.read_csv("source/datasets/reference/continents2.csv")
-
-    print(
-        chess_ratings[
-            (chess_ratings["month"] == 1)
-            & (chess_ratings["rating_standard"] != "")
-            & (chess_ratings["rating_standard"].notnull())
-        ]
-    )
 
     final = pd.merge(chess_players, continents, left_on="federation", right_on="alpha-3")
     final = pd.merge(
@@ -186,10 +179,135 @@ def chess_scatter_2():
     )
     final.to_csv("source/datasets/reference/titled_players.csv")
 
+    print(final)
+
     final = final[["gender", "title", "name_y", "region", "sub-region", "intermediate-region", "rating_standard"]]
 
+    average_rating = (final.groupby("name_y").agg({"rating_standard": lambda x: sum(x) / len(x)})).rename(
+        columns={"rating_standard": "average_rating"}
+    )
+
+    highest_rating = (final.groupby("name_y").agg({"rating_standard": lambda x: max(x)})).rename(
+        columns={"rating_standard": "highest_rating"}
+    )
+
+    total_players = (
+        final.groupby("name_y")
+        .agg({"rating_standard": lambda x: len(x)})
+        .rename(columns={"rating_standard": "total_player"})
+    )
+
+    total_titles = (
+        final.groupby("name_y").agg({"title": lambda x: sum(x.notnull())}).rename(columns={"title": "total_titles"})
+    )
+
+    stats = [average_rating, highest_rating, total_players, total_titles]
+    country_stats = reduce(lambda left, right: pd.merge(left, right, on="name_y"), stats).fillna("void")
+    country_stats = pd.merge(country_stats, continents[["name", "region"]], left_on="name_y", right_on="name")
+
+    print(country_stats)
+
     final.to_csv("source/datasets/transformed/titled_players.csv")
+
     # chess_players.to_csv("source/datasets/reference/out.csv")
+
+
+def valid_type(x):
+    return x == x
+
+
+def valid_sum(x: list):
+    return sum([y if valid_type(y) else 0 for y in x])
+
+
+def valid_len(x: list):
+    return sum([1 if valid_type(y) else 0 for y in x])
+
+
+def valid_avg(x: list):
+    a, b = valid_len(x), valid_sum(x)
+
+    return b / a if a != 0 else 0
+
+
+def valid_max(x: list):
+    return max([y if valid_type(y) else 0 for y in x])
+
+
+def chess_scatter_3():
+    chess_players = pd.read_csv("source/datasets/reference/players.csv")
+    chess_ratings = pd.read_csv("source/datasets/reference/ratings_2021.csv")
+    continents = pd.read_csv("source/datasets/reference/continents2.csv")
+
+    full_data = pd.merge(
+        pd.merge(chess_players, continents, left_on="federation", right_on="alpha-3"),
+        chess_ratings[(chess_ratings["month"] == 1)],
+        left_on="fide_id",
+        right_on="fide_id",
+    )
+
+    average_rating_standard = (full_data.groupby("name_y").agg({"rating_standard": lambda x: valid_avg(x)})).rename(
+        columns={"rating_standard": "average_rating_standard"}
+    )
+
+    average_rating_rapid = (full_data.groupby("name_y").agg({"rating_rapid": lambda x: valid_avg(x)})).rename(
+        columns={"rating_rapid": "average_rating_rapid"}
+    )
+
+    average_rating_blitz = (full_data.groupby("name_y").agg({"rating_blitz": lambda x: valid_avg(x)})).rename(
+        columns={"rating_blitz": "average_rating_blitz"}
+    )
+
+    highest_standard_rating = (full_data.groupby("name_y").agg({"rating_standard": lambda x: valid_max(x)})).rename(
+        columns={"rating_standard": "highest_standard_rating"}
+    )
+
+    highest_rapid_rating = (full_data.groupby("name_y").agg({"rating_rapid": lambda x: valid_max(x)})).rename(
+        columns={"rating_rapid": "highest_rapid_rating"}
+    )
+
+    highest_blitz_rating = (full_data.groupby("name_y").agg({"rating_blitz": lambda x: valid_max(x)})).rename(
+        columns={"rating_blitz": "highest_blitz_rating"}
+    )
+
+    total_standard_players = (
+        full_data.groupby("name_y")
+        .agg({"rating_standard": lambda x: valid_len(x)})
+        .rename(columns={"rating_standard": "total_standard_players"})
+    )
+
+    total_rapid_players = (
+        full_data.groupby("name_y")
+        .agg({"rating_rapid": lambda x: valid_len(x)})
+        .rename(columns={"rating_rapid": "total_rapid_players"})
+    )
+
+    total_blitz_players = (
+        full_data.groupby("name_y")
+        .agg({"rating_blitz": lambda x: valid_len(x)})
+        .rename(columns={"rating_blitz": "total_blitz_players"})
+    )
+
+    total_titles = (
+        full_data.groupby("name_y").agg({"title": lambda x: valid_len(x)}).rename(columns={"title": "total_titles"})
+    )
+
+    stats = [
+        average_rating_standard,
+        average_rating_rapid,
+        average_rating_blitz,
+        highest_standard_rating,
+        highest_rapid_rating,
+        highest_blitz_rating,
+        total_standard_players,
+        total_rapid_players,
+        total_blitz_players,
+        total_titles,
+    ]
+    country_stats = reduce(lambda left, right: pd.merge(left, right, on="name_y"), stats).fillna("NaN")
+    country_stats = pd.merge(country_stats, continents[["name", "region"]], left_on="name_y", right_on="name")
+
+    country_stats.to_csv("source/datasets/transformed/country_stats.csv")
 
 
 if __name__ == "__main__":
@@ -197,4 +315,5 @@ if __name__ == "__main__":
     # print(GM_count_normalised())
     # print(GM_normalised_histogram())
     # chess_scatter()
-    chess_scatter_2()
+    # chess_scatter_2()
+    chess_scatter_3()
