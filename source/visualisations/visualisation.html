@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Chess insight
+    </title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+</head>
+
+<style>
+    .page {
+        background-color: antiquewhite;
+        padding: 2em;
+        margin: 1em;
+    }
+
+    .main_column {
+        background-color: white;
+        padding: 1em;
+    }
+
+    .main_row {
+        background-color: lightgray;
+        padding: 2em;
+        margin: 1em;
+    }
+
+    .main_heading {
+        text-align: center;
+    }
+
+    .content_column {
+        padding: 1em;
+    }
+</style>
+
+<body class="page">
+    <div class="main_column">
+        <div class="main_row">
+            <div class="main_heading">
+                <h1>Chess insight</h1>
+                <p>An introduction to the chess world.</p>
+            </div>
+        </div>
+        <div class="main_row">
+            <h2>
+                Introduction
+            </h2>
+            <p>
+                The gameboard "chess" has been around for 1500 years with a rich history of rising and falling of top
+                players. For some people it was a form of small entertainment and others, their career. The community of
+                chess has been a small one, mostly with chess players themselves; however, with recent medias covering
+                chess such as the Netflix series "Queen's gambit" and streaming platforms, the audience has grown
+                significantly larger, even to those who don't play. And as such these visualisations will give a small
+                insight on the current growth.
+            </p>
+        </div>
+        <div class="main_row">
+            <h2>
+                Map visualisation
+            </h2>
+            <p>
+                The map visualises the number of players with GM titles over the world. The title Grandmaster is
+                rewarded to a select few and is currently the highest title an individual may attain from the chess
+                organisation Fédération Internationale des Échecs (FIDE). The title has a strict regulation that a
+                player must meet to attain this achievement.
+            </p>
+            <div id="map_vis" class="vis-container"></div>
+        </div>
+
+        <div class="main_row">
+            <h2>
+                Scatter plot visualisation
+            </h2>
+            <p>
+                The scatter plot analyses the trend between popularity of chess in a given country against rating
+                performance. While the game chess has grown internationally, the elite few are grouped in a small number
+                of countries. With larger population, the trend indicates a higher likelihood that a player emerges with
+                a higher rating point but lower average.
+            </p>
+            <p>
+                The standard time control or by FIDE is known as classical time format, is a time control with 120
+                minutes for the first 40 moves, followed by 60 minutes for moves 41-60 and 15 minutes with 30 seconds
+                increment after moves 60. It is the traditional time format for tournaments and is often the longer type
+                ones. Rapid time control does not have a fix time setting but instead defined by anything over ten
+                minutes per player. And finally, blitz is anything between 3 to 10 minutes per player. There are many
+                other time controls beside these, but these 3 are by far the standard for tournament standards.
+            </p>
+            <div id="scatter_vis" class="vis-container"></div>
+        </div>
+
+        <script type="text/javascript">
+            var map_vis = "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/visualisations/GM_count_map/gm_count.json";
+            var scatter_vis = "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/visualisations/titled_player_stats/titled_player_stats.json";
+
+            vegaEmbed('#map_vis', map_vis);
+            vegaEmbed('#scatter_vis', scatter_vis);
+        </script>
+    </div>
+</body>
+
+</html>
