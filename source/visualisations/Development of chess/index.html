@@ -4,7 +4,7 @@
 <head>
 
     <title>Development of chess</title>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/pgn; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="resources/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="index.css">
@@ -19,17 +19,30 @@
                 <div class="row">
                     <div class="col-sm-8 col-md-7 py-4">
                         <h4 class="text-white">FIT3179 Data Visualisation</h4>
-                        <p class="text-muted">Add some information about the album below, the author, or any other
-                            background context. Make it a few sentences long so folks can pick up some informative
-                            tidbits. Then, link them off to some social networking sites or contact information.</p>
+                        <p class="text-muted">You can click on one of the links to be redirected. The FIDE Handbook has
+                            official and through rules on chess, if you want to learn the basic rules go to "How to play
+                            chess". Additionally, the sources of the visualisations are
+                            linked as well</p>
                     </div>
                     <div class="col-sm-4 offset-md-1 py-4">
-                        <h4 class="text-white">Links</h4>
+                        <h4 class="text-white">General links</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="https://handbook.fide.com/chapter/E012018" class="text-white">FIDE
+                                    Handbook</a>
+                            </li>
+                            <li><a href="https://irp-cdn.multiscreensite.com/70eb1b3d/files/uploaded/CHESS%20Rules%20.pdf"
+                                    class="text-white">How
+                                    to play chess</a>
+                            </li>
+                        </ul>
+                        <h4 class="text-white">Source links</h4>
                         <ul class="list-unstyled">
                             <li><a href="https://github.com/TONG0006/FIT3179_assignment_2" class="text-white">Github
                                     repository</a></li>
-                            <li><a href="#" class="text-white">Visualisation 1 (JSON)</a></li>
-                            <li><a href="#" class="text-white">Visualisation 2 (JSON)</a></li>
+                            <li><a href="#" class="text-white">Visualisation
+                                    1 (JSON)</a></li>
+                            <li><a href="#" class="text-white">Visualisation
+                                    2 (JSON)</a></li>
                         </ul>
                     </div>
                 </div>
@@ -52,44 +65,107 @@
 
         <div class="nav-scroller py-1 mb-2">
             <nav class="nav d-flex justify-content-between">
+                <a class="p-2 text-muted" href="#introduction">Introduction</a>
                 <a class="p-2 text-muted" href="#chaturanga">Chaturanga</a>
-                <a class="p-2 text-muted" href="#">Romantic</a>
-                <a class="p-2 text-muted" href="#">Scientific</a>
-                <a class="p-2 text-muted" href="#">Modern</a>
-                <a class="p-2 text-muted" href="#">Hypermodern</a>
-                <a class="p-2 text-muted" href="#">Dynamism</a>
-                <a class="p-2 text-muted" href="#">Where chess stands today</a>
+                <a class="p-2 text-muted" href="#romantic_chess">Romantic
+                    chess</a>
+                <a class="p-2 text-muted" href="#scientific_chess">Scientific/Hypermodern
+                    chess</a>
             </nav>
         </div>
 
         <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark border">
             <div class="col-md-6 px-0">
                 <h1 class="display-4 font-italic border-bottom">Development of chess</h1>
-                <p class="lead my-3">A chess insight</p>
+                <p class="lead my-3 text-justify">A chess insight on its history and changes</p>
             </div>
         </div>
 
         <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
             <div class="row">
-                <h2 class="display-5 font-italic border-bottom" id="chaturanga">Chaturanga - 6th century</h2>
+                <h2 class="display-5 font-italic border-bottom" id="introduction">
+                    Introduction</h2>
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <p class="lead my-3">Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
-                                ridiculus mus. Aenean eu leo quam. Pellentesque
-                                ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis.
-                                Cras mattis consectetur purus sit
-                                amet fermentum.
-
-                                Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu
-                                leo. Nullam id dolor id nibh
-                                ultricies vehicula ut id elit.
-
-                                Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet
-                                fermentum. Aenean lacinia
-                                bibendum nulla sed consectetur.</p>
+                        <div class="col-sm-7">
+                            <p class="lead my-3 text-justify">Chess, Western Chess or international chess is a well
+                                known board game played between two players. This infographic aims to take you through
+                                the chess development stage and where it stands today.</p>
+                            <p class="lead my-3 text-justify">Many of the text references technical chess terms, however
+                                you don't need to fully know how to play chess to read this <i class="my-sidenote">(but
+                                    if
+                                    you want to know the basic rules or learn, you can
+                                    find the link by pressing the hamburger button located on the top right of the
+                                    webpage).</i></p>
+                            </p>
+                            <p class="lead my-3 text-justify">This webpage makes use of the <a
+                                    href="https://play.chessbase.com" alt="chessbase">chessbase</a>
+                                API and allows interactivy of chess moves. On the right is the puzzles API, feel free to
+                                use it. Once you are done with the fun,
+                                lets take a journey through the history of chess.
+                            </p>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-5">
+                            <iframe src="https://livetactics.chessbase.com" width="400" height="440"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+            <div class="row">
+                <h2 class="display-5 font-italic border-bottom" id="chaturanga">
+                    Chaturanga - 6th century</h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="cbdiagram" data-size="400"
+                                data-pos="bRa8, Nb8, Bc8, Kd8, Qe8, Bf8, Ng8, Rh8, Pa7, Pb7, Pc7, Pd7, Pe7, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc2, Pd2, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="The black Queen and King were switched"
+                                data-title="Initial Chaturanga position">
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <p class="lead my-3 text-justify">Before we talk about chess, we have to talk about its
+                                predeccesor, "Chaturanga"; in fact, Chaturanga is also the motivation of many other
+                                board games such as Japanese chess (Shogi), Chinese chess (Xiangqi), modern Indian chess
+                                and lots more.
+                            </p>
+                            <p class="lead my-3 text-justify">Originating from ancient India in the 6th century, it had
+                                a slightly different setup to what we know as "Modern Western chess". Shown on the
+                                right, the black and white Queen and King were originally were not opposing each other.
+                            </p>
+                            <p class="lead my-3 text-justify">Besides the visual appearance and setup by Chaturanga, the
+                                piece movements, win conditions or rules is unclear and left only to speculations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+            <div class="row">
+                <h2 class="display-5 font-italic border-bottom" id="romantic_chess">
+                    Romantic chess - 18th century</h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <p class="lead my-3 text-justify">The era is set between 1700s-1872s, players were exploring
+                                ideas on quick and tactical maneuvers of pieces. The moves in this era can be described
+                                as aggresive and playful.
+                            </p>
+                            <p class="lead my-3 text-justify">A characterization of the openings in the era consisted of
+                                1.e4 with the most played follow up being ..e5 2.f4 or ..e5 2.Nf3. The Sunburst chart
+                                categorises the first few moves into layers shown to the right, where the first
+                                move starts from the inner ring and branches out for the following moves.
+                            </p>
+                            <p class="lead my-3 text-justify">The era was thought to be at its peak with their leaders
+                                of the era's style Alexander McDonnell and Louis-Charles Mahé de La Bourdonnais.
+                            </p>
+                        </div>
+                        <div class="col-sm-5">
                             <div class="cbdiagram" data-size="400"
                                 data-pos="bRa8, Nb8, Bc8, Kd8, Qe8, Bf8, Ng8, Rh8, Pa7, Pb7, Pc7, Pd7, Pe7, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc2, Pd2, Pe2, Pf2, Pg2, Ph2"
                                 data-legend="The black Queen and King were switched"
@@ -97,70 +173,275 @@
                             </div>
                         </div>
                     </div>
-
-                </div>
-
-                <div class="cbreplay">
-
-                    [Event "World Championship 28th"]
-                    [White "Spassky, Boris V"]
-                    [Black "Fischer, Robert James"]
-                    [Site "Reykjavik"]
-                    [Result "1–0"]
-                    [Date "1972.08.06"]
-                    [WhiteElo "2660"]
-                    [BlackElo "2785"]
-
-                    1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Bg5 e6 7. f4 Qb6 8. Qd2 Qxb2 9. Nb3 Qa3 10.
-                    Bxf6 gxf6
-                    11. Be2
-                    h5 12. 0-0 Nc6 13. Kh1 Bd7 14. Nb1 Qb4 15. Qe3 d5 16. exd5 Ne7 17. c4 Nf5 18. Qd3 h4 19. Bg4 Nd6 20.
-                    N1d2 f5
-                    21. a3
-                    Qb6 22. c5 Qb5 23. Qc3 fxg4 24. a4 h3 25. axb5 hxg2+ 26. Kxg2 Rh3 27. Qf6 Nf5 28. c6 Bc8 29. dxe6
-                    fxe6 30.
-                    Rfe1 Be7
-                    31. Rxe6
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="lead my-3 text-justify">The era was famous for "The Immortal Game" which was
+                                fabricated on 21st of June 1851 entitled as a "supreme example of romantic chess". The
+                                scene was set in London where Karl Ernst Adolf Anderssen played a beautiful sequence
+                                of piece sacrificies to deliver a finisher onto Lionel Kieseritzky. Here is the game
+                                annotated by
+                                <a href="https://gameknot.com/annotation.pl/the-immortal-game?gm=588">Thomas</a>.
+                            </p>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="cbreplay">
+                                [Event "'The Immortal Game'"] [Site "http://gameknot.com/"] [Date "London 1851"] [Round
+                                "-"] [White "Adolph Anderssen"] [Black "Lionel Kieseritzky"] [Result "1-0"] {The game
+                                that follows is my second Adolph Anderssen masterpiece. First named 'the Immortal
+                                Game' by Austrian superstar Ernst Falkbeer, this is perhaps Anderssen's finest work ever
+                                - and quite possibly the most famous game of chess ever played. In it, Anderssen plays
+                                the King's Bishop Gambit (which I am totally
+                                unfamiliar with). After sacrificing a bishop, BOTH rooks, AND his queen, Anderssen
+                                delivers a mate that is truly inspired by some higher power. How many of us GameKnot
+                                patzers would ever dream of winning a game with a -21
+                                material deficit? While the normal human would be scared senseless at the prospect of
+                                having his king so exposed (and from such an early point), Anderssen attacks like a man
+                                possesed (and after studying his games, I think
+                                he very well may have been:) I will try to provide a commentary (with some liberal usage
+                                of key points made by players far more keen than I) that will keep you tuned into the
+                                mind of this master. I hope you enjoy:)} 1.
+                                e4 e5 2. f4 {King's Gambit - an Anderssen favorite.} exf4 {King's Gambit Accepted. In
+                                studying this opening a little, I have learned that this is usually the best response
+                                for black. We must have SOME King's Gambit players
+                                out there, and I would love to play against you to become more familiar with this
+                                opening:)} 3. Bc4 {King's Bishop Gambit. My research shows that 3. Nf3 is a much more
+                                standard response.} Qh4+ 4. Kf1 b5 {Bryan's Counter-Gambit.
+                                Named for American ameteur Thomas Jefferson Bryan who studied it extensively in Paris
+                                and London in the 19th century. It aims to gambit a pawn while harrassing white's light
+                                squared bishop. This kind of play is WAAAAY over
+                                my head. I think most of us would agree that black needs to accelerate his development.
+                                But what do I know?} 5. Bxb5 {Regaining material equality.} Nf6 {Eying the e pawn.} 6.
+                                Nf3 {The beginning of a developmental attack
+                                on the black queen.} Qh6 7. d3 {Protecting e4, and aiming at f4. Supposedly, Anderssen
+                                spent a lot of time on this one.....} Nh5 {Protecting the f pawn and threatening 8...Ng3
+                                , winning a rook for a knight.} 8. Nh4 {Does
+                                anyone else notice a seemingly non-chalant attitude by Anderssen about his piece
+                                development? I have no idea what would prompt such a move. There are PAGES of analysis
+                                about this move that have been published.} Qg5 {Threatening
+                                9...Qxh4 OR 9...Qxb5.} 9. Nf5 {The only move to stop 9...Qxb5.} c6 {And it appears that
+                                the harrassment of the bishop has begun.} 10. g4 {! Anderssen is willing to let the
+                                bishop fall as he starts a plan of attacking the
+                                black queen. First things first though - that Nh5 need to be forced to a square that
+                                restricts the queen's escape.} Nf6 11. Rg1 {!Sacrifice #1 - Bye Bye Bishop. Safer plays
+                                included Ba4 or Bc4, but Anderssen had bigger
+                                plans.} cxb5 12. h4 {Notice the little box that the black queen is trapped in.} Qg6
+                                {Forced.} 13. h5 Qg5 {Forced again.} 14. Qf3 {Threatening to play Bxf4 followed by e5.}
+                                Ng8 {Forced yet again. Black has to create an escape
+                                path for his queen. We now approach the 15th move of the game, and notice that now only
+                                one piece on the whole board is developed!} 15. Bxf4 {Here comes the pain..........} Qf6
+                                {Threatening b2.} 16. Nc3 {Developing (finally!),
+                                protecting b2, and threatening the strong Nd5.} Bc5 {Most top level players put a ? next
+                                to this move. Most suggest 16...Na6. Why? I don't know....I'm just a 1500 level internet
+                                junkie:) The attack on white's Rg1 is potent
+                                though (isn't it?).} 17. Nd5 {More aggrevation for the black queen. White's b pawn is
+                                now hanging, but Anderssen lives in the future, not the present.} Qxb2 {At last some
+                                relief from the repeated attacks, and black gains
+                                yet another pawn while threatening white's Ra1 with a check to boot. Anderssen was
+                                obviously aware of this, but he had other ideas.......} 18. Bd6 {! Sacrifice #2 -
+                                Anderssen offers a rook sacrifice. PAGES, (and I do mean
+                                PAGES) of possible alternatives were listed in my research. White now has both rooks
+                                hanging. *'Rooks? We don't need no stinking rooks!'*} Bxg1 {Black is now at +8.} 19. e5
+                                {!! Sacrifice #3 - Anderssen now offers up the
+                                other rook! Remember - absinthe was still legal back in those days, and it appears that
+                                he was drinking it heavily........or was this simply a brilliant play?} Qxa1+ {Black is
+                                now +13 and directly attacking the enemy king.}
+                                20. Ke2 {BAM!!!!!!!! Black is now at least two moves away from delivering another check.
+                                Anderssen is now severely down in MATERIAL, but has a massive advantage in TIME. Watch
+                                this...............} Na6 {Protecting against
+                                21. Nc7 , but white now has forced mate in 3.} 21. Nxg7+ {'Hello Mr. Black King! Would
+                                you kindly move to d8 please?'} Kd8 {'Why certainly....do I have a choice?'} 22. Qf6+
+                                {!! Sacrifice #4 - 'Hello again Mr. King! I just
+                                wanted to inform you of your impending death:)'} Nxf6 {Forced.} 23. Be7# {And the dagger
+                                through the heart. This is one of the most instructive games I have ever seen. It proves
+                                that while maintaining material is important,
+                                piece coordination and the concept of TIME can overcome such material deficits. The
+                                funny thing is that this was just a skittles game - it had no bearing on any tournament
+                                or serious play. Can you just imagine what was
+                                going through the minds of Steinitz and other top players of that era when they saw
+                                this? (assuming they ever did). I'm sure they probably thought that Anderssen was a
+                                direct relative of Caissa:) I hope you have enjoyed
+                                it:) More famous games are forthcoming, and I appreciate all the kind words I have
+                                received for posting them with my own meager analysis. Cheers!, Thomas} 1-0
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 text-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Anderssen_Adolf.jpg/200px-Anderssen_Adolf.jpg"
+                                alt="Karl Ernst Adolf Anderssen" width="75%">
+                            <figcaption>Figure of Karl Ernst Adolf Anderssen</figcaption>
+                        </div>
+                        <div class="col-sm-7">
+                            <p class="lead my-3 text-justify">
+                                Just like the game above, where it emphasizes playing in style and expressing emotional
+                                expression, the Romantic era in other fields such as arts was just the same.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                Due to this, top players such as Paul Morphy and the general public often shunned
+                                positional play as "dull", "cowardly" or "stingy". Despite their preference of flashy
+                                and dashing moves, positional, theoretical and closed games weren't completely unknown
+                                featuring in a few tournaments such as in London.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                However, this would all change dramatically with the next few eras of chess, with the
+                                first biggest influencer being Wilhelm Steinitz.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="container p-4 p-md-5 text-white rounded bg-dark">
-            Test
-        </div>
-    </div>
-
-    <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Navigation</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropup">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">Dropup</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown10">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+            <div class="row">
+                <h2 class="display-5 font-italic border-bottom" id="scientific_chess">
+                    Scientific/Hypermodern chess - 19th century</h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <p class="lead my-3 text-justify">
+                                During a Vienna 1873 chess tournament, Wilhelm Seinitz demonstrated his form of
+                                positional play that utilises key concepts such as such as controlling the center with
+                                pawns, playing a closed position. The tournament consisted of 12 players strong
+                                players from 6 different countries and he went ahead and took first place after
+                                defeating Joseph Henry Blackburne in the finals.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                His deployment of his theories for positional play had influenced many players and at
+                                the time and future players from his ideas. Wilhelm was regarded as one of the most
+                                influential chess theoritician and had driven the community into the scientific era.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                While there were still people who thought his playstyle was cowardly, Wilhelm also
+                                showed that over the long term, the setup can lead to more ferocious attacks than the
+                                last generation. After the tournament, he was considered to be the strongest player in
+                                the world and when the first official World Chess Championship was held in 1886, he took
+                                the title of being the first official World Chess Champion.
+                            </p>
+                        </div>
+                        <div class="col-sm-5 text-center">
+                            <img src="https://3.bp.blogspot.com/-GjlfDpzH3Jw/Uz7Hkh8PKzI/AAAAAAAAMPo/T0oiEo13Uow/s1600/steinitz.jpg"
+                                alt="Wilhelm Steinitz" width="80%">
+                            <figcaption>Figure of Wilhelm Steinitz</figcaption>
+                        </div>
                     </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p class="lead my-3 text-justify">
+                                Here is an example of a very instructive game by Steinitz himself a year before he
+                                claimed his title, playing for center control, space in a closed position and using
+                                tactical knight maneuvers to exploit the oppositions cramped space. The game was also
+                                annotated by a well known player Grandmaster Garry Kasparov.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="cbreplay">
+                                [Event "Match Steinitz-Sellman (2) +3-0=0"]
+                                [Site "Baltimore"]
+                                [Date "1885.02.09"]
+                                [Round "1"]
+                                [White "Steinitz, William"]
+                                [Black "Sellman, Alexander"]
+                                [Result "1-0"]
+                                [ECO "C11"]
+                                [Annotator "Kasparov,G"]
+                                [PlyCount "69"]
+                                [EventDate "1885.02.09"]
+                                [EventType "match"]
+                                [EventRounds "3"]
+                                [EventCountry "USA"]
+                                [SourceTitle "CBM 060"]
+                                [Source "ChessBase"]
+                                [SourceDate "1997.09.29"]
+                                [SourceVersion "1"]
+                                [SourceVersionDate "1997.09.29"]
+                                [SourceQuality "1"]
 
-    <script src="resources/jquery-git.min.js"></script>
-    <script src="resources/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
-    <script src="https://pgn.chessbase.com/jquery-3.0.0.min.js"></script>
-    <script src="https://pgn.chessbase.com/cbreplay.js" type="text/javascript"></script>
+                                {Many strong chess players and, of course, World Champions have found new
+                                moves and ideas that changed the evaluation of different opening systems. But
+                                just a few of us were lucky enough to introduce new plans that transformed the
+                                core of opening and middlegame strategy. The impression and clarity of the
+                                plan put forward by Steinitz in this game was so strong that the whole line
+                                starting with 4.e5 was later called the "Steinitz Variation" in the French
+                                Defence. Please do not be disappointed by the relative weakness of Black's
+                                play - to some extent it helped Steinitz to demonstrate the essence of his
+                                plan in the purest form. The average international player simply couldn't
+                                think in the long-term categories that marked Steinitz well thought out
+                                strategy.} 1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. e5 Nfd7 5. f4 {Before Steinitz
+                                there was a belief that the only way to fight for the advantage was to keep
+                                the pawn structure in the centre intact:} (5. Nce2 c5 6. c3 Nc6 7. f4) 5... c5
+                                6. dxc5 {Here it is! With this move White begins to maintain a stronghold on
+                                d4. Nowadays we prefer to refrain from the immediate exchange on c5, starting
+                                with} (6. Nf3 Nc6 7. Be3 {But while both 5. f4 and 5.Nce2 are played in modern
+                                tournaments, modifications of Steinitz' plan are still recognised as most
+                                unpleasant for Black.}) 6... Bxc5 7. Nf3 a6 $6 {This was unnecessary. I would
+                                consider} (7... Nc6 8. Bd3 f6 {attacking the strong pawn on e5.}) 8. Bd3 Nc6 9.
+                                Qe2 Nb4 {This move defines Black's plan a bit prematurely. 9...b5 was more
+                                appropriate.} 10. Bd2 b5 11. Nd1 Nxd3+ 12. cxd3 $1 {It's always strange for me
+                                to give an exclamation mark to a move that any professional player today would
+                                make automatically. But in 1885 it wasn't that easy to foresee all the
+                                consequences of this decision.} Qb6 $2 {12...b4! was a must in this position,
+                                stopping White's plan, conquering space on the queenside and preparing a
+                                proper development of the light-squared bishop after ...a6-a5 and ...Ba6.} 13.
+                                b4 $1 Be7 14. a3 f5 $2 {The decisive mistake - Black himself kills any
+                                potential of counterplay with this move. Worthy of attention was} (14... d4 $5
+                                15. Qf2 Bb7 {opening the bishop.}) 15. Rc1 Bb7 (15... O-O 16. Be3 Qb7 17. Nd4
+                                a5 $132) 16. Be3 Qd8 17. Nd4 {[#] Steinitz has set up a powerful dream-knight
+                                on d4, which is opposed by a miserable bishop on b7. Now Black can only wait
+                                for the imminent execution.} Nf8 18. O-O h5 $6 {preventing g2-g4, which could
+                                be unpleasant with the king on f7. But the game is being decided on the other
+                                flank, although later White will benefit from the weakness of g5 and the
+                                diagonal h4-d8. Never push your pawns without real necessity - one of
+                                Steinitz' central rules!} 19. Nc3 Kf7 20. Nb1 $1 g6 21. Nd2 Nd7 22. N2b3 Rc8
+                                23. Na5 {White inexorably tightens the noose around Black's neck.} Ba8 24. Rxc8
+                                Qxc8 25. Rc1 Qb8 26. Qc2 Bd8 27. Nac6 Qb7 (27... Bxc6 28. Qxc6) 28. Nxd8+ Rxd8
+                                29. Qc7 Qb8 {[#] For a moment Black defends his main weaknesses, but White can
+                                bring one more piece into action.} 30. Bf2 $1 {Threatens Bh4. Now Black's
+                                defensive resources are exhausted.} Qb6 31. Nf3 Qxc7 32. Rxc7 Ke8 33. Ng5 Nf8
+                                34. Bc5 Nd7 35. Bd6 {What a strategical triumph!} 1-0
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Navigation</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home
+                            <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropup">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Dropup</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown10">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another
+                                action</a>
+                            <a class="dropdown-item" href="#">Something
+                                else here</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <script src="resources/jquery-git.min.js"></script>
+        <script src="resources/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+        <script src="https://pgn.chessbase.com/jquery-3.0.0.min.js"></script>
+        <script src="https://pgn.chessbase.com/cbreplay.js" type="text/javascript"></script>
 </body>
 
 </html>

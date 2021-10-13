@@ -1,0 +1,118 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "description": "An example of a space-fulling radial layout for hierarchical data.",
+    "width": 600,
+    "height": 600,
+    "padding": 5,
+    "autosize": "none",
+    "data": [
+        {
+            "name": "tree",
+            "url": "../../datasets/transformed/move_sequence.json",
+            "transform": [
+                {
+                    "type": "stratify",
+                    "key": "id",
+                    "parentKey": "parent_id"
+                },
+                {
+                    "type": "partition",
+                    "field": "move_count",
+                    "sort": {
+                        "field": "value"
+                    },
+                    "size": [
+                        {
+                            "signal": "2 * PI"
+                        },
+                        {
+                            "signal": "width / 2"
+                        }
+                    ],
+                    "as": [
+                        "a0",
+                        "r0",
+                        "a1",
+                        "r1",
+                        "depth",
+                        "children"
+                    ]
+                }
+            ]
+        }
+    ],
+    "scales": [
+        {
+            "name": "color",
+            "type": "linear",
+            "domain": {
+                "data": "tree",
+                "field": "depth"
+            },
+            "range": {
+                "scheme": "greys"
+            }
+        }
+    ],
+    "marks": [
+        {
+            "type": "arc",
+            "from": {
+                "data": "tree"
+            },
+            "encode": {
+                "enter": {
+                    "x": {
+                        "signal": "width / 2"
+                    },
+                    "y": {
+                        "signal": "height / 2"
+                    },
+                    "fill": {
+                        "scale": "color",
+                        "field": "depth"
+                    },
+                    "tooltip": [
+                        {
+                            "signal": "'Move: ' + datum.move + (datum.move_count ? ', Occurences: ' + datum.move_count + ' move(s)' : '')"
+                        }
+                    ]
+                },
+                "update": {
+                    "startAngle": {
+                        "field": "a0"
+                    },
+                    "endAngle": {
+                        "field": "a1"
+                    },
+                    "innerRadius": {
+                        "field": "r0"
+                    },
+                    "outerRadius": {
+                        "field": "r1"
+                    },
+                    "stroke": {
+                        "value": "white"
+                    },
+                    "strokeWidth": {
+                        "value": 0.5
+                    },
+                    "zindex": {
+                        "value": 0
+                    }
+                },
+                "hover": {
+                    "stroke": {
+                        "value": "red"
+                    },
+                    "strokeWidth": {
+                        "value": 2
+                    },
+                    "zindex": {
+                        "value": 1
+                    }
+                }
+            }
+        }
+    ]
+}
