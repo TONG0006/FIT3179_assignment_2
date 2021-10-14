@@ -1,14 +1,14 @@
 {
     "$schema": "https://vega.github.io/schema/vega/v5.json",
-    "description": "An example of a space-fulling radial layout for hierarchical data.",
-    "width": 600,
-    "height": 600,
+    "description": "A sun bar chart breakdown of opening move sequences by titled players from 1806-1873.",
+    "width": 400,
+    "height": 400,
     "padding": 5,
     "autosize": "none",
     "data": [
         {
             "name": "tree",
-            "url": "../../datasets/transformed/move_sequence.json",
+            "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/scientific_chess/source/datasets/transformed/move_sequence.json",
             "transform": [
                 {
                     "type": "stratify",
@@ -72,9 +72,23 @@
                         "scale": "color",
                         "field": "depth"
                     },
+                    "fillOpacity": {
+                        "condition": {
+                            "param": "select",
+                            "value": 1
+                        },
+                        "value": 1
+                    },
+                    "opacity": {
+                        "condition": {
+                            "param": "move_highlight",
+                            "value": 0
+                        },
+                        "value": 1
+                    },
                     "tooltip": [
                         {
-                            "signal": "'Move: ' + datum.move + (datum.move_count ? ', Occurences: ' + datum.move_count + ' move(s)' : '')"
+                            "signal": "'Move: ' + datum.move + (datum.move_count ? ', Occurences: ' + datum.move_count + ' move(s)' : '') "
                         }
                     ]
                 },

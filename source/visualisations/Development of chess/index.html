@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="index.css">
     <link rel="shortcut icon" href="resources/website_icon.svg" />
     <link rel="stylesheet" type="text/css" href="https://pgn.chessbase.com/CBReplay.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
 </head>
 
 <body>
@@ -166,7 +170,7 @@
                             </p>
                         </div>
                         <div class="col-sm-5">
-                            <div class="cbdiagram" data-size="400"
+                            <div id="vis_opening_sequence"
                                 data-pos="bRa8, Nb8, Bc8, Kd8, Qe8, Bf8, Ng8, Rh8, Pa7, Pb7, Pc7, Pd7, Pe7, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc2, Pd2, Pe2, Pf2, Pg2, Ph2"
                                 data-legend="The black Queen and King were switched"
                                 data-title="Initial Chaturanga position">
@@ -438,6 +442,141 @@
             </div>
         </nav>
 
+        <script type="text/javascript">
+            var visOpeningSequence = {
+                "$schema": "https://vega.github.io/schema/vega/v5.json",
+                "description": "A sun bar chart breakdown of opening move sequences by titled players from 1806-1873.",
+                "width": 600,
+                "height": 600,
+                "padding": 5,
+                "autosize": "none",
+                "data": [
+                    {
+                        "name": "tree",
+                        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/scientific_chess/source/datasets/transformed/move_sequence.json",
+                        "transform": [
+                            {
+                                "type": "stratify",
+                                "key": "id",
+                                "parentKey": "parent_id"
+                            },
+                            {
+                                "type": "partition",
+                                "field": "move_count",
+                                "sort": {
+                                    "field": "value"
+                                },
+                                "size": [
+                                    {
+                                        "signal": "2 * PI"
+                                    },
+                                    {
+                                        "signal": "width / 2"
+                                    }
+                                ],
+                                "as": [
+                                    "a0",
+                                    "r0",
+                                    "a1",
+                                    "r1",
+                                    "depth",
+                                    "children"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "scales": [
+                    {
+                        "name": "color",
+                        "type": "linear",
+                        "domain": {
+                            "data": "tree",
+                            "field": "depth"
+                        },
+                        "range": {
+                            "scheme": "greys"
+                        }
+                    }
+                ],
+                "marks": [
+                    {
+                        "type": "arc",
+                        "from": {
+                            "data": "tree"
+                        },
+                        "encode": {
+                            "enter": {
+                                "x": {
+                                    "signal": "width / 2"
+                                },
+                                "y": {
+                                    "signal": "height / 2"
+                                },
+                                "fill": {
+                                    "scale": "color",
+                                    "field": "depth"
+                                },
+                                "fillOpacity": {
+                                    "condition": {
+                                        "param": "select",
+                                        "value": 1
+                                    },
+                                    "value": 1
+                                },
+                                "opacity": {
+                                    "condition": {
+                                        "param": "move_highlight",
+                                        "value": 0
+                                    },
+                                    "value": 1
+                                },
+                                "tooltip": [
+                                    {
+                                        "signal": "'Move: ' + datum.move + (datum.move_count ? ', Occurences: ' + datum.move_count + ' move(s)' : '') "
+                                    }
+                                ]
+                            },
+                            "update": {
+                                "startAngle": {
+                                    "field": "a0"
+                                },
+                                "endAngle": {
+                                    "field": "a1"
+                                },
+                                "innerRadius": {
+                                    "field": "r0"
+                                },
+                                "outerRadius": {
+                                    "field": "r1"
+                                },
+                                "stroke": {
+                                    "value": "white"
+                                },
+                                "strokeWidth": {
+                                    "value": 0.5
+                                },
+                                "zindex": {
+                                    "value": 0
+                                }
+                            },
+                            "hover": {
+                                "stroke": {
+                                    "value": "red"
+                                },
+                                "strokeWidth": {
+                                    "value": 2
+                                },
+                                "zindex": {
+                                    "value": 1
+                                }
+                            }
+                        }
+                    }
+                ]
+            };
+            vegaEmbed('#vis_opening_sequence', visOpeningSequence);
+        </script>
         <script src="resources/jquery-git.min.js"></script>
         <script src="resources/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
         <script src="https://pgn.chessbase.com/jquery-3.0.0.min.js"></script>

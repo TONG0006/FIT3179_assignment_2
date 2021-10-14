@@ -389,7 +389,7 @@ def test():
     tree = MoveTree(root_node)
 
     for move_sequence in games["move_sequence"]:
-        tree.insert_sequence(move_sequence.split("|"), 10)
+        tree.insert_sequence(move_sequence.split("|"), 4)
 
     with open("source/datasets/transformed/move_sequence.json", "w") as f:
         json.dump(tree.nodes, f)
