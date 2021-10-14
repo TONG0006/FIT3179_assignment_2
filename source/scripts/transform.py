@@ -398,11 +398,11 @@ def game_move_sequence():
 
 def GM_birthplace():
     GMs = pd.read_csv("source/datasets/reference/WorldChessGrandMaster.csv")
-    aus_city = pd.read_csv("source/datasets/reference/AUS_state.csv")
+    # aus_city = pd.read_csv("source/datasets/reference/AUS_state.csv")
     all_city = pd.read_csv("source/datasets/reference/worldcitiespop.csv")
 
-    def in_aus(city_name: str):
-        return city_name in aus_city["GCCSA/SUA"].values
+    # def in_aus(city_name: str):
+    #  return city_name in aus_city["GCCSA/SUA"].values
 
     valid_city_GMs = (
         pd.merge(GMs, all_city, left_on="Birthplace", right_on="AccentCity")
@@ -412,14 +412,7 @@ def GM_birthplace():
     valid_city_GMs = valid_city_GMs[["Born", "Died", "Title Year", "Population", "Latitude", "Longitude"]]
     valid_city_GMs["Born"] = valid_city_GMs["Born"].apply(lambda x: x.split("-")[0])
     valid_city_GMs["Died"] = valid_city_GMs["Died"].apply(lambda x: x.split("-")[0] if type(x) == str else None)
-    valid_city_GMs.to_csv("source/datasets/transformed/gm_birthplace.csv")
-
-    """
-    print(GMs)
-    birthplace = GMs.groupby("Birthplace", as_index=False).agg({"FIDE ID": lambda x: len(x)})
-    # print(birthplace.index[(birthplace["Birthplace"] == "Sydney") | (birthplace["Birthplace"] == "Victoria")])
-    print(GMs.filter(items=GMs.index[GMs["Birthplace"] == "Melbourne"], axis=0))
-    """
+    # valid_city_GMs.to_csv("source/datasets/transformed/gm_birthplace.csv")
 
 
 if __name__ == "__main__":

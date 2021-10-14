@@ -76,6 +76,8 @@
                 <a class="p-2 text-muted" href="#scientific_chess">Scientific chess</a>
                 <a class="p-2 text-muted" href="#hypermodern_chess">Hypermodern chess</a>
                 <a class="p-2 text-muted" href="#dynamic_chess">Dynamic chess</a>
+                <a class="p-2 text-muted" href="#gm_map">Where are the GMs?</a>
+                <a class="p-2 text-muted" href="#female_in_chess">The role of females in chess</a>
             </nav>
         </div>
 
@@ -904,13 +906,61 @@
             </div>
         </div>
 
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" id="gm_map">
+            <div class="row align-items-center">
+                <h2 class="display-5 font-italic border-bottom">
+                    Where are the GMs?</h2>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-sm-12">
+                            <p class="lead my-3 text-justify">
+                                Over the centuries, GMs have always had a strict criteria, however, with the growing
+                                population and increasing engagement with the chess community, the world has had
+                                increasing chances to increase its number".
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                Have a look at the following visualisation on GMs since the 1900s.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-sm-12">
+                            <div id="vis_gm_map"></div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-sm-12">
+                            <p class="lead my-3 text-justify">
+                                The visualisation above highlights a few important factors. Firstly how there is a huge
+                                increase in GMs in the mid 1900s, how the chess community spreads geographically and
+                                finally how population count does not corrolate with GM count.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" id="female_in_chess">
+            <div class="row align-items-center">
+                <h2 class="display-5 font-italic border-bottom">
+                    The role of females in chess</h2>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-sm-12">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark border">
             <div class="col-md-6 px-0">
                 <h1 class="display-4 font-italic border-bottom">Terminology</h1>
                 <p class="lead my-3 text-justify">The vocabulary of chess</p>
             </div>
         </div>
-
     </div>
 
     <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
@@ -1099,7 +1149,157 @@
                 }
             ]
         };
+        var visGMMap = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 800,
+            "height": 500,
+            "title": "Top chess players birth location and statistics on their title obtainment",
+            "params": [
+                {
+                    "name": "year_select",
+                    "value": 1908,
+                    "bind": {
+                        "input": "range",
+                        "min": 1908,
+                        "max": 2021,
+                        "step": 1,
+                        "name": "Year: "
+                    }
+                }
+            ],
+            "projection": {
+                "type": "equalEarth"
+            },
+            "layer": [
+                {
+                    "data": {
+                        "graticule": {
+                            "step": [
+                                15,
+                                15
+                            ]
+                        }
+                    },
+                    "mark": {
+                        "type": "geoshape",
+                        "stroke": "lightgrey",
+                        "strokeWidth": 1,
+                        "strokeDash": [
+                            5,
+                            5
+                        ],
+                        "opacity": 1
+                    }
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/GM_birthplace/source/datasets/transformed/world_map_graticules.topojson",
+                        "format": {
+                            "type": "topojson",
+                            "feature": "custom.geo"
+                        }
+                    },
+                    "mark": {
+                        "type": "geoshape",
+                        "fill": "white",
+                        "stroke": "darkgrey",
+                        "strokeWidth": 0.9
+                    }
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/GM_birthplace/source/datasets/transformed/gm_birthplace.csv"
+                    },
+                    "transform": [
+                        {
+                            "calculate": "isValid(datum.Born)",
+                            "as": "player_count"
+                        },
+                        {
+                            "calculate": "(datum['Title Year'] < year_select)/datum.Population * 1000000",
+                            "as": "titled_player"
+                        },
+                        {
+                            "filter": "(datum.Born <= year_select) & (isValid(datum.Dead) ? (datum.Dead >= year_select) : true)"
+                        }
+                    ],
+                    "mark": {
+                        "type": "circle",
+                        "tooltip": {
+                            "content": "data"
+                        }
+                    },
+                    "encoding": {
+                        "longitude": {
+                            "field": "Longitude",
+                            "title": "longitude",
+                            "type": "quantitative"
+                        },
+                        "latitude": {
+                            "field": "Latitude",
+                            "type": "quantitative"
+                        },
+                        "opacity": {
+                            "value": 0.45
+                        },
+                        "size": {
+                            "field": "player_count",
+                            "title": "The number of GMs",
+                            "aggregate": "count",
+                            "scale": {
+                                "domain": [
+                                    1,
+                                    2,
+                                    3,
+                                    5,
+                                    10,
+                                    30,
+                                    40,
+                                    50
+                                ],
+                                "type": "threshold",
+                                "range": [
+                                    10,
+                                    20,
+                                    30,
+                                    100,
+                                    200,
+                                    300,
+                                    400,
+                                    500,
+                                    1000
+                                ]
+                            }
+                        },
+                        "color": {
+                            "field": "titled_player",
+                            "title": [
+                                "Rate of players who have a ",
+                                "title per 1,000,000 weighted",
+                                "against their population"
+                            ],
+                            "aggregate": "average",
+                            "scale": {
+                                "domain": [
+                                    0,
+                                    0.1,
+                                    0.5,
+                                    1,
+                                    10,
+                                    50,
+                                    100,
+                                    100
+                                ],
+                                "type": "threshold",
+                                "scheme": "yelloworangered"
+                            }
+                        }
+                    }
+                }
+            ]
+        };
         vegaEmbed('#vis_opening_sequence', visOpeningSequence);
+        vegaEmbed('#vis_gm_map', visGMMap);
     </script>
     <script src="resources/jquery-git.min.js"></script>
     <script src="resources/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
