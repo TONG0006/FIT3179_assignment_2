@@ -16,13 +16,13 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
 </head>
 
-<body>
+<body onload="on_load()">
     <header>
         <div class="collapse bg-dark" id="navbarHeader">
             <div class="container">
-                <div class="row">
+                <div class="row align-items-center">
                     <div class="col-sm-8 col-md-7 py-4">
-                        <h4 class="text-white">FIT3179 Data Visualisation</h4>
+                        <h4 class="text-white">Development of chess</h4>
                         <p class="text-muted">You can click on one of the links to be redirected. The FIDE Handbook has
                             official and through rules on chess, if you want to learn the basic rules go to "How to play
                             chess". Additionally, the sources of the visualisations are
@@ -56,7 +56,7 @@
             <div class="container d-flex justify-content-between">
                 <a href="#" class="navbar-brand d-flex align-items-center">
                     <img src="resources/2_kings_icon.svg" height="20" style="margin-right: 1em;">
-                    <strong> Timothy ONGKO (29515041)</strong>
+                    <strong> Timothy ONGKO 29515041, FIT3179 Data Visualisation</strong>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
                     aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,24 +73,25 @@
                 <a class="p-2 text-muted" href="#chaturanga">Chaturanga</a>
                 <a class="p-2 text-muted" href="#romantic_chess">Romantic
                     chess</a>
-                <a class="p-2 text-muted" href="#scientific_chess">Scientific/Hypermodern
-                    chess</a>
+                <a class="p-2 text-muted" href="#scientific_chess">Scientific chess</a>
+                <a class="p-2 text-muted" href="#hypermodern_chess">Hypermodern chess</a>
+                <a class="p-2 text-muted" href="#dynamic_chess">Dynamic chess</a>
             </nav>
         </div>
 
         <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark border">
             <div class="col-md-6 px-0">
-                <h1 class="display-4 font-italic border-bottom">Development of chess</h1>
+                <h1 class="display-4 font-italic border-bottom">The history of chess</h1>
                 <p class="lead my-3 text-justify">A chess insight on its history and changes</p>
             </div>
         </div>
 
-        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
-            <div class="row">
-                <h2 class="display-5 font-italic border-bottom" id="introduction">
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" id="introduction">
+            <div class="row align-items-center">
+                <h2 class="display-5 font-italic border-bottom">
                     Introduction</h2>
                 <div class="container">
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-sm-7">
                             <p class="lead my-3 text-justify">Chess, Western Chess or international chess is a well
                                 known board game played between two players. This infographic aims to take you through
@@ -117,12 +118,12 @@
             </div>
         </div>
 
-        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
-            <div class="row">
-                <h2 class="display-5 font-italic border-bottom" id="chaturanga">
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" id="chaturanga">
+            <div class="row align-items-center">
+                <h2 class="display-5 font-italic border-bottom">
                     Chaturanga - 6th century</h2>
                 <div class="container">
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-sm-5">
                             <div class="cbdiagram" data-size="400"
                                 data-pos="bRa8, Nb8, Bc8, Kd8, Qe8, Bf8, Ng8, Rh8, Pa7, Pb7, Pc7, Pd7, Pe7, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc2, Pd2, Pe2, Pf2, Pg2, Ph2"
@@ -149,19 +150,19 @@
             </div>
         </div>
 
-        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
-            <div class="row">
-                <h2 class="display-5 font-italic border-bottom" id="romantic_chess">
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" id="romantic_chess">
+            <div class="row align-items-center">
+                <h2 class="display-5 font-italic border-bottom">
                     Romantic chess - 18th century</h2>
                 <div class="container">
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-sm-7">
                             <p class="lead my-3 text-justify">The era is set between 1700s-1872s, players were exploring
                                 ideas on quick and tactical maneuvers of pieces. The moves in this era can be described
                                 as aggresive and playful.
                             </p>
                             <p class="lead my-3 text-justify">A characterization of the openings in the era consisted of
-                                1.e4 with the most played follow up being ..e5 2.f4 or ..e5 2.Nf3. The Sunburst chart
+                                1.e4 with the most played follow up being ..e5 2.Nf3 or ..e5 2.f4. The Sunburst chart
                                 categorises the first few moves into layers shown to the right, where the first
                                 move starts from the inner ring and branches out for the following moves.
                             </p>
@@ -169,15 +170,14 @@
                                 of the era's style Alexander McDonnell and Louis-Charles Mahé de La Bourdonnais.
                             </p>
                         </div>
-                        <div class="col-sm-5">
-                            <div id="vis_opening_sequence"
-                                data-pos="bRa8, Nb8, Bc8, Kd8, Qe8, Bf8, Ng8, Rh8, Pa7, Pb7, Pc7, Pd7, Pe7, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc2, Pd2, Pe2, Pf2, Pg2, Ph2"
-                                data-legend="The black Queen and King were switched"
-                                data-title="Initial Chaturanga position">
+                        <div class="col-sm-5 text-center">
+                            <div id="vis_opening_sequence">
                             </div>
+                            <figcaption>Figure of opening sequences from top players between 1610-1872 (Romantic Era)
+                            </figcaption>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-md-12">
                             <p class="lead my-3 text-justify">The era was famous for "The Immortal Game" which was
                                 fabricated on 21st of June 1851 entitled as a "supreme example of romantic chess". The
@@ -269,11 +269,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-sm-5 text-center">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Anderssen_Adolf.jpg/200px-Anderssen_Adolf.jpg"
-                                alt="Karl Ernst Adolf Anderssen" width="75%">
-                            <figcaption>Figure of Karl Ernst Adolf Anderssen</figcaption>
+                                alt="Karl Ernst Adolf Anderssen" width="350">
+                            <figcaption>Figure of Karl Ernst Adolf Anderssen, author of "The Immortal Game"</figcaption>
                         </div>
                         <div class="col-sm-7">
                             <p class="lead my-3 text-justify">
@@ -296,12 +296,12 @@
             </div>
         </div>
 
-        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
-            <div class="row">
-                <h2 class="display-5 font-italic border-bottom" id="scientific_chess">
-                    Scientific/Hypermodern chess - 19th century</h2>
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" id="scientific_chess">
+            <div class="row align-items-center">
+                <h2 class="display-5 font-italic border-bottom">
+                    Scientific Chess - 19th century</h2>
                 <div class="container">
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-sm-7">
                             <p class="lead my-3 text-justify">
                                 During a Vienna 1873 chess tournament, Wilhelm Seinitz demonstrated his form of
@@ -325,21 +325,22 @@
                         </div>
                         <div class="col-sm-5 text-center">
                             <img src="https://3.bp.blogspot.com/-GjlfDpzH3Jw/Uz7Hkh8PKzI/AAAAAAAAMPo/T0oiEo13Uow/s1600/steinitz.jpg"
-                                alt="Wilhelm Steinitz" width="80%">
-                            <figcaption>Figure of Wilhelm Steinitz</figcaption>
+                                alt="Wilhelm Steinitz" width="350">
+                            <figcaption>Figure of Wilhelm Steinitz, influencer of the Scientific Chess Era</figcaption>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-sm-12">
                             <p class="lead my-3 text-justify">
                                 Here is an example of a very instructive game by Steinitz himself a year before he
-                                claimed his title, playing for center control, space in a closed position and using
+                                claimed his title in 9th of Februrary 1885, playing for center control, space in a
+                                closed position and using
                                 tactical knight maneuvers to exploit the oppositions cramped space. The game was also
                                 annotated by a well known player Grandmaster Garry Kasparov.
                             </p>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-sm-12">
                             <div class="cbreplay">
                                 [Event "Match Steinitz-Sellman (2) +3-0=0"]
@@ -412,175 +413,698 @@
             </div>
         </div>
 
-        <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Navigation</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home
-                            <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropup">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">Dropup</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown10">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another
-                                action</a>
-                            <a class="dropdown-item" href="#">Something
-                                else here</a>
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" id="hypermodern_chess">
+            <div class="row align-items-center">
+                <h2 class="display-5 font-italic border-bottom">
+                    Hypermodern chess - 20th century</h2>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5 text-center">
+                            <img src="https://cdn11.bigcommerce.com/s-8mktkbhyxe/images/stencil/1280x1280/products/1319/25684/1592__00505.1560187169.jpg?c=2"
+                                alt="Aron Nimzowitsch" width="350">
+                            <figcaption>
+                                The translated book "My System" by Aron Nimzowitsch, Founder of Hypermodernism
+                            </figcaption>
                         </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                        <div class="col-sm-7">
+                            <p class="lead my-3 text-justify">
+                                Fast forward a few decades, chess has gone through multiple major theoretical
+                                advancements
+                                in tactical play. Once again another figure Aron Nimzowitsch, who is now known as the
+                                founder and leading practionier of hypermodernism had challenged some of the ideas that
+                                Steinitz had proposed.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                He had also published a book "Mein System" or "My System" introducing many new and
+                                important concepts that are the backbone of todays theory.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                It had introduced and
+                                formalised concepts such as pawn chain, overprotection, undermining, prophylaxis,
+                                restraint, rook on the seventh rank, knight outposts, the dynamics of the isolated
+                                queen's pawn, and other areas of chess which are covered in three different parts "The
+                                Elements", "Positional Play", and "Illustrative Games".
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-sm-7">
+                            <p class="lead my-3 text-justify">
+                                One of the main concepts that Hypermodernism rejected from Scientific chess was the idea
+                                to control the center with pieces instead of pawns.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                While the occupying the center with
+                                pawns lead to a great control over the board and bigger space, Nimzowitsch had
+                                demonstrated that they can be a liability, becoming a target for the opponent.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                The use
+                                of pieces controlling the center had an indirect control allowing an attack towards the
+                                enemies pawns and also allows the piece to be placed on central squares when possible.
+                            </p>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="cbdiagram" data-size="400"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Nf6, Rh8, Pa7, Pb6, Pc7, Pd7, Pe6, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Nf3, Rh1, Pa2, Pb2, Pc4, Pd4, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="A Queen's Indian Defence setup where the central e4 square is controlled by a piece rather than a pawn"
+                                data-title="A hypermodern opening for black">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-sm-12">
+                            <p class="lead my-3 text-justify">
+                                While there are a few rejection against the Scientific Era, it is important to note that
+                                unlike Scientific Era to Romantic era, The Hypermodern framework acts as an extension to
+                                classical theory.
+                            </p>
+                        </div>
+                    </div>
 
-        <script type="text/javascript">
-            var visOpeningSequence = {
-                "$schema": "https://vega.github.io/schema/vega/v5.json",
-                "description": "A sun bar chart breakdown of opening move sequences by titled players from 1806-1873.",
-                "width": 600,
-                "height": 600,
-                "padding": 5,
-                "autosize": "none",
-                "data": [
-                    {
-                        "name": "tree",
-                        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/scientific_chess/source/datasets/transformed/move_sequence.json",
-                        "transform": [
-                            {
-                                "type": "stratify",
-                                "key": "id",
-                                "parentKey": "parent_id"
+                    <div class="row align-items-center">
+                        <div class="col-sm-7">
+                            <p class="lead my-3 text-justify">
+                                Additionally, from the hypermodern framework, these well established openings have been
+                                created. While most of these have only one standard lines to get to the position, most
+                                of these openings can be obtained through transpositions and hence the FEN was given
+                                instead. <i class="my-sidenote">Select one of these openings on the right to view the
+                                    position of the
+                                    opening.</i>
+                            </p>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Ng8, Rh8, Pa7, Pb7, Pc7, Pd5, Pe7, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Nf3, Rh1, Pa2, Pb2, Pc4, Pd2, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Réti Opening" id="reti_opening">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Nf6, Rh8, Pa7, Pb7, Pc7, Pd7, Pe7, Pf7, Pg6, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc4, Pd4, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="King's Indian Defence"
+                                id="kings_indian_defence">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Nf6, Rh8, Pa7, Pb6, Pc7, Pd7, Pe6, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Nf3, Rh1, Pa2, Pb2, Pc4, Pd4, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Queen's Indian Defence"
+                                id="queens_indian_defence">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bb4, Nf6, Rh8, Pa7, Pb7, Pc7, Pd7, Pe6, Pf7, Pg7, Ph7, wRa1, Nc3, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc4, Pd4, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Nimzo-Indian Defence"
+                                id="nimzo_indian_defence">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nc6, Bc8, Qd8, Ke8, Bf8, Ng8, Rh8, Pa7, Pb7, Pc7, Pd7, Pe7, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc2, Pd2, Pe4, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Nimzowitsch Defence"
+                                id="nimzowitsch_defence">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Nf6, Rh8, Pa7, Pb7, Pc7, Pd5, Pe7, Pf7, Pg6, Ph7, wRa1, Nc3, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc4, Pd4, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Grünfeld Defence" id="grunfeld_defence">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bb4, Nf6, Rh8, Pa7, Pb7, Pc7, Pd7, Pe6, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Nf3, Rh1, Pa2, Pb2, Pc4, Pd4, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Bogo-Indian Defence"
+                                id="bogo_indian_defence">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Nf6, Rh8, Pa7, Pb7, Pc7, Pd6, Pe7, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc4, Pd4, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Old Indian Defence"
+                                id="old_indian_defence">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Nf6, Rh8, Pa7, Pb7, Pc7, Pd7, Pe6, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc4, Pd4, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Catalan Opening" id="catalan_opening">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="wRa1, Nd2, Bc1, Qd1, Kg1, Bg2, Nf3, Rf1, Pa2, Pb2, Pc2, Pd3, Pe4, Pf2, Pg3, Ph2"
+                                data-legend="Hypermodern openings" data-title="King's Indian Attack"
+                                id="kings_indian_attack">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Nf6, Rh8, Pa7, Pb7, Pc7, Pd7, Pe7, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc2, Pd2, Pe4, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Alekhine's Defence"
+                                id="alekhines_defence">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Ng8, Rh8, Pa7, Pb7, Pc7, Pd7, Pe7, Pf7, Pg6, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc2, Pd2, Pe4, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Modern Defence" id="modern_defence">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Nf6, Rh8, Pa7, Pb7, Pc7, Pd6, Pe7, Pf7, Pg6, Ph7, wRa1, Nc3, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc2, Pd4, Pe4, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Pirc Defence" id="pirc_defence">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Ng8, Rh8, Pa7, Pb7, Pc7, Pd7, Pe7, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb3, Pc2, Pd2, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="Larsen's Opening" id="larsens_opening">
+                            </div>
+                            <div class="cbdiagram" data-size="600"
+                                data-pos="bRa8, Nb8, Bc8, Qd8, Ke8, Bf8, Ng8, Rh8, Pa7, Pb7, Pc7, Pd7, Pe7, Pf7, Pg7, Ph7, wRa1, Nb1, Bc1, Qd1, Ke1, Bf1, Ng1, Rh1, Pa2, Pb2, Pc4, Pd2, Pe2, Pf2, Pg2, Ph2"
+                                data-legend="Hypermodern openings" data-title="English Opening" id="english_opening">
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <ul class="list-group" id="hypermodern_openings">
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(0)">Réti Opening
+                                </li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(1)">King's Indian
+                                    Defence</li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(2)">Queen's
+                                    Indian
+                                    Defence</li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(3)">Nimzo-Indian
+                                    Defence</li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(4)">Nimzowitsch
+                                    Defence</li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(5)">Grünfeld
+                                    Defence
+                                </li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(6)">Bogo-Indian
+                                    Defence</li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(7)">Old Indian
+                                    Defence</li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(8)">Catalan
+                                    Opening
+                                </li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(9)">King's Indian
+                                    Attack</li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(10)">Alekhine's
+                                    Defence</li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(11)">Modern
+                                    Defence
+                                </li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(12)">Pirc Defence
+                                </li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(13)">Larsen's
+                                    Opening
+                                </li>
+                                <li class="list-group-item list-group-item-dark" onclick="show_opening(14)">English
+                                    Opening
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-sm-7">
+                            <p class="lead my-3 text-justify">
+                                From here on, chess becomes more internationalised and unified as a sport. In 1924,
+                                Fédération Internationale des Échecs, FIDE more commonly known as International Chess
+                                Federation was founded.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                In 1946, FIDE took over the administration of the World
+                                Championship and had continued to make the event a regular one over the years.
+                            </p>
+                        </div>
+                        <div class="col-sm-5 text-center">
+                            <img src="
+                            https://upload.wikimedia.org/wikipedia/en/thumb/5/5b/Fidelogo.svg/1200px-Fidelogo.svg.png"
+                                alt="FIDE logo" width="350">
+                            <figcaption>
+                                Figure of Fédération Internationale des Échecs (FIDE) logo.
+                            </figcaption>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" id="dynamic_chess">
+            <div class="row align-items-center">
+                <h2 class="display-5 font-italic border-bottom">
+                    Dynamic chess - 21st century</h2>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-sm-12">
+                            <p class="lead my-3 text-justify">
+                                We are now catching up with the current times and yet another era has emerged from this.
+                                The dynamism era by many different famous players and is currently still an active area
+                                of research and has gone through some breakthroughs and rejection. There has been many
+                                major and important events leading up to this era but will be too long to cover in here,
+                                hence I will be talking about the breakthroughs in what the 21st century has given us,
+                                computers.
+                            </p>
+
+                            <p class="lead my-3 text-justify">
+                                It is the year 1997, the final round of a 6-match rematch from 1996 against Garry
+                                Kasparov the number one chess player at the time. A machine named Deep Blue were at a
+                                score of 2.5-2.5 against him.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-sm-12">
+                            <div class="cbreplay">
+                                [Event "IBM Man-Machine"]
+                                [Site "New York, NY USA"]
+                                [Date "1997.05.??"]
+                                [Round "6"]
+                                [White "Deep Blue (Computer)"]
+                                [Black "Garry Kasparov"]
+                                [Result "1-0"]
+                                [ECO "B17"]
+                                [PlyCount "37"]
+                                [EventDate "1997.??.??"]
+                                [WhiteElo ""]
+                                [BlackElo ""]
+
+                                1. e4 c6 {Kasparov plays the Caro-Kan for game six of the match} 2. d4 d5 3. Nc3
+                                dxe4 4. Nxe4 Nd7 5. Ng5 Ngf6 6. Bd3 e6 7. N1f3 h6 8. Nxe6 $1 {This is the move
+                                that shocked the world at the time of the match. Kasparov simply collapses after
+                                this sacrifice.} 8... Qe7 9. O-O fxe6 (9... Qxe6 $4 10. Re1) 10. Bg6+ Kd8 11. Bf4
+                                {Black has a very difficult time developing and finding a plan.} 11... b5 12. a4
+                                Bb7 13. Re1 Nd5 14. Bg3 Kc8 15. axb5 {The computer open lines to the enemy king.
+                                White has a decisive advantage.} 15... cxb5 16. Qd3 Bc6 17. Bf5 {All of the
+                                tactics are flowing for Deep Blue. All pieces are participating in the hunt for
+                                the king.} 17... exf5 18. Rxe7 Bxe7 19. c4 {Kasparov resigns $1 What a game and
+                                sacrifice by Deep Blue.} 1-0
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-sm-5 text-center">
+                            <iframe width="350" height="280" src=" https://www.youtube.com/embed/y9UMt-8gfW8"></iframe>
+                            <figcaption>The trailer for "Game Over", Kasparov and the Machine</figcaption>
+                        </div>
+                        <div class="col-sm-7">
+                            <p class="lead my-3 text-justify">
+                                This marked one of the first historical moment in chess where a machine had beaten a
+                                player. This had sparked many viewers at the time and also chess players as well, which
+                                motivated the idea of what we now refer to as chess engines.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                The matched had attracted such attention that it had inspired many documentaries on the
+                                game and even a film shown on the right.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                From here on, many even stronger Chess Engines had appeared such as currently strongest
+                                open source chess engine Stockfish, Leela Chess Zero, Houdini, Komodo and so on. These
+                                engines are stronger than any human and are often used by GMs to analyse their game and
+                                possible lines.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-sm-12">
+                            <p class="lead my-3 text-justify">
+                                The term Dynamisms refers to a playstyle where a player attempts to obtain an active
+                                position at the cost of material and long-term structure. Despite the short era where
+                                Dynamism has risen, most of these chess engines are materialistic, and prefers static
+                                games which is a style that is contrary to dynamic.
+                            </p>
+                            <p class="lead my-3 text-justify">
+                                While this has transitioned most players to playing back to static style, another
+                                breakthrough in computers occured again, specifically in the field of
+                                artificial-intelligence.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-sm-12">
+                            <div class="cbreplay">
+                                [Event "AlphaZero - Stockfish"] [Site "London ENG"] [Date "2017.12.04"] [Round "1"]
+                                [White "AlphaZero (Computer)"]
+                                [Black "Stockfish (Computer)"] [Result "1-0"] [ECO "E17"] [PlyCount "111"] [EventDate
+                                "2017.??.??"]
+
+                                Nf3 Nf6 2. d4 e6 3. c4 b6 4. g3 Bb7 (4... Ba6 {is another chapter.}) 5. Bg2 Be7 6. O-O
+                                O-O {Sometimes White plays around
+                                with delayed castling, but basically this is the starting position of the Classical
+                                Queen's Indian Defense with ...Bb7.
+                                These days they go 7.Nc3 (sometimes 7.Re1), followed by a fight for the e4 square.} 7.
+                                d5 {The old move, a pawn
+                                sacrifice that is considered toothless by modern theory. This evaluation may be about to
+                                change after AlphaZero's
+                                performance.} exd5 8. Nh4 {The standard follow-up to the d5 advance, not only in this
+                                line. Some old masters in the 40s
+                                and 50s played it first, in the 60s eastgerman grandmaster Wolfgang Uhlmann was the
+                                first worldclass player to employ it
+                                regularly. In the 80s this line was one of the main theoretical battlegrounds, but
+                                successively became less popular.
+                                These days it rarely pops up on the top level, Black is considered perfectly fine.} c6
+                                9. cxd5 Nxd5 10. Nf5 Nc7 {White's
+                                compensation is easy to spot now. He has active piece play, easier development and some
+                                prospects against the black
+                                king. The Nf5 has found a beautiful square, and once Black tries to get rid of it via
+                                ...g6 he will suffer from self
+                                inflicted wounds on the dark squares.}
+
+                                e4 {Kasparov promoted 11.Nc3 back in the day. According to the great gonzo 11.e4 is less
+                                flexible than 11.Nc3 because it
+                                gives Black options. However, most often the game transposes after 11.Nc3 and 11.e4.} d5
+                                ({I never thought that I would
+                                be able to pat myself on the back for trying this line in correspondence chess once. My
+                                feeling was that there is still
+                                room for discoveries in the main lines (and that may have been spot on), but in this
+                                position my opponent confronted me
+                                with the rare but highly interesting idea} 11... Bf6 12. Re1 d5 {Black provokes e5 and
+                                is ready to move his bishop back
+                                to e7. This will cost him a tempo, but the then closed centre will make it difficult for
+                                White to organize play on the
+                                kingside. Probably at this point the White players should revisit 13.exd5 and 14.Nc3. At
+                                least I didn't achieve anything
+                                after} 13. e5 Be7 14. Qg4 g6 15. Nh6+ Kh8 {and in the end (after a 50 move struggle)
+                                White was happy to escape with a
+                                draw. After that experience I never touched 7.d5 again.}) 12. exd5 {Does the name "Piotr
+                                Bobras" ring a bell to you?
+                                Maybe it should. The position after move 11 has been played by people like Kasparov,
+                                Nakamura, Shirov, Mamedyarov,
+                                Navara, Wojtaszek and countless others. The only grandmaster so far to choose 12.exd5
+                                was GM Piotr Bobras, Elo 2.565,
+                                from Poland.} Nxd5 13. Nc3 Nxc3 (13... Bf6 {It would be interesting to see what
+                                AlphaZero had in store against this
+                                one.} 14. Nxd5 cxd5 15. Ne3 Na6
+
+                                Nxd5 Nc5 {1/2-1/2 (16) Bobras,P (2565)-Macieja,B (2600) Germany 2008}) 14. Qg4 ({White
+                                can also play} 14. bxc3 {and keep
+                                the queens on the board since 14. ..Qxd1 will lose a piece. Actually this looks
+                                interesting as well. It is not at all
+                                clear how Black will set himself up now. Once you look closer all kinds of problems pop
+                                up (ask your engine). The
+                                obvious} Bf6 $2 {for instance already loses after} 15. Ba3 $18) 14... g6 ({Maybe} 14...
+                                Bf6 15. bxc3 Bc8 { would have
+                                been less painful?}) 15. Nh6+ Kg7 (15... Kh8 {would be asking for it. Too shaky. In some
+                                lines it will be helpful to
+                                have f7 overprotected, in others (after ...Bc8 and a white queen move) Black wants
+                                ...Bg5 to come with a threat.}) 16.
+                                bxc3 Bc8 17. Qf4 {After other queen moves Black will find relief via ...Bg5, so he has
+                                to play this one first.} Qd6 {Of
+                                course Black wants to trade them, but that is something White can't allow.} 18. Qa4 {The
+                                White queen moves are not as
+                                mysterious as they seem to be when seeing this game for the first time. Now that ...Bg5
+                                is out of the picture this is
+                                just the best square for the white queen, the only one where the black queen won't
+                                harass it any further, and the only
+                                one where White is properly set up for what is coming. Of course this is another level,
+                                but once you see how it all
+                                falls in place, it starts to make sense.} (18. Qf3 Qf6 {and the white lady doesn't find
+                                peace.} ) 18... g5 ({White's
+                                idea Ng4 with the threat Bh6+, followed by play on both wings and on the open central
+                                files was already not easy to
+                                parry, there is a limited amount of serious alternatives to 18...g5. Stockfish gives}
+                                18... Rd8 { (so Bh6+ isn't a
+                                problem anymore)} 19. Re1 (19. Ng4 $2 Bxg4 20. Qxg4 Nd7 $15) 19... Be6 20. Ng4 Nd7 21.
+                                Bh6+ Kg8 22. Rad1 Nc5 23. Rxd6
+                                Nxa4 {and Black holds. }) 19. Re1 $1 {Beautiful. White sacrifices the Nh6 in order to
+                                lure the Black king into a net of
+                                pins and needles. Via 19.Re1 he makes sure that the king captures on h6, not the queen
+                                (then the Be7 would be en pris).}
+                                Kxh6 20. h4 f6
+
+                                Be3 {Black now has a single move to consolidate and get ready for the storm that's
+                                coming. He needs to choose it
+                                extremely carefully.} ({If White wanted to regain some material, he could go} 21. Rxe7
+                                Qxe7 22. Ba3 {, but White is
+                                going for the black king.}) 21... Bf5 {21...Qc7 or 21...Kg7 might have been more
+                                sensible. Neither I nor my Stockfish
+                                are good enough to make sure.} (21... b5 $2 {looks suspicious, gives White a mark, but
+                                is evaluated as 0.00 by Stockfish
+                                at depth >35 (like 21...Kg7 and ...Qc7). Once the human guides the machine somewhat
+                                deeper Stockfish realizes the
+                                trouble that is ahead. This is one example of all the mines laid out by AlphaZero that
+                                Stockfish had a hard time
+                                avoiding, and it is no surprise that eventually he crashes into one of them.} 22. Qe4
+                                (22. hxg5+ $6 {was my first try to
+                                refute 21...b5 along the lines of the game, but it doesn't work.} fxg5 23. Qh4+ Kg7
+
+                                Bxg5 Bxg5 25. Qxg5+ Qg6 26. Re7+ Kg8 27. Qh4 Bf5 {followed by ...Qf6 and Black holds.})
+                                22... Rf7 23. a4 $16 {not
+                                obvious for a mere human, but this is going downhill for Black.}) 22. Rad1 Qa3 23. Qc4
+                                b5 $6 {Asking for it. With two
+                                pieces undeveloped, his queen offside and his king exposed Stockfish decides to leash
+                                out. How could it not foresee the
+                                common attacking scheme 26. Qh1 followed by Be4, then Qh3, Kg2, Rh1 and that's all she
+                                wrote.} ({Not sure about all the
+                                tactics involved, but my chess feeling says that getting the last two pieces into play
+                                should be worth at least a pawn,
+                                maybe two. And so} 23... Nd7 {may have been a more resilient way to go forward.}) 24.
+                                hxg5+ fxg5
+
+                                Qh4+ Kg6 26. Qh1 {Again, beautiful. It looks like it, but this has nothing to do with
+                                pressure on the long diagonal.
+                                White aims for Be4 in order to losen Black's king position by removing a key defender.
+                                At the same time his king is
+                                ready for a step to g2 in order to make way for White's heavy pieces to double on the h
+                                file. A sophisticated plan that
+                                takes some time, but once Black has played 27...Bg6 he can't do much more than stand and
+                                watch his own execution.} Kg7
+                                27. Be4 Bg6 $2 (27... Bxe4 28. Qxe4 Kg8 {may have been a chance to hold, but there's too
+                                much going on to make sure. One
+                                sample line by Stockfish:} 29. Qe6+ Rf7 30. Qg4 Nd7 31. Rxd7 Qxc3 32. Rc1 Qf6 33. Bd4
+                                Qg6 34. Rc7 Re8 35. R1xc6 Qf5 36.
+                                Qxf5 Rxf5 37. Rxa7 Bf8 $11 {and White is more active, but there's no progress to be
+                                made.}) 28. Bxg6 hxg6 29. Qh3 Bf6
+                                30. Kg2 Qxa2 { This is less about being greedy and more about driving the queen to g8 in
+                                order to cover potential
+                                intruding squares on the h file. But maybe setting a foot on that crucial file was
+                                better.} (30... Rh8 {Black is in deep
+                                trouble, but this might have been a final chance to get away with a draw. For instance}
+
+                                Qg4 Rf8 32. Bd4 Qd6 33. Be5 Qxe5 34. Rxe5 Bxe5 {will often lead to endgames Q vs R+N or
+                                R+B in which Black can aim for
+                                fortress ideas (if only he would understand fortresses).}) 31. Rh1 Qg8 32. c4 Re8 33.
+                                Bd4 Bxd4 34. Rxd4 Rd8 35. Rxd8
+                                Qxd8 36. Qe6 {Domination being a piece down. Black has nothing better than spitting
+                                material. The resulting endgame R vs
+                                N isn't trivial, but most probably won.} Nd7 37. Rd1 Nc5 38. Rxd8 Nxe6 39. Rxa8 Kf6 40.
+                                cxb5 cxb5
+
+                                Kf3 Nd4+ 42. Ke4 Nc6 43. Rc8 Ne7 44. Rb8 Nf5 45. g4 Nh6 46. f3 Nf7 47. Ra8 Nd6+ 48. Kd5
+                                Nc4 49. Rxa7 Ne3+ 50. Ke4 Nc4
+                                51. Ra6+ Kg7 52. Rc6 Kf7 53. Rc5 Ke6
+
+                                Rxg5 Kf6 55. Rc5 g5 56. Kd4 1-0
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-sm-7 text-justify">
+                            <p class="lead my-3 text-justify">
+                                Amazingly, AlphaZero is able to play dynamically, sacrificing pieces at seemingly random
+                                times but is able to get positional advantage over the best chess engine to date. The AI
+                                uses a Monte-Carlo tree search algorithm and learns from self-play! I won't go into the
+                                technical details, but I highly suggest reading this wonderful <a
+                                    href="https://arxiv.org/pdf/1712.01815.pdf">paper</a> by Google's
+                                DeepMind team.
+                            </p>
+                        </div>
+                        <div class="col-sm-5 text-center">
+                            <img src="https://techgyo.com/wp-content/uploads/2020/09/deepmind-head.jpg"
+                                alt="Google DeepMind" width="350">
+                            <figcaption>Google Deepmind, the creators of AlphaZero</figcaption>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark border">
+            <div class="col-md-6 px-0">
+                <h1 class="display-4 font-italic border-bottom">Where chess stands today</h1>
+                <p class="lead my-3 text-justify">A statistical analysis of chess</p>
+            </div>
+        </div>
+
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark border">
+            <div class="col-md-6 px-0">
+                <h1 class="display-4 font-italic border-bottom">Terminology</h1>
+                <p class="lead my-3 text-justify">The vocabulary of chess</p>
+            </div>
+        </div>
+
+    </div>
+
+    <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navigation</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home
+                        <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropup">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Dropup</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown10">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another
+                            action</a>
+                        <a class="dropdown-item" href="#">Something
+                            else here</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <script type="text/javascript">
+
+        var openings = ["reti_opening", "kings_indian_defence", "queens_indian_defence", "nimzo_indian_defence", "nimzowitsch_defence", "grunfeld_defence", "bogo_indian_defence", "old_indian_defence", "catalan_opening", "kings_indian_attack", "alekhines_defence", "modern_defence", "pirc_defence", "larsens_opening", "english_opening"];
+
+        function hide_all_openings() {
+            openings.forEach((item, index) => {
+                document.getElementById(item).hidden = true;
+                document.getElementById("hypermodern_openings").children[index].setAttribute("class", "list-group-item list-group-item-dark");
+                document.getElementById("hypermodern_openings").children[index].setAttribute("aria-disabled", false);
+            });
+        };
+
+        function show_opening(index) {
+            hide_all_openings();
+            document.getElementById(openings[index]).hidden = false;
+            document.getElementById("hypermodern_openings").children[index].setAttribute("class", "list-group-item list-group-item-dark active disabled");
+            document.getElementById("hypermodern_openings").children[index].setAttribute("aria-disabled", true);
+        }
+
+        function on_load() {
+            hide_all_openings();
+            show_opening(0);
+        }
+    </script>
+    <script type="text/javascript">
+        var visOpeningSequence = {
+            "$schema": "https://vega.github.io/schema/vega/v5.json",
+            "description": "A sun bar chart breakdown of opening move sequences by titled players from 1806-1873.",
+            "width": 400,
+            "height": 400,
+            "padding": 5,
+            "autosize": "none",
+            "data": [
+                {
+                    "name": "tree",
+                    "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/scientific_chess/source/datasets/transformed/move_sequence.json",
+                    "transform": [
+                        {
+                            "type": "stratify",
+                            "key": "id",
+                            "parentKey": "parent_id"
+                        },
+                        {
+                            "type": "partition",
+                            "field": "move_count",
+                            "sort": {
+                                "field": "value"
                             },
-                            {
-                                "type": "partition",
-                                "field": "move_count",
-                                "sort": {
-                                    "field": "value"
+                            "size": [
+                                {
+                                    "signal": "2 * PI"
                                 },
-                                "size": [
-                                    {
-                                        "signal": "2 * PI"
-                                    },
-                                    {
-                                        "signal": "width / 2"
-                                    }
-                                ],
-                                "as": [
-                                    "a0",
-                                    "r0",
-                                    "a1",
-                                    "r1",
-                                    "depth",
-                                    "children"
-                                ]
-                            }
-                        ]
-                    }
-                ],
-                "scales": [
-                    {
-                        "name": "color",
-                        "type": "linear",
-                        "domain": {
-                            "data": "tree",
-                            "field": "depth"
-                        },
-                        "range": {
-                            "scheme": "greys"
-                        }
-                    }
-                ],
-                "marks": [
-                    {
-                        "type": "arc",
-                        "from": {
-                            "data": "tree"
-                        },
-                        "encode": {
-                            "enter": {
-                                "x": {
+                                {
                                     "signal": "width / 2"
-                                },
-                                "y": {
-                                    "signal": "height / 2"
-                                },
-                                "fill": {
-                                    "scale": "color",
-                                    "field": "depth"
-                                },
-                                "fillOpacity": {
-                                    "condition": {
-                                        "param": "select",
-                                        "value": 1
-                                    },
-                                    "value": 1
-                                },
-                                "opacity": {
-                                    "condition": {
-                                        "param": "move_highlight",
-                                        "value": 0
-                                    },
-                                    "value": 1
-                                },
-                                "tooltip": [
-                                    {
-                                        "signal": "'Move: ' + datum.move + (datum.move_count ? ', Occurences: ' + datum.move_count + ' move(s)' : '') "
-                                    }
-                                ]
+                                }
+                            ],
+                            "as": [
+                                "a0",
+                                "r0",
+                                "a1",
+                                "r1",
+                                "depth",
+                                "children"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "scales": [
+                {
+                    "name": "color",
+                    "type": "linear",
+                    "domain": {
+                        "data": "tree",
+                        "field": "depth"
+                    },
+                    "range": {
+                        "scheme": "greys"
+                    }
+                }
+            ],
+            "marks": [
+                {
+                    "type": "arc",
+                    "from": {
+                        "data": "tree"
+                    },
+                    "encode": {
+                        "enter": {
+                            "x": {
+                                "signal": "width / 2"
                             },
-                            "update": {
-                                "startAngle": {
-                                    "field": "a0"
+                            "y": {
+                                "signal": "height / 2"
+                            },
+                            "fill": {
+                                "scale": "color",
+                                "field": "depth"
+                            },
+                            "fillOpacity": {
+                                "condition": {
+                                    "param": "select",
+                                    "value": 1
                                 },
-                                "endAngle": {
-                                    "field": "a1"
-                                },
-                                "innerRadius": {
-                                    "field": "r0"
-                                },
-                                "outerRadius": {
-                                    "field": "r1"
-                                },
-                                "stroke": {
-                                    "value": "white"
-                                },
-                                "strokeWidth": {
-                                    "value": 0.5
-                                },
-                                "zindex": {
+                                "value": 1
+                            },
+                            "opacity": {
+                                "condition": {
+                                    "param": "move_highlight",
                                     "value": 0
-                                }
+                                },
+                                "value": 1
                             },
-                            "hover": {
-                                "stroke": {
-                                    "value": "red"
-                                },
-                                "strokeWidth": {
-                                    "value": 2
-                                },
-                                "zindex": {
-                                    "value": 1
+                            "tooltip": [
+                                {
+                                    "signal": "'Move: ' + datum.move + (datum.move_count ? ', Occurences: ' + datum.move_count + ' move(s)' : '') "
                                 }
+                            ]
+                        },
+                        "update": {
+                            "startAngle": {
+                                "field": "a0"
+                            },
+                            "endAngle": {
+                                "field": "a1"
+                            },
+                            "innerRadius": {
+                                "field": "r0"
+                            },
+                            "outerRadius": {
+                                "field": "r1"
+                            },
+                            "stroke": {
+                                "value": "white"
+                            },
+                            "strokeWidth": {
+                                "value": 0.5
+                            },
+                            "zindex": {
+                                "value": 0
+                            }
+                        },
+                        "hover": {
+                            "stroke": {
+                                "value": "red"
+                            },
+                            "strokeWidth": {
+                                "value": 2
+                            },
+                            "zindex": {
+                                "value": 1
                             }
                         }
                     }
-                ]
-            };
-            vegaEmbed('#vis_opening_sequence', visOpeningSequence);
-        </script>
-        <script src="resources/jquery-git.min.js"></script>
-        <script src="resources/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
-        <script src="https://pgn.chessbase.com/jquery-3.0.0.min.js"></script>
-        <script src="https://pgn.chessbase.com/cbreplay.js" type="text/javascript"></script>
+                }
+            ]
+        };
+        vegaEmbed('#vis_opening_sequence', visOpeningSequence);
+    </script>
+    <script src="resources/jquery-git.min.js"></script>
+    <script src="resources/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+    <script src="https://pgn.chessbase.com/jquery-3.0.0.min.js"></script>
+    <script src="https://pgn.chessbase.com/cbreplay.js" type="text/javascript"></script>
 </body>
 
 </html>
