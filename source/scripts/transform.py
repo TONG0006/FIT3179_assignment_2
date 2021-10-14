@@ -3,9 +3,11 @@
 import csv
 import os
 import pandas as pd
+import json
 
 import matplotlib.pyplot as plt
 from functools import reduce
+from converter.pgn_data import PGNData
 
 
 def set_current_dir(filepath: str = os.path.dirname(os.path.realpath(__file__))) -> None:
@@ -79,9 +81,9 @@ def join(dataset_1: Dataset, dataset_2: Dataset, attr_1: str, attr_2: str) -> li
 def GM_count():
     lat_long = Dataset("source/datasets/reference/world_country_and_usa_states_latitude_and_longitude_values.csv")
     chess_grandmasters = Dataset("source/datasets/reference/WorldChessGrandMaster.csv")
-    joined = join(chess_grandmasters.count("Federation", "country", "count"), lat_long, "country", "country").filter(
-        ["country", "count", "latitude", "longitude"]
-    )
+    joined = join(
+        chess_grandmasters.count("Federation", "country", "move_count"), lat_long, "country", "country"
+    ).filter(["country", "move_count", "latitude", "longitude"])
     joined.export("source/datasets/transformed/GM count.csv")
     return joined
 
@@ -89,7 +91,7 @@ def GM_count():
 def GM_count_normalised():
     chess_players = Dataset("source/datasets/reference/players.csv")
     continents = Dataset("source/datasets/reference/continents2.csv")
-    continents.rename("name", "country name")
+    continents.rename("move", "country name")
     joined = join(chess_players, continents, "federation", "alpha-3").count(
         "country name", "country name", "total players", False
     )
@@ -101,7 +103,7 @@ def GM_count_normalised():
             return 0
 
     gm_count = GM_count()
-    gm_count.transform("count", "count_normal", _transformation)
+    gm_count.transform("move_count", "count_normal", _transformation)
     final = gm_count.filter(["country", "count_normal"])
     final.export("source/datasets/transformed/GM count normalised.csv")
 
@@ -132,7 +134,7 @@ def chess_scatter():
     continents = Dataset("source/datasets/reference/continents2.csv")
     chess_ratings = Dataset("source/datasets/reference/ratings_2021.csv")
 
-    continents.rename("name", "country name")
+    continents.rename("move", "country name")
     titled_country = join(chess_players, continents, "federation", "alpha-3").filter(["title", "country name"])
 
     final = dict()
@@ -203,7 +205,7 @@ def chess_scatter_2():
 
     stats = [average_rating, highest_rating, total_players, total_titles]
     country_stats = reduce(lambda left, right: pd.merge(left, right, on="name_y"), stats).fillna("void")
-    country_stats = pd.merge(country_stats, continents[["name", "region"]], left_on="name_y", right_on="name")
+    country_stats = pd.merge(country_stats, continents[["move", "region"]], left_on="name_y", right_on="move")
 
     print(country_stats)
 
@@ -312,10 +314,10 @@ def chess_scatter_3():
         total_titles,
     ]
     country_stats = reduce(lambda left, right: pd.merge(left, right, on="name_y"), stats).fillna("NaN")
-    country_stats = pd.merge(country_stats, continents[["name", "region"]], left_on="name_y", right_on="name")
+    country_stats = pd.merge(country_stats, continents[["move", "region"]], left_on="name_y", right_on="move")
     country_stats = country_stats[
         [
-            "name",
+            "move",
             "region",
             "average_rating_standard",
             "average_rating_rapid",
@@ -334,10 +336,72 @@ def chess_scatter_3():
     country_stats.to_csv("source/datasets/transformed/country_stats.csv")
 
 
+def pgn_to_csv():
+    pgn_data = PGNData(
+        "/home/sizzleru/Documents/Repositories/FIT3179/FIT3179_assignment_2/source/datasets/reference/Chess database/games_1610_1872.pgn"
+    )
+    result = pgn_data.export()
+    result.print_summary()
+
+
+class MoveTree:
+    def __init__(self, root_node) -> None:
+        self.nodes = [root_node]
+        self.root_node = root_node
+        self.current_id = root_node["id"]
+        self.child_nodes = []
+
+    def child_indices(self, parent_id: int):
+        return filter(lambda x: x["id"] == parent_id, self.nodes)
+
+    def parent_has_move(self, parent_id: int, move: str):
+        return sum([self.nodes[child_id]["move"] == move for child_id in self.child_indices(parent_id)])
+
+    def get_move(self, parent_id: int, move: str):
+        for node in self.nodes:
+            if node["parent_id"] == parent_id and node["move"] == move:
+                node["move_count"] += 1
+                return node
+        self.current_id += 1
+        new_node = {
+            "id": self.current_id,
+            "move": move,
+            "parent_id": parent_id,
+            "move_count": 1,
+            "layer": self.nodes[parent_id]["layer"] + 1,
+        }
+        self.nodes.append(new_node)
+        return new_node
+
+    def insert_sequence(self, move_sequence: str, depth: int) -> None:
+        current_node = self.root_node
+        for move_count in range(depth):
+            if move_count == len(move_sequence):
+                break
+            current_node = self.get_move(current_node["id"], move_sequence[move_count])
+
+
+def test():
+    moves = pd.read_csv("source/datasets/reference/games_1610_1872_moves.csv")
+    games = pd.merge(moves.groupby("game_id").agg({"move_no": lambda x: max(x)}), moves, on=["game_id", "move_no"])
+
+    root_node = {"id": 0, "move": "initial setup", "parent_id": None, "move_count": 1, "layer": 0}
+    tree = MoveTree(root_node)
+
+    for move_sequence in games["move_sequence"]:
+        tree.insert_sequence(move_sequence.split("|"), 4)
+
+    with open("source/datasets/transformed/move_sequence.json", "w") as f:
+        json.dump(tree.nodes, f)
+    print(len(tree.nodes))
+
+
 if __name__ == "__main__":
     # print(GM_count())
     # print(GM_count_normalised())
     # print(GM_normalised_histogram())
     # chess_scatter()
     # chess_scatter_2()
-    chess_scatter_3()
+    # chess_scatter_3()
+    # pgn_to_csv()
+    test()
