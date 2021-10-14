@@ -381,7 +381,7 @@ class MoveTree:
             current_node = self.get_move(current_node["id"], move_sequence[move_count])
 
 
-def test():
+def game_move_sequence():
     moves = pd.read_csv("source/datasets/reference/games_1610_1872_moves.csv")
     games = pd.merge(moves.groupby("game_id").agg({"move_no": lambda x: max(x)}), moves, on=["game_id", "move_no"])
 
@@ -396,6 +396,32 @@ def test():
     print(len(tree.nodes))
 
 
+def GM_birthplace():
+    GMs = pd.read_csv("source/datasets/reference/WorldChessGrandMaster.csv")
+    aus_city = pd.read_csv("source/datasets/reference/AUS_state.csv")
+    all_city = pd.read_csv("source/datasets/reference/worldcitiespop.csv")
+
+    def in_aus(city_name: str):
+        return city_name in aus_city["GCCSA/SUA"].values
+
+    valid_city_GMs = (
+        pd.merge(GMs, all_city, left_on="Birthplace", right_on="AccentCity")
+        .drop_duplicates(subset=["FIDE ID"])
+        .dropna(subset=["Birthplace"])
+    )
+    valid_city_GMs = valid_city_GMs[["Born", "Died", "Title Year", "Population", "Latitude", "Longitude"]]
+    valid_city_GMs["Born"] = valid_city_GMs["Born"].apply(lambda x: x.split("-")[0])
+    valid_city_GMs["Died"] = valid_city_GMs["Died"].apply(lambda x: x.split("-")[0] if type(x) == str else None)
+    valid_city_GMs.to_csv("source/datasets/transformed/gm_birthplace.csv")
+
+    """
+    print(GMs)
+    birthplace = GMs.groupby("Birthplace", as_index=False).agg({"FIDE ID": lambda x: len(x)})
+    # print(birthplace.index[(birthplace["Birthplace"] == "Sydney") | (birthplace["Birthplace"] == "Victoria")])
+    print(GMs.filter(items=GMs.index[GMs["Birthplace"] == "Melbourne"], axis=0))
+    """
+
+
 if __name__ == "__main__":
     # print(GM_count())
     # print(GM_count_normalised())
@@ -404,4 +430,5 @@ if __name__ == "__main__":
     # chess_scatter_2()
     # chess_scatter_3()
     # pgn_to_csv()
-    test()
+    # game_move_sequence()
+    GM_birthplace()
