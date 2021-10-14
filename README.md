@@ -1,2 +1,2 @@
-# FIT3179_assignment_2
-Assignment 2 for FIT3179
+# FIT3179 assignment 2
+## A chess insight visualisation
