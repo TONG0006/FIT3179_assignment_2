@@ -1,0 +1,283 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "description": "A breakdown of female vs males depending on the titles earnt.",
+    "title": "A breakdown of female vs males depending on the titles earnt.",
+    "width": 300,
+    "height": 240,
+    "padding": 5,
+    "data": [
+        {
+            "name": "table",
+            "values": [
+                {
+                    "category": "CM",
+                    "position": 0,
+                    "value": 19
+                },
+                {
+                    "category": "CM",
+                    "position": 1,
+                    "value": 1879
+                },
+                {
+                    "category": "DI",
+                    "position": 0,
+                    "value": 3
+                },
+                {
+                    "category": "DI",
+                    "position": 1,
+                    "value": 14
+                },
+                {
+                    "category": "FI",
+                    "position": 0,
+                    "value": 1
+                },
+                {
+                    "category": "FI",
+                    "position": 1,
+                    "value": 4
+                },
+                {
+                    "category": "FM",
+                    "position": 0,
+                    "value": 39
+                },
+                {
+                    "category": "FM",
+                    "position": 1,
+                    "value": 8206
+                },
+                {
+                    "category": "GM",
+                    "position": 0,
+                    "value": 37
+                },
+                {
+                    "category": "GM",
+                    "position": 1,
+                    "value": 1690
+                },
+                {
+                    "category": "IM",
+                    "position": 0,
+                    "value": 121
+                },
+                {
+                    "category": "IM",
+                    "position": 1,
+                    "value": 3766
+                },
+                {
+                    "category": "NI",
+                    "position": 0,
+                    "value": 2
+                },
+                {
+                    "category": "NI",
+                    "position": 1,
+                    "value": 22
+                },
+                {
+                    "category": "WCM",
+                    "position": 0,
+                    "value": 779
+                },
+                {
+                    "category": "WCM",
+                    "position": 1,
+                    "value": 2
+                },
+                {
+                    "category": "WFM",
+                    "position": 0,
+                    "value": 1758
+                },
+                {
+                    "category": "WGM",
+                    "position": 0,
+                    "value": 318
+                },
+                {
+                    "category": "WH",
+                    "position": 0,
+                    "value": 1
+                },
+                {
+                    "category": "WIM",
+                    "position": 0,
+                    "value": 837
+                }
+            ]
+        }
+    ],
+    "scales": [
+        {
+            "name": "yscale",
+            "type": "band",
+            "domain": {
+                "data": "table",
+                "field": "category"
+            },
+            "range": "height",
+            "padding": 0.2
+        },
+        {
+            "name": "xscale",
+            "type": "symlog",
+            "domain": {
+                "data": "table",
+                "field": "value"
+            },
+            "range": "width",
+            "round": true,
+            "zero": true,
+            "nice": true,
+            "bins": [
+                1,
+                10,
+                100,
+                1000,
+                9000,
+                10000
+            ]
+        },
+        {
+            "name": "color",
+            "type": "ordinal",
+            "domain": {
+                "data": "table",
+                "field": "position"
+            },
+            "range": {
+                "scheme": [
+                    "white",
+                    "black"
+                ]
+            }
+        }
+    ],
+    "axes": [
+        {
+            "orient": "left",
+            "scale": "yscale",
+            "tickSize": 10,
+            "labelPadding": 10,
+            "zindex": 1
+        },
+        {
+            "orient": "bottom",
+            "scale": "xscale"
+        }
+    ],
+    "marks": [
+        {
+            "type": "group",
+            "from": {
+                "facet": {
+                    "data": "table",
+                    "name": "facet",
+                    "groupby": "category"
+                }
+            },
+            "encode": {
+                "enter": {
+                    "y": {
+                        "scale": "yscale",
+                        "field": "category"
+                    }
+                }
+            },
+            "signals": [
+                {
+                    "name": "height",
+                    "update": "bandwidth('yscale')"
+                }
+            ],
+            "scales": [
+                {
+                    "name": "pos",
+                    "type": "band",
+                    "range": "height",
+                    "domain": {
+                        "data": "facet",
+                        "field": "position"
+                    }
+                }
+            ],
+            "marks": [
+                {
+                    "name": "bars",
+                    "from": {
+                        "data": "facet"
+                    },
+                    "type": "rect",
+                    "encode": {
+                        "enter": {
+                            "y": {
+                                "scale": "pos",
+                                "field": "position"
+                            },
+                            "height": {
+                                "scale": "pos",
+                                "band": 1
+                            },
+                            "x": {
+                                "scale": "xscale",
+                                "field": "value"
+                            },
+                            "x2": {
+                                "scale": "xscale",
+                                "value": 0
+                            },
+                            "fill": {
+                                "scale": "color",
+                                "field": "position"
+                            }
+                        }
+                    }
+                },
+                {
+                    "type": "text",
+                    "from": {
+                        "data": "bars"
+                    },
+                    "encode": {
+                        "enter": {
+                            "x": {
+                                "field": "x2",
+                                "offset": -5
+                            },
+                            "y": {
+                                "field": "y",
+                                "offset": {
+                                    "field": "height",
+                                    "mult": 0.5
+                                }
+                            },
+                            "fill": [
+                                {
+                                    "test": "contrast('white', datum.fill) > contrast('black', datum.fill)",
+                                    "value": "white"
+                                },
+                                {
+                                    "value": "black"
+                                }
+                            ],
+                            "align": {
+                                "value": "right"
+                            },
+                            "baseline": {
+                                "value": "middle"
+                            },
+                            "text": {
+                                "field": "datum.value"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

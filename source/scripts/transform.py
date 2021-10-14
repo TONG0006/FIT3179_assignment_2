@@ -418,12 +418,27 @@ def GM_birthplace():
 def female_chess():
     players = pd.read_csv("source/datasets/reference/players.csv")
     # rating = pd.read("source/datasets/reference/ratings_2021.csv")
-    a = players.groupby(["title", "gender"], as_index=False).agg({"fide_id": lambda x: len(x)})
+    a = (
+        players.groupby(["title", "gender"], as_index=False)
+        .agg({"fide_id": lambda x: len(x)})
+        .sort_values("fide_id", ascending=False)
+    )
     title_list = []
+
+    def switch_gender(gender):
+        if gender == "M":
+            return 1
+        elif gender == "F":
+            return 0
+        else:
+            return 2
+
     for i in range(len(a["title"])):
         title_list.append(
-            {"category": a["title"][i], "position": (0 if a["gender"][i] == "M" else 1), "value": int(a["fide_id"][i])}
+            {"category": a["title"][i], "position": switch_gender(a["gender"][i]), "value": int(a["fide_id"][i])}
         )
+
+    print(title_list)
 
     with open("source/datasets/transformed/titled_females.json", "w") as f:
         json.dump(title_list, f)
