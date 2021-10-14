@@ -427,15 +427,15 @@ def female_chess():
 
     def switch_gender(gender):
         if gender == "M":
-            return 1
+            return "Male"
         elif gender == "F":
-            return 0
+            return "Female"
         else:
-            return 2
+            return "Other"
 
     for i in range(len(a["title"])):
         title_list.append(
-            {"category": a["title"][i], "position": switch_gender(a["gender"][i]), "value": int(a["fide_id"][i])}
+            {"title": a["title"][i], "gender": switch_gender(a["gender"][i]), "value": int(a["fide_id"][i])}
         )
 
     print(title_list)

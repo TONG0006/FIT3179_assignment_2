@@ -5,108 +5,109 @@
     "width": 300,
     "height": 240,
     "padding": 5,
+    "background": "white",
     "data": [
         {
             "name": "table",
             "values": [
                 {
-                    "category": "CM",
-                    "position": 0,
+                    "title": "CM",
+                    "gender": "Female",
                     "value": 19
                 },
                 {
-                    "category": "CM",
-                    "position": 1,
+                    "title": "CM",
+                    "gender": "Male",
                     "value": 1879
                 },
                 {
-                    "category": "DI",
-                    "position": 0,
+                    "title": "DI",
+                    "gender": "Female",
                     "value": 3
                 },
                 {
-                    "category": "DI",
-                    "position": 1,
+                    "title": "DI",
+                    "gender": "Male",
                     "value": 14
                 },
                 {
-                    "category": "FI",
-                    "position": 0,
+                    "title": "FI",
+                    "gender": "Female",
                     "value": 1
                 },
                 {
-                    "category": "FI",
-                    "position": 1,
+                    "title": "FI",
+                    "gender": "Male",
                     "value": 4
                 },
                 {
-                    "category": "FM",
-                    "position": 0,
+                    "title": "FM",
+                    "gender": "Female",
                     "value": 39
                 },
                 {
-                    "category": "FM",
-                    "position": 1,
+                    "title": "FM",
+                    "gender": "Male",
                     "value": 8206
                 },
                 {
-                    "category": "GM",
-                    "position": 0,
+                    "title": "GM",
+                    "gender": "Female",
                     "value": 37
                 },
                 {
-                    "category": "GM",
-                    "position": 1,
+                    "title": "GM",
+                    "gender": "Male",
                     "value": 1690
                 },
                 {
-                    "category": "IM",
-                    "position": 0,
+                    "title": "IM",
+                    "gender": "Female",
                     "value": 121
                 },
                 {
-                    "category": "IM",
-                    "position": 1,
+                    "title": "IM",
+                    "gender": "Male",
                     "value": 3766
                 },
                 {
-                    "category": "NI",
-                    "position": 0,
+                    "title": "NI",
+                    "gender": "Female",
                     "value": 2
                 },
                 {
-                    "category": "NI",
-                    "position": 1,
+                    "title": "NI",
+                    "gender": "Male",
                     "value": 22
                 },
                 {
-                    "category": "WCM",
-                    "position": 0,
+                    "title": "WCM",
+                    "gender": "Female",
                     "value": 779
                 },
                 {
-                    "category": "WCM",
-                    "position": 1,
+                    "title": "WCM",
+                    "gender": "Male",
                     "value": 2
                 },
                 {
-                    "category": "WFM",
-                    "position": 0,
+                    "title": "WFM",
+                    "gender": "Female",
                     "value": 1758
                 },
                 {
-                    "category": "WGM",
-                    "position": 0,
+                    "title": "WGM",
+                    "gender": "Female",
                     "value": 318
                 },
                 {
-                    "category": "WH",
-                    "position": 0,
+                    "title": "WH",
+                    "gender": "Female",
                     "value": 1
                 },
                 {
-                    "category": "WIM",
-                    "position": 0,
+                    "title": "WIM",
+                    "gender": "Female",
                     "value": 837
                 }
             ]
@@ -118,7 +119,7 @@
             "type": "band",
             "domain": {
                 "data": "table",
-                "field": "category"
+                "field": "title"
             },
             "range": "height",
             "padding": 0.2
@@ -148,7 +149,7 @@
             "type": "ordinal",
             "domain": {
                 "data": "table",
-                "field": "position"
+                "field": "gender"
             },
             "range": {
                 "scheme": [
@@ -178,14 +179,14 @@
                 "facet": {
                     "data": "table",
                     "name": "facet",
-                    "groupby": "category"
+                    "groupby": "title"
                 }
             },
             "encode": {
                 "enter": {
                     "y": {
                         "scale": "yscale",
-                        "field": "category"
+                        "field": "title"
                     }
                 }
             },
@@ -202,7 +203,7 @@
                     "range": "height",
                     "domain": {
                         "data": "facet",
-                        "field": "position"
+                        "field": "gender"
                     }
                 }
             ],
@@ -212,12 +213,18 @@
                     "from": {
                         "data": "facet"
                     },
+                    "tooltip": {
+                        "content": "data"
+                    },
                     "type": "rect",
                     "encode": {
                         "enter": {
+                            "tooltip": {
+                                "signal": "'Title: ' + datum.title + ', Count: ' + datum.value + ', Gender: ' + datum.gender"
+                            },
                             "y": {
                                 "scale": "pos",
-                                "field": "position"
+                                "field": "gender"
                             },
                             "height": {
                                 "scale": "pos",
@@ -233,7 +240,7 @@
                             },
                             "fill": {
                                 "scale": "color",
-                                "field": "position"
+                                "field": "gender"
                             }
                         }
                     }
