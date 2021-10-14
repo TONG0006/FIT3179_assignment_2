@@ -412,7 +412,21 @@ def GM_birthplace():
     valid_city_GMs = valid_city_GMs[["Born", "Died", "Title Year", "Population", "Latitude", "Longitude"]]
     valid_city_GMs["Born"] = valid_city_GMs["Born"].apply(lambda x: x.split("-")[0])
     valid_city_GMs["Died"] = valid_city_GMs["Died"].apply(lambda x: x.split("-")[0] if type(x) == str else None)
-    # valid_city_GMs.to_csv("source/datasets/transformed/gm_birthplace.csv")
+    valid_city_GMs.to_csv("source/datasets/transformed/gm_birthplace.csv")
+
+
+def female_chess():
+    players = pd.read_csv("source/datasets/reference/players.csv")
+    # rating = pd.read("source/datasets/reference/ratings_2021.csv")
+    a = players.groupby(["title", "gender"], as_index=False).agg({"fide_id": lambda x: len(x)})
+    title_list = []
+    for i in range(len(a["title"])):
+        title_list.append(
+            {"category": a["title"][i], "position": (0 if a["gender"][i] == "M" else 1), "value": int(a["fide_id"][i])}
+        )
+
+    with open("source/datasets/transformed/titled_females.json", "w") as f:
+        json.dump(title_list, f)
 
 
 if __name__ == "__main__":
@@ -424,4 +438,5 @@ if __name__ == "__main__":
     # chess_scatter_3()
     # pgn_to_csv()
     # game_move_sequence()
-    GM_birthplace()
+    # GM_birthplace()
+    female_chess()
