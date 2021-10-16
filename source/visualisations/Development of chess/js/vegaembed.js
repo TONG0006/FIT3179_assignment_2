@@ -572,6 +572,7 @@ var visFemaleTitle = {
                 },
                 {
                     "type": "text",
+                    "name": "bar_value",
                     "from": {
                         "data": "bars"
                     },
@@ -605,6 +606,37 @@ var visFemaleTitle = {
                             },
                             "text": {
                                 "field": "datum.value"
+                            }
+                        }
+                    }
+                },
+                {
+                    "type": "text",
+                    "from": {
+                        "data": "bar_value"
+                    },
+                    "encode": {
+                        "update": {
+                            "x": {
+                                "signal": "datum.x"
+                            },
+                            "dx": {
+                                "signal": "-3"
+                            },
+                            "y": {
+                                "signal": "datum.y"
+                            },
+                            "dy": {
+                                "signal": "-10"
+                            },
+                            "fill": {
+                                "value": "white"
+                            },
+                            "align": {
+                                "value": "center"
+                            },
+                            "text": {
+                                "signal": "(datum.datum.x2 > width * log(1600)/log(9000) & datum.datum.x2 < width * log(1879)/log(9000)-3) ? round(1690/37*100) + '% difference in GMs' : ''"
                             }
                         }
                     }

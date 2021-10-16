@@ -183,31 +183,6 @@
                     }
                 }
             }
-        },
-        {
-            "mark": {
-                "type": "text",
-                "align": "right",
-                "baseline": "middle",
-                "dx": -12,
-                "fontStyle": "italic"
-            },
-            "encoding": {
-                "text": {
-                    "field": "Birthplace",
-                    "type": "nominal"
-                },
-                "color": {
-                    "value": "white"
-                },
-                "opacity": {
-                    "condition": {
-                        "test": "datum.Birthplace == 'Moscow'",
-                        "value": 1
-                    },
-                    "value": 1
-                }
-            }
         }
     ]
 }
