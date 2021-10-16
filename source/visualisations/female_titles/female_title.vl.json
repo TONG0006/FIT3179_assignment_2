@@ -8,7 +8,7 @@
     "data": [
         {
             "name": "table",
-            "url": "../../../source/datasets/transformed/titled_females.json"
+            "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/titled_females.json"
         }
     ],
     "scales": [
