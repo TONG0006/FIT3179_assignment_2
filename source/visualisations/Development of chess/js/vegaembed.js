@@ -203,7 +203,7 @@ var visGMMap = {
         },
         {
             "data": {
-                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/GM_birthplace/source/datasets/transformed/world_map_graticules.topojson",
+                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/world_map_graticules.topojson",
                 "format": {
                     "type": "topojson",
                     "feature": "custom.geo"
@@ -218,7 +218,7 @@ var visGMMap = {
         },
         {
             "data": {
-                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/GM_birthplace/source/datasets/transformed/gm_birthplace.csv"
+                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/gm_birthplace.csv"
             },
             "transform": [
                 {
@@ -375,116 +375,14 @@ var visGMMap = {
 var visFemaleTitle = {
     "$schema": "https://vega.github.io/schema/vega/v5.json",
     "description": "A breakdown of female vs males depending on the titles earnt.",
-    "title": "A breakdown of female vs males depending on the titles earnt.",
     "width": 300,
-    "height": 340,
+    "height": 240,
     "padding": 5,
-    "background": "white",
+    "background": "#343a40",
     "data": [
         {
             "name": "table",
-            "values": [
-                {
-                    "title": "CM",
-                    "gender": "Female",
-                    "value": 19
-                },
-                {
-                    "title": "CM",
-                    "gender": "Male",
-                    "value": 1879
-                },
-                {
-                    "title": "DI",
-                    "gender": "Female",
-                    "value": 3
-                },
-                {
-                    "title": "DI",
-                    "gender": "Male",
-                    "value": 14
-                },
-                {
-                    "title": "FI",
-                    "gender": "Female",
-                    "value": 1
-                },
-                {
-                    "title": "FI",
-                    "gender": "Male",
-                    "value": 4
-                },
-                {
-                    "title": "FM",
-                    "gender": "Female",
-                    "value": 39
-                },
-                {
-                    "title": "FM",
-                    "gender": "Male",
-                    "value": 8206
-                },
-                {
-                    "title": "GM",
-                    "gender": "Female",
-                    "value": 37
-                },
-                {
-                    "title": "GM",
-                    "gender": "Male",
-                    "value": 1690
-                },
-                {
-                    "title": "IM",
-                    "gender": "Female",
-                    "value": 121
-                },
-                {
-                    "title": "IM",
-                    "gender": "Male",
-                    "value": 3766
-                },
-                {
-                    "title": "NI",
-                    "gender": "Female",
-                    "value": 2
-                },
-                {
-                    "title": "NI",
-                    "gender": "Male",
-                    "value": 22
-                },
-                {
-                    "title": "WCM",
-                    "gender": "Female",
-                    "value": 779
-                },
-                {
-                    "title": "WCM",
-                    "gender": "Male",
-                    "value": 2
-                },
-                {
-                    "title": "WFM",
-                    "gender": "Female",
-                    "value": 1758
-                },
-                {
-                    "title": "WGM",
-                    "gender": "Female",
-                    "value": 318
-                },
-                {
-                    "title": "WH",
-                    "gender": "Female",
-                    "value": 1
-                },
-                {
-                    "title": "WIM",
-                    "gender": "Female",
-                    "value": 837
-                }
-            ]
+            "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/titled_females.json"
         }
     ],
     "scales": [

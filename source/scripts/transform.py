@@ -444,10 +444,32 @@ def female_chess():
         else:
             return "Other"
 
+    def switch_title(title):
+        if title == "GM":
+            return "Grandmaster"
+        elif title == "IM":
+            return "International Master"
+        elif title == "FM":
+            return "FIDE Master"
+        elif title == "CM":
+            return "Candidate Master"
+        elif title == "WGM":
+            return "Woman Grandmaster"
+        elif title == "WIM":
+            return "Woman International Master"
+        elif title == "WFM":
+            return "Woman FIDE Master"
+        elif title == "WCM":
+            return "Woman Candidate Master"
+        else:
+            return None
+
     for i in range(len(a["title"])):
-        title_list.append(
-            {"title": a["title"][i], "gender": switch_gender(a["gender"][i]), "value": int(a["fide_id"][i])}
-        )
+
+        if switch_title(a["title"][i]) is not None:
+            title_list.append(
+                {"title": switch_title(a["title"][i]), "gender": switch_gender(a["gender"][i]), "value": int(a["fide_id"][i])}
+            )
 
     print(title_list)
 
@@ -464,5 +486,5 @@ if __name__ == "__main__":
     # chess_scatter_3()
     # pgn_to_csv()
     # game_move_sequence()
-    GM_birthplace()
-    # female_chess()
+    # GM_birthplace()
+    female_chess()
