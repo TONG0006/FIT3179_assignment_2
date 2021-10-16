@@ -8,10 +8,9 @@
     "signals": [
         {
             "name": "layer_select",
-            "description": "Number of move sequences from initial position",
             "value": 4,
             "bind": {
-                "name": "Number of move sequences from initial position: ",
+                "name": "Moves: ",
                 "input": "range",
                 "min": 0,
                 "max": 10,
@@ -20,10 +19,9 @@
         },
         {
             "name": "min_move_select",
-            "description": "Min number of move in a partition",
             "value": 10,
             "bind": {
-                "name": "Min number of move in a move sequence: ",
+                "name": "Min moves",
                 "input": "range",
                 "min": 0,
                 "max": 50,
@@ -32,7 +30,6 @@
         },
         {
             "name": "stroke_width",
-            "description": "The stroke width",
             "value": 5,
             "bind": {
                 "name": "Stroke width: ",
@@ -46,7 +43,7 @@
     "data": [
         {
             "name": "tree",
-            "url": "../../../source/datasets/transformed/move_sequence.json",
+            "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/move_sequence.json",
             "transform": [
                 {
                     "type": "stratify",
@@ -135,7 +132,7 @@
                         "field": "r1"
                     },
                     "stroke": {
-                        "value": "white"
+                        "value": "#343a40"
                     },
                     "fillOpacity": {
                         "field": "visible_partition"
