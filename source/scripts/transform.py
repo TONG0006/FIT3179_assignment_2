@@ -380,20 +380,32 @@ class MoveTree:
                 break
             current_node = self.get_move(current_node["id"], move_sequence[move_count])
 
+    def strip_inner_count(self, layer_count: int):
+        for node in self.nodes:
+            node["value"] = None if node["layer"] != layer_count else node["move_count"]
+
 
 def game_move_sequence():
     moves = pd.read_csv("source/datasets/reference/games_1610_1872_moves.csv")
     games = pd.merge(moves.groupby("game_id").agg({"move_no": lambda x: max(x)}), moves, on=["game_id", "move_no"])
 
-    root_node = {"id": 0, "move": "initial setup", "parent_id": None, "move_count": 1, "layer": 0}
+    root_node = {
+        "id": 0,
+        "move": "initial setup",
+        "parent_id": None,
+        "move_count": len(games["move_sequence"]),
+        "value": None,
+        "layer": 0,
+    }
     tree = MoveTree(root_node)
 
     for move_sequence in games["move_sequence"]:
-        tree.insert_sequence(move_sequence.split("|"), 4)
+        tree.insert_sequence(move_sequence.split("|"), 10)
+    tree.strip_inner_count(10)
 
     with open("source/datasets/transformed/move_sequence.json", "w") as f:
         json.dump(tree.nodes, f)
-    print(len(tree.nodes))
+    print(tree.nodes)
 
 
 def GM_birthplace():
@@ -452,6 +464,6 @@ if __name__ == "__main__":
     # chess_scatter_2()
     # chess_scatter_3()
     # pgn_to_csv()
-    # game_move_sequence()
+    game_move_sequence()
     # GM_birthplace()
-    female_chess()
+    # female_chess()
