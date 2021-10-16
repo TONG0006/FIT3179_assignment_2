@@ -42,7 +42,7 @@
         },
         {
             "data": {
-                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/GM_birthplace/source/datasets/transformed/world_map_graticules.topojson",
+                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/world_map_graticules.topojson",
                 "format": {
                     "type": "topojson",
                     "feature": "custom.geo"
@@ -57,7 +57,7 @@
         },
         {
             "data": {
-                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/GM_birthplace/source/datasets/transformed/gm_birthplace.csv"
+                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/gm_birthplace.csv"
             },
             "transform": [
                 {
