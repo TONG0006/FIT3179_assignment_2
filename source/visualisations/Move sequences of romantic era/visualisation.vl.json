@@ -5,10 +5,48 @@
     "height": 400,
     "padding": 5,
     "autosize": "none",
+    "signals": [
+        {
+            "name": "layer_select",
+            "description": "Number of move sequences from initial position",
+            "value": 4,
+            "bind": {
+                "name": "Number of move sequences from initial position: ",
+                "input": "range",
+                "min": 0,
+                "max": 10,
+                "step": 1
+            }
+        },
+        {
+            "name": "min_move_select",
+            "description": "Min number of move in a partition",
+            "value": 10,
+            "bind": {
+                "name": "Min number of move in a move sequence: ",
+                "input": "range",
+                "min": 0,
+                "max": 50,
+                "step": 1
+            }
+        },
+        {
+            "name": "stroke_width",
+            "description": "The stroke width",
+            "value": 5,
+            "bind": {
+                "name": "Stroke width: ",
+                "input": "range",
+                "min": 0,
+                "max": 10,
+                "step": 1
+            }
+        }
+    ],
     "data": [
         {
             "name": "tree",
-            "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/scientific_chess/source/datasets/transformed/move_sequence.json",
+            "url": "../../../source/datasets/transformed/move_sequence.json",
             "transform": [
                 {
                     "type": "stratify",
@@ -17,16 +55,17 @@
                 },
                 {
                     "type": "partition",
-                    "field": "move_count",
+                    "field": "value",
                     "sort": {
-                        "field": "value"
+                        "field": "value",
+                        "order": "ascending"
                     },
                     "size": [
                         {
                             "signal": "2 * PI"
                         },
                         {
-                            "signal": "width / 2"
+                            "signal": "width / (layer_select+1) * 5"
                         }
                     ],
                     "as": [
@@ -36,7 +75,13 @@
                         "r1",
                         "depth",
                         "children"
-                    ]
+                    ],
+                    "signal": "partition_transform"
+                },
+                {
+                    "type": "formula",
+                    "as": "visible_partition",
+                    "expr": "datum.depth <= layer_select & (datum.move_count > min_move_select)"
                 }
             ]
         }
@@ -72,25 +117,9 @@
                         "scale": "color",
                         "field": "depth"
                     },
-                    "fillOpacity": {
-                        "condition": {
-                            "param": "select",
-                            "value": 1
-                        },
-                        "value": 1
-                    },
-                    "opacity": {
-                        "condition": {
-                            "param": "move_highlight",
-                            "value": 0
-                        },
-                        "value": 1
-                    },
-                    "tooltip": [
-                        {
-                            "signal": "'Move: ' + datum.move + (datum.move_count ? ', Occurences: ' + datum.move_count + ' move(s)' : '') "
-                        }
-                    ]
+                    "tooltip": {
+                        "signal": "'Move: ' + datum.move + (datum.move_count ? ', Occurences: ' + datum.move_count + ' move(s)' : '') + ', Move number: ' + datum.depth"
+                    }
                 },
                 "update": {
                     "startAngle": {
@@ -108,8 +137,11 @@
                     "stroke": {
                         "value": "white"
                     },
+                    "fillOpacity": {
+                        "field": "visible_partition"
+                    },
                     "strokeWidth": {
-                        "value": 0.5
+                        "signal": "stroke_width"
                     },
                     "zindex": {
                         "value": 0
@@ -120,7 +152,7 @@
                         "value": "red"
                     },
                     "strokeWidth": {
-                        "value": 2
+                        "value": 1
                     },
                     "zindex": {
                         "value": 1
