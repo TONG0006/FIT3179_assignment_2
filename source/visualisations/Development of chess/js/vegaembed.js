@@ -4,6 +4,7 @@ var visOpeningSequence = {
     "width": 400,
     "height": 400,
     "padding": 5,
+    "background": "#343a40",
     "autosize": "none",
     "signals": [
         {
@@ -133,7 +134,7 @@ var visOpeningSequence = {
                         "field": "r1"
                     },
                     "stroke": {
-                        "value": "white"
+                        "value": "#343a40"
                     },
                     "fillOpacity": {
                         "field": "visible_partition"
@@ -166,19 +167,36 @@ var visOpeningSequence = {
             "encode": {
                 "update": {
                     "x": {
-                        "signal": "(datum.innerRadius+datum.outerRadius)/2 * cos((datum.startAngle+datum.endAngle)/2 - PI/2) + width/2"
+                        "signal": "(datum.innerRadius+datum.outerRadius)/2 * cos((datum.startAngle+datum.endAngle)/2 - PI/2)"
+                    },
+                    "dx": {
+                        "signal": "width/2 - 14"
                     },
                     "y": {
-                        "signal": "(datum.innerRadius+datum.outerRadius)/2 * sin((datum.startAngle+datum.endAngle)/2 - PI/2) + height/2"
+                        "signal": "(datum.innerRadius+datum.outerRadius)/2 * sin((datum.startAngle+datum.endAngle)/2 - PI/2)"
                     },
+                    "dy": {
+                        "signal": "height/2"
+                    },
+                    "baseline": [
+                        {
+                            "value": "bottom"
+                        }
+                    ],
                     "fillOpacity": {
-                        "signal": "(datum.outerRadius < width/2) & ((datum.datum.move == 'initial setup') | (datum.datum.move == 'e4' & datum.datum.depth == 1 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'e5' & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'Nf3' & datum.datum.depth == 3 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'f4' & datum.datum.depth == 3 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'Nc6' & datum.datum.depth == 4 & datum.datum.move_count >= min_move_select))"
+                        "signal": "(datum.outerRadius < width/2) & ((datum.datum.move == 'initial setup') | (datum.datum.move == 'e4' & datum.datum.depth == 1 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'e5' & datum.datum.depth == 2 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'Nf3' & datum.datum.depth == 3 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'f4' & datum.datum.depth == 3 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'Nc6' & datum.datum.depth == 4 & datum.datum.move_count >= min_move_select))"
                     },
                     "fill": {
-                        "value": "blue"
+                        "value": "#ee0000"
+                    },
+                    "fontSize": {
+                        "value": 16
+                    },
+                    "fontStyle": {
+                        "value": "bold"
                     },
                     "text": {
-                        "signal": "datum.datum.move != 'f4' ? datum.datum.move : 'f4: Kings gambit'"
+                        "signal": "(datum.datum.move != 'f4' || datum.datum.move_count != 152) ? datum.datum.move : 'f4: Kings gambit'"
                     }
                 }
             }
