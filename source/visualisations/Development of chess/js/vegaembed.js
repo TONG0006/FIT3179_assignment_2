@@ -98,6 +98,7 @@ var visOpeningSequence = {
     ],
     "marks": [
         {
+            "name": "moves",
             "type": "arc",
             "from": {
                 "data": "tree"
@@ -132,7 +133,7 @@ var visOpeningSequence = {
                         "field": "r1"
                     },
                     "stroke": {
-                        "value": "#343a40"
+                        "value": "white"
                     },
                     "fillOpacity": {
                         "field": "visible_partition"
@@ -153,6 +154,31 @@ var visOpeningSequence = {
                     },
                     "zindex": {
                         "value": 1
+                    }
+                }
+            }
+        },
+        {
+            "type": "text",
+            "from": {
+                "data": "moves"
+            },
+            "encode": {
+                "update": {
+                    "x": {
+                        "signal": "(datum.innerRadius+datum.outerRadius)/2 * cos((datum.startAngle+datum.endAngle)/2 - PI/2) + width/2"
+                    },
+                    "y": {
+                        "signal": "(datum.innerRadius+datum.outerRadius)/2 * sin((datum.startAngle+datum.endAngle)/2 - PI/2) + height/2"
+                    },
+                    "fillOpacity": {
+                        "signal": "(datum.outerRadius < width/2) & ((datum.datum.move == 'initial setup') | (datum.datum.move == 'e4' & datum.datum.depth == 1 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'e5' & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'Nf3' & datum.datum.depth == 3 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'f4' & datum.datum.depth == 3 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'Nc6' & datum.datum.depth == 4 & datum.datum.move_count >= min_move_select))"
+                    },
+                    "fill": {
+                        "value": "blue"
+                    },
+                    "text": {
+                        "signal": "datum.datum.move != 'f4' ? datum.datum.move : 'f4: Kings gambit'"
                     }
                 }
             }
@@ -376,7 +402,7 @@ var visFemaleTitle = {
     "$schema": "https://vega.github.io/schema/vega/v5.json",
     "description": "A breakdown of female vs males depending on the titles earnt.",
     "width": 300,
-    "height": 240,
+    "height": 300,
     "padding": 5,
     "background": "#343a40",
     "data": [
@@ -435,13 +461,17 @@ var visFemaleTitle = {
         {
             "orient": "left",
             "scale": "yscale",
-            "tickSize": 10,
+            "tickSize": 1,
             "labelPadding": 10,
-            "zindex": 1
+            "zindex": 1,
+            "titleColor": "white",
+            "tickColor": "white",
+            "labelColor": "white"
         },
         {
             "orient": "bottom",
-            "scale": "xscale"
+            "scale": "xscale",
+            "labelColor": "white"
         }
     ],
     "marks": [
@@ -513,6 +543,11 @@ var visFemaleTitle = {
                             "fill": {
                                 "scale": "color",
                                 "field": "gender"
+                            },
+                            "legend": {
+                                "labelColor": "white",
+                                "titleColor": "white",
+                                "symbolFillColor": "white"
                             }
                         }
                     }
