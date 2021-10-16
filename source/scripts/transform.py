@@ -410,18 +410,17 @@ def game_move_sequence():
 
 def GM_birthplace():
     GMs = pd.read_csv("source/datasets/reference/WorldChessGrandMaster.csv")
-    # aus_city = pd.read_csv("source/datasets/reference/AUS_state.csv")
     all_city = pd.read_csv("source/datasets/reference/worldcitiespop.csv")
+    continents = pd.read_csv("source/datasets/reference/continents2.csv")
 
-    # def in_aus(city_name: str):
-    #  return city_name in aus_city["GCCSA/SUA"].values
+    valid_city_GMs = pd.merge(GMs, all_city, left_on="Birthplace", right_on="AccentCity")
+    valid_city_GMs = pd.merge(valid_city_GMs, continents, left_on="Region", right_on="region-code", how="left")
+    valid_city_GMs = valid_city_GMs.drop_duplicates(subset=["FIDE ID"]).dropna(subset=["Birthplace"])
+    valid_city_GMs = valid_city_GMs[
+        ["Born", "Died", "Title Year", "Population", "Latitude", "Longitude", "Birthplace", "region", "name"]
+    ]
+    print(valid_city_GMs.shape)
 
-    valid_city_GMs = (
-        pd.merge(GMs, all_city, left_on="Birthplace", right_on="AccentCity")
-        .drop_duplicates(subset=["FIDE ID"])
-        .dropna(subset=["Birthplace"])
-    )
-    valid_city_GMs = valid_city_GMs[["Born", "Died", "Title Year", "Population", "Latitude", "Longitude"]]
     valid_city_GMs["Born"] = valid_city_GMs["Born"].apply(lambda x: x.split("-")[0])
     valid_city_GMs["Died"] = valid_city_GMs["Died"].apply(lambda x: x.split("-")[0] if type(x) == str else None)
     valid_city_GMs.to_csv("source/datasets/transformed/gm_birthplace.csv")
@@ -464,6 +463,6 @@ if __name__ == "__main__":
     # chess_scatter_2()
     # chess_scatter_3()
     # pgn_to_csv()
-    game_move_sequence()
-    # GM_birthplace()
+    # game_move_sequence()
+    GM_birthplace()
     # female_chess()
