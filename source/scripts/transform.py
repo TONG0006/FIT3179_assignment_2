@@ -380,36 +380,47 @@ class MoveTree:
                 break
             current_node = self.get_move(current_node["id"], move_sequence[move_count])
 
+    def strip_inner_count(self, layer_count: int):
+        for node in self.nodes:
+            node["value"] = None if node["layer"] != layer_count else node["move_count"]
+
 
 def game_move_sequence():
     moves = pd.read_csv("source/datasets/reference/games_1610_1872_moves.csv")
     games = pd.merge(moves.groupby("game_id").agg({"move_no": lambda x: max(x)}), moves, on=["game_id", "move_no"])
 
-    root_node = {"id": 0, "move": "initial setup", "parent_id": None, "move_count": 1, "layer": 0}
+    root_node = {
+        "id": 0,
+        "move": "initial setup",
+        "parent_id": None,
+        "move_count": len(games["move_sequence"]),
+        "value": None,
+        "layer": 0,
+    }
     tree = MoveTree(root_node)
 
     for move_sequence in games["move_sequence"]:
-        tree.insert_sequence(move_sequence.split("|"), 4)
+        tree.insert_sequence(move_sequence.split("|"), 10)
+    tree.strip_inner_count(10)
 
     with open("source/datasets/transformed/move_sequence.json", "w") as f:
         json.dump(tree.nodes, f)
-    print(len(tree.nodes))
+    print(tree.nodes)
 
 
 def GM_birthplace():
     GMs = pd.read_csv("source/datasets/reference/WorldChessGrandMaster.csv")
-    # aus_city = pd.read_csv("source/datasets/reference/AUS_state.csv")
     all_city = pd.read_csv("source/datasets/reference/worldcitiespop.csv")
+    continents = pd.read_csv("source/datasets/reference/continents2.csv")
 
-    # def in_aus(city_name: str):
-    #  return city_name in aus_city["GCCSA/SUA"].values
+    valid_city_GMs = pd.merge(GMs, all_city, left_on="Birthplace", right_on="AccentCity")
+    valid_city_GMs = pd.merge(valid_city_GMs, continents, left_on="Region", right_on="region-code", how="left")
+    valid_city_GMs = valid_city_GMs.drop_duplicates(subset=["FIDE ID"]).dropna(subset=["Birthplace"])
+    valid_city_GMs = valid_city_GMs[
+        ["Born", "Died", "Title Year", "Population", "Latitude", "Longitude", "Birthplace", "region", "name"]
+    ]
+    print(valid_city_GMs.shape)
 
-    valid_city_GMs = (
-        pd.merge(GMs, all_city, left_on="Birthplace", right_on="AccentCity")
-        .drop_duplicates(subset=["FIDE ID"])
-        .dropna(subset=["Birthplace"])
-    )
-    valid_city_GMs = valid_city_GMs[["Born", "Died", "Title Year", "Population", "Latitude", "Longitude"]]
     valid_city_GMs["Born"] = valid_city_GMs["Born"].apply(lambda x: x.split("-")[0])
     valid_city_GMs["Died"] = valid_city_GMs["Died"].apply(lambda x: x.split("-")[0] if type(x) == str else None)
     valid_city_GMs.to_csv("source/datasets/transformed/gm_birthplace.csv")
@@ -433,10 +444,32 @@ def female_chess():
         else:
             return "Other"
 
+    def switch_title(title):
+        if title == "GM":
+            return "Grandmaster"
+        elif title == "IM":
+            return "International Master"
+        elif title == "FM":
+            return "FIDE Master"
+        elif title == "CM":
+            return "Candidate Master"
+        elif title == "WGM":
+            return "Woman Grandmaster"
+        elif title == "WIM":
+            return "Woman International Master"
+        elif title == "WFM":
+            return "Woman FIDE Master"
+        elif title == "WCM":
+            return "Woman Candidate Master"
+        else:
+            return None
+
     for i in range(len(a["title"])):
-        title_list.append(
-            {"title": a["title"][i], "gender": switch_gender(a["gender"][i]), "value": int(a["fide_id"][i])}
-        )
+
+        if switch_title(a["title"][i]) is not None:
+            title_list.append(
+                {"title": switch_title(a["title"][i]), "gender": switch_gender(a["gender"][i]), "value": int(a["fide_id"][i])}
+            )
 
     print(title_list)
 

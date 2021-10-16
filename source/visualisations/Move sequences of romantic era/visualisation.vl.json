@@ -4,11 +4,47 @@
     "width": 400,
     "height": 400,
     "padding": 5,
+    "background": "#343a40",
     "autosize": "none",
+    "signals": [
+        {
+            "name": "layer_select",
+            "value": 4,
+            "bind": {
+                "name": "Moves: ",
+                "input": "range",
+                "min": 0,
+                "max": 10,
+                "step": 1
+            }
+        },
+        {
+            "name": "min_move_select",
+            "value": 10,
+            "bind": {
+                "name": "Min moves",
+                "input": "range",
+                "min": 0,
+                "max": 50,
+                "step": 1
+            }
+        },
+        {
+            "name": "stroke_width",
+            "value": 5,
+            "bind": {
+                "name": "Stroke width: ",
+                "input": "range",
+                "min": 0,
+                "max": 10,
+                "step": 1
+            }
+        }
+    ],
     "data": [
         {
             "name": "tree",
-            "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/scientific_chess/source/datasets/transformed/move_sequence.json",
+            "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/move_sequence.json",
             "transform": [
                 {
                     "type": "stratify",
@@ -17,16 +53,17 @@
                 },
                 {
                     "type": "partition",
-                    "field": "move_count",
+                    "field": "value",
                     "sort": {
-                        "field": "value"
+                        "field": "value",
+                        "order": "ascending"
                     },
                     "size": [
                         {
                             "signal": "2 * PI"
                         },
                         {
-                            "signal": "width / 2"
+                            "signal": "width / (layer_select+1) * 5"
                         }
                     ],
                     "as": [
@@ -36,7 +73,13 @@
                         "r1",
                         "depth",
                         "children"
-                    ]
+                    ],
+                    "signal": "partition_transform"
+                },
+                {
+                    "type": "formula",
+                    "as": "visible_partition",
+                    "expr": "datum.depth <= layer_select & (datum.move_count > min_move_select)"
                 }
             ]
         }
@@ -56,6 +99,7 @@
     ],
     "marks": [
         {
+            "name": "moves",
             "type": "arc",
             "from": {
                 "data": "tree"
@@ -72,25 +116,9 @@
                         "scale": "color",
                         "field": "depth"
                     },
-                    "fillOpacity": {
-                        "condition": {
-                            "param": "select",
-                            "value": 1
-                        },
-                        "value": 1
-                    },
-                    "opacity": {
-                        "condition": {
-                            "param": "move_highlight",
-                            "value": 0
-                        },
-                        "value": 1
-                    },
-                    "tooltip": [
-                        {
-                            "signal": "'Move: ' + datum.move + (datum.move_count ? ', Occurences: ' + datum.move_count + ' move(s)' : '') "
-                        }
-                    ]
+                    "tooltip": {
+                        "signal": "'Move: ' + datum.move + (datum.move_count ? ', Occurences: ' + datum.move_count + ' move(s)' : '') + ', Move number: ' + datum.depth"
+                    }
                 },
                 "update": {
                     "startAngle": {
@@ -106,10 +134,13 @@
                         "field": "r1"
                     },
                     "stroke": {
-                        "value": "white"
+                        "value": "#343a40"
+                    },
+                    "fillOpacity": {
+                        "field": "visible_partition"
                     },
                     "strokeWidth": {
-                        "value": 0.5
+                        "signal": "stroke_width"
                     },
                     "zindex": {
                         "value": 0
@@ -120,10 +151,52 @@
                         "value": "red"
                     },
                     "strokeWidth": {
-                        "value": 2
+                        "value": 1
                     },
                     "zindex": {
                         "value": 1
+                    }
+                }
+            }
+        },
+        {
+            "type": "text",
+            "from": {
+                "data": "moves"
+            },
+            "encode": {
+                "update": {
+                    "x": {
+                        "signal": "(datum.innerRadius+datum.outerRadius)/2 * cos((datum.startAngle+datum.endAngle)/2 - PI/2)"
+                    },
+                    "dx": {
+                        "signal": "width/2 - 14"
+                    },
+                    "y": {
+                        "signal": "(datum.innerRadius+datum.outerRadius)/2 * sin((datum.startAngle+datum.endAngle)/2 - PI/2)"
+                    },
+                    "dy": {
+                        "signal": "height/2"
+                    },
+                    "baseline": [
+                        {
+                            "value": "bottom"
+                        }
+                    ],
+                    "fillOpacity": {
+                        "signal": "(datum.outerRadius < width/2) & ((datum.datum.move == 'initial setup') | (datum.datum.move == 'e4' & datum.datum.depth == 1 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'e5' & datum.datum.depth == 2 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'Nf3' & datum.datum.depth == 3 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'f4' & datum.datum.depth == 3 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'Nc6' & datum.datum.depth == 4 & datum.datum.move_count >= min_move_select))"
+                    },
+                    "fill": {
+                        "value": "#ee0000"
+                    },
+                    "fontSize": {
+                        "value": 16
+                    },
+                    "fontStyle": {
+                        "value": "bold"
+                    },
+                    "text": {
+                        "signal": "(datum.datum.move != 'f4' || datum.datum.move_count != 152) ? datum.datum.move : 'f4: Kings gambit'"
                     }
                 }
             }

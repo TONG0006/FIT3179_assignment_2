@@ -2,17 +2,17 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 800,
     "height": 500,
-    "title": "Top chess players birth location and statistics on their title obtainment",
+    "background": "#343a40",
     "params": [
         {
             "name": "year_select",
-            "value": 1908,
+            "value": 2010,
             "bind": {
                 "input": "range",
                 "min": 1908,
                 "max": 2021,
                 "step": 1,
-                "name": "Year: "
+                "name": "Min year of birth: "
             }
         }
     ],
@@ -42,7 +42,7 @@
         },
         {
             "data": {
-                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/GM_birthplace/source/datasets/transformed/world_map_graticules.topojson",
+                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/world_map_graticules.topojson",
                 "format": {
                     "type": "topojson",
                     "feature": "custom.geo"
@@ -57,7 +57,7 @@
         },
         {
             "data": {
-                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/GM_birthplace/source/datasets/transformed/gm_birthplace.csv"
+                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/gm_birthplace.csv"
             },
             "transform": [
                 {
@@ -79,6 +79,36 @@
                 }
             },
             "encoding": {
+                "tooltip": [
+                    {
+                        "field": "Birthplace",
+                        "title": "City",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "Longitude",
+                        "title": "Longitude",
+                        "type": "quantitative",
+                        "format": ","
+                    },
+                    {
+                        "field": "Latitude",
+                        "title": "Latitude",
+                        "type": "quantitative",
+                        "format": ","
+                    },
+                    {
+                        "field": "Population",
+                        "title": "Population",
+                        "type": "quantitative",
+                        "format": ","
+                    },
+                    {
+                        "field": "titled_player",
+                        "title": "Rate of GMs per 1,000,000",
+                        "type": "quantitative"
+                    }
+                ],
                 "longitude": {
                     "field": "Longitude",
                     "title": "longitude",
@@ -118,6 +148,11 @@
                             500,
                             1000
                         ]
+                    },
+                    "legend": {
+                        "labelColor": "white",
+                        "titleColor": "white",
+                        "symbolFillColor": "white"
                     }
                 },
                 "color": {
@@ -127,6 +162,10 @@
                         "title per 1,000,000 weighted",
                         "against their population"
                     ],
+                    "legend": {
+                        "labelColor": "white",
+                        "titleColor": "white"
+                    },
                     "aggregate": "average",
                     "scale": {
                         "domain": [
