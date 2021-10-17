@@ -205,212 +205,314 @@ var visOpeningSequence = {
 };
 var visGMMap = {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 800,
-    "height": 500,
-    "background": "#343a40",
-    "params": [
-        {
-            "name": "year_select",
-            "value": 2010,
-            "bind": {
-                "input": "range",
-                "min": 1908,
-                "max": 2021,
-                "step": 1,
-                "name": "Min year of birth: "
-            }
-        }
-    ],
-    "projection": {
-        "type": "equalEarth"
+    "data": {
+        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/gm_birthplace.csv"
     },
-    "layer": [
+    "background": "#343a40",
+    "vconcat": [
         {
-            "data": {
-                "graticule": {
-                    "step": [
-                        15,
-                        15
-                    ]
-                }
+            "width": 800,
+            "height": 400,
+            "projection": {
+                "type": "equalEarth"
             },
-            "mark": {
-                "type": "geoshape",
-                "stroke": "lightgrey",
-                "strokeWidth": 1,
-                "strokeDash": [
-                    5,
-                    5
-                ],
-                "opacity": 1
-            }
-        },
-        {
             "data": {
-                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/world_map_graticules.topojson",
-                "format": {
-                    "type": "topojson",
-                    "feature": "custom.geo"
-                }
+                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/gm_birthplace.csv",
+                "name": "data_birthplace"
             },
-            "mark": {
-                "type": "geoshape",
-                "fill": "white",
-                "stroke": "darkgrey",
-                "strokeWidth": 0.9
-            }
-        },
-        {
-            "data": {
-                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/gm_birthplace.csv"
-            },
-            "transform": [
+            "layer": [
                 {
-                    "calculate": "isValid(datum.Born)",
-                    "as": "player_count"
+                    "data": {
+                        "graticule": {
+                            "step": [
+                                15,
+                                15
+                            ]
+                        }
+                    },
+                    "mark": {
+                        "type": "geoshape",
+                        "stroke": "lightgrey",
+                        "strokeWidth": 1,
+                        "strokeDash": [
+                            5,
+                            5
+                        ],
+                        "opacity": 1
+                    }
                 },
                 {
-                    "calculate": "(datum['Title Year'] < year_select)/datum.Population * 1000000",
-                    "as": "titled_player"
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/world_map_graticules.topojson",
+                        "format": {
+                            "type": "topojson",
+                            "feature": "custom.geo"
+                        }
+                    },
+                    "mark": {
+                        "type": "geoshape",
+                        "fill": "white",
+                        "stroke": "darkgrey",
+                        "strokeWidth": 0.9
+                    }
                 },
                 {
-                    "filter": "(datum.Born <= year_select) & (isValid(datum.Dead) ? (datum.Dead >= year_select) : true)"
+                    "transform": [
+                        {
+                            "joinaggregate": [
+                                {
+                                    "op": "count",
+                                    "as": "total_players",
+                                    "field": "Title Year"
+                                }
+                            ]
+                        },
+                        {
+                            "calculate": "(datum['Title Year'] < 2021)/datum.total_players * 1000000",
+                            "as": "titled_player"
+                        },
+                        {
+                            "filter": {
+                                "param": "time_brush"
+                            }
+                        }
+                    ],
+                    "mark": {
+                        "type": "circle",
+                        "tooltip": {
+                            "content": "data"
+                        }
+                    },
+                    "encoding": {
+                        "tooltip": [
+                            {
+                                "field": "Birthplace",
+                                "title": "City",
+                                "type": "nominal"
+                            },
+                            {
+                                "field": "Longitude",
+                                "title": "Longitude",
+                                "type": "quantitative",
+                                "format": ","
+                            },
+                            {
+                                "field": "Latitude",
+                                "title": "Latitude",
+                                "type": "quantitative",
+                                "format": ","
+                            },
+                            {
+                                "field": "Population",
+                                "title": "Population",
+                                "type": "quantitative",
+                                "format": ","
+                            }
+                        ],
+                        "longitude": {
+                            "field": "Longitude",
+                            "title": "longitude",
+                            "type": "quantitative"
+                        },
+                        "latitude": {
+                            "field": "Latitude",
+                            "type": "quantitative"
+                        },
+                        "opacity": {
+                            "value": 0.45
+                        },
+                        "size": {
+                            "field": "",
+                            "title": "The number of GMs",
+                            "aggregate": "count",
+                            "scale": {
+                                "domain": [
+                                    1,
+                                    2,
+                                    3,
+                                    5,
+                                    10,
+                                    30,
+                                    40,
+                                    50
+                                ],
+                                "type": "threshold",
+                                "range": [
+                                    10,
+                                    20,
+                                    30,
+                                    100,
+                                    200,
+                                    300,
+                                    400,
+                                    500,
+                                    1000
+                                ]
+                            },
+                            "legend": {
+                                "labelColor": "white",
+                                "titleColor": "white",
+                                "symbolFillColor": "white",
+                                "orient": "bottom-left",
+                                "direction": "horizontal"
+                            }
+                        },
+                        "color": {
+                            "field": "titled_player",
+                            "title": [
+                                "Weighted rate of titled",
+                                "players per 1000000 players"
+                            ],
+                            "legend": {
+                                "labelColor": "white",
+                                "titleColor": "white",
+                                "orient": "bottom-left",
+                                "direction": "horizontal"
+                            },
+                            "aggregate": "average",
+                            "scale": {
+                                "domain": [
+                                    0,
+                                    0.1,
+                                    0.5,
+                                    1,
+                                    10,
+                                    50,
+                                    100,
+                                    100
+                                ],
+                                "type": "threshold",
+                                "scheme": "yelloworangered"
+                            }
+                        }
+                    }
+                },
+                {
+                    "mark": {
+                        "type": "text",
+                        "align": "left"
+                    },
+                    "transform": [
+                        {
+                            "calculate": "datum.Longitude + 10",
+                            "as": "dx"
+                        },
+                        {
+                            "calculate": "datum.Latitude + 30",
+                            "as": "dy"
+                        }
+                    ],
+                    "encoding": {
+                        "longitude": {
+                            "field": "dx"
+                        },
+                        "latitude": {
+                            "field": "dy"
+                        },
+                        "text": {
+                            "field": "Birthplace",
+                            "type": "nominal"
+                        },
+                        "color": {
+                            "value": "black"
+                        },
+                        "opacity": {
+                            "condition": {
+                                "test": "datum.Birthplace == 'Moscow' | datum.Birthplace == 'Dresden' | datum.Birthplace == 'Reykjavík' | datum.Birthplace == 'Riga'",
+                                "value": 1
+                            },
+                            "value": 0
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "width": 800,
+            "height": 100,
+            "mark": "line",
+            "params": [
+                {
+                    "name": "time_brush",
+                    "select": {
+                        "type": "interval",
+                        "clear": "mouseup",
+                        "encodings": [
+                            "x"
+                        ]
+                    }
                 }
             ],
-            "mark": {
-                "type": "circle",
-                "tooltip": {
-                    "content": "data"
-                }
-            },
             "encoding": {
-                "tooltip": [
-                    {
-                        "field": "Birthplace",
-                        "title": "City",
-                        "type": "nominal"
-                    },
-                    {
-                        "field": "Longitude",
-                        "title": "Longitude",
-                        "type": "quantitative",
-                        "format": ","
-                    },
-                    {
-                        "field": "Latitude",
-                        "title": "Latitude",
-                        "type": "quantitative",
-                        "format": ","
-                    },
-                    {
-                        "field": "Population",
-                        "title": "Population",
-                        "type": "quantitative",
-                        "format": ","
-                    },
-                    {
-                        "field": "titled_player",
-                        "title": "Rate of GMs per 1,000,000",
-                        "type": "quantitative"
-                    }
-                ],
-                "longitude": {
-                    "field": "Longitude",
-                    "title": "longitude",
-                    "type": "quantitative"
-                },
-                "latitude": {
-                    "field": "Latitude",
-                    "type": "quantitative"
-                },
-                "opacity": {
-                    "value": 0.45
-                },
-                "size": {
-                    "field": "player_count",
-                    "title": "The number of GMs",
-                    "aggregate": "count",
-                    "scale": {
-                        "domain": [
-                            1,
-                            2,
-                            3,
-                            5,
-                            10,
-                            30,
-                            40,
-                            50
-                        ],
-                        "type": "threshold",
-                        "range": [
-                            10,
-                            20,
-                            30,
-                            100,
-                            200,
-                            300,
-                            400,
-                            500,
-                            1000
-                        ]
-                    },
-                    "legend": {
+                "x": {
+                    "field": "Title Year",
+                    "timeUnit": "year",
+                    "axis": {
+                        "title": "",
+                        "format": "%Y",
                         "labelColor": "white",
                         "titleColor": "white",
-                        "symbolFillColor": "white"
+                        "gridWidth": 0
+                    }
+                },
+                "y": {
+                    "aggregate": "count",
+                    "axis": {
+                        "title": "GMs by year",
+                        "tickCount": 5,
+                        "grid": false,
+                        "labelColor": "white",
+                        "titleColor": "white",
+                        "gridWidth": 0
                     }
                 },
                 "color": {
-                    "field": "titled_player",
-                    "title": [
-                        "Rate of players who have a ",
-                        "title per 1,000,000 weighted",
-                        "against their population"
-                    ],
-                    "legend": {
-                        "labelColor": "white",
-                        "titleColor": "white"
-                    },
-                    "aggregate": "average",
+                    "field": "Title",
                     "scale": {
-                        "domain": [
-                            0,
-                            0.1,
-                            0.5,
-                            1,
-                            10,
-                            50,
-                            100,
-                            100
-                        ],
-                        "type": "threshold",
-                        "scheme": "yelloworangered"
-                    }
+                        "range": "diverging"
+                    },
+                    "legend": null
                 }
             }
         },
         {
-            "mark": {
-                "type": "text",
-                "align": "right",
-                "baseline": "middle",
-                "dx": -12,
-                "fontStyle": "italic"
-            },
+            "width": 800,
+            "height": 100,
+            "mark": "area",
             "encoding": {
-                "text": {
-                    "field": "Birthplace",
-                    "type": "nominal"
+                "x": {
+                    "field": "Title Year",
+                    "timeUnit": "year",
+                    "scale": {
+                        "domain": {
+                            "param": "time_brush"
+                        }
+                    },
+                    "axis": {
+                        "title": "Year",
+                        "tickCount": 10,
+                        "grid": true,
+                        "labelColor": "white",
+                        "titleColor": "white",
+                        "gridWidth": 1,
+                        "gridDash": [
+                            5,
+                            5
+                        ]
+                    }
+                },
+                "y": {
+                    "aggregate": "count",
+                    "title": "GMs by year",
+                    "axis": {
+                        "labelColor": "white",
+                        "titleColor": "white",
+                        "gridWidth": 0
+                    }
                 },
                 "color": {
-                    "value": "white"
-                },
-                "opacity": {
-                    "condition": {
-                        "test": "datum.Birthplace == 'Moscow'",
-                        "value": 1
-                    },
-                    "value": 1
+                    "value": "white",
+                    "legend": null
                 }
             }
         }

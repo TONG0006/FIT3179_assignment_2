@@ -1,203 +1,313 @@
 {
-    "$schema": "https://vega.github.io/schema/vega/v5.json",
-    "description": "A sun bar chart breakdown of opening move sequences by titled players from 1806-1873.",
-    "width": 400,
-    "height": 400,
-    "padding": 5,
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/gm_birthplace.csv"
+    },
     "background": "#343a40",
-    "autosize": "none",
-    "signals": [
+    "vconcat": [
         {
-            "name": "layer_select",
-            "value": 4,
-            "bind": {
-                "name": "Moves: ",
-                "input": "range",
-                "min": 0,
-                "max": 10,
-                "step": 1
-            }
-        },
-        {
-            "name": "min_move_select",
-            "value": 10,
-            "bind": {
-                "name": "Min moves",
-                "input": "range",
-                "min": 0,
-                "max": 50,
-                "step": 1
-            }
-        },
-        {
-            "name": "stroke_width",
-            "value": 5,
-            "bind": {
-                "name": "Stroke width: ",
-                "input": "range",
-                "min": 0,
-                "max": 10,
-                "step": 1
-            }
-        }
-    ],
-    "data": [
-        {
-            "name": "tree",
-            "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/move_sequence.json",
-            "transform": [
+            "width": 800,
+            "height": 400,
+            "projection": {
+                "type": "equalEarth"
+            },
+            "data": {
+                "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/gm_birthplace.csv",
+                "name": "data_birthplace"
+            },
+            "layer": [
                 {
-                    "type": "stratify",
-                    "key": "id",
-                    "parentKey": "parent_id"
+                    "data": {
+                        "graticule": {
+                            "step": [
+                                15,
+                                15
+                            ]
+                        }
+                    },
+                    "mark": {
+                        "type": "geoshape",
+                        "stroke": "lightgrey",
+                        "strokeWidth": 1,
+                        "strokeDash": [
+                            5,
+                            5
+                        ],
+                        "opacity": 1
+                    }
                 },
                 {
-                    "type": "partition",
-                    "field": "value",
-                    "sort": {
-                        "field": "value",
-                        "order": "ascending"
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/TONG0006/FIT3179_assignment_2/main/source/datasets/transformed/world_map_graticules.topojson",
+                        "format": {
+                            "type": "topojson",
+                            "feature": "custom.geo"
+                        }
                     },
-                    "size": [
+                    "mark": {
+                        "type": "geoshape",
+                        "fill": "white",
+                        "stroke": "darkgrey",
+                        "strokeWidth": 0.9
+                    }
+                },
+                {
+                    "transform": [
                         {
-                            "signal": "2 * PI"
+                            "joinaggregate": [
+                                {
+                                    "op": "count",
+                                    "as": "total_players",
+                                    "field": "Title Year"
+                                }
+                            ]
                         },
                         {
-                            "signal": "width / (layer_select+1) * 5"
+                            "calculate": "(datum['Title Year'] < 2021)/datum.total_players * 1000000",
+                            "as": "titled_player"
+                        },
+                        {
+                            "filter": {
+                                "param": "time_brush"
+                            }
                         }
                     ],
-                    "as": [
-                        "a0",
-                        "r0",
-                        "a1",
-                        "r1",
-                        "depth",
-                        "children"
-                    ],
-                    "signal": "partition_transform"
+                    "mark": {
+                        "type": "circle",
+                        "tooltip": {
+                            "content": "data"
+                        }
+                    },
+                    "encoding": {
+                        "tooltip": [
+                            {
+                                "field": "Birthplace",
+                                "title": "City",
+                                "type": "nominal"
+                            },
+                            {
+                                "field": "Longitude",
+                                "title": "Longitude",
+                                "type": "quantitative",
+                                "format": ","
+                            },
+                            {
+                                "field": "Latitude",
+                                "title": "Latitude",
+                                "type": "quantitative",
+                                "format": ","
+                            },
+                            {
+                                "field": "Population",
+                                "title": "Population",
+                                "type": "quantitative",
+                                "format": ","
+                            }
+                        ],
+                        "longitude": {
+                            "field": "Longitude",
+                            "title": "longitude",
+                            "type": "quantitative"
+                        },
+                        "latitude": {
+                            "field": "Latitude",
+                            "type": "quantitative"
+                        },
+                        "opacity": {
+                            "value": 0.45
+                        },
+                        "size": {
+                            "field": "",
+                            "title": "The number of GMs",
+                            "aggregate": "count",
+                            "scale": {
+                                "domain": [
+                                    1,
+                                    2,
+                                    3,
+                                    5,
+                                    10,
+                                    30,
+                                    40,
+                                    50
+                                ],
+                                "type": "threshold",
+                                "range": [
+                                    10,
+                                    20,
+                                    30,
+                                    100,
+                                    200,
+                                    300,
+                                    400,
+                                    500,
+                                    1000
+                                ]
+                            },
+                            "legend": {
+                                "labelColor": "white",
+                                "titleColor": "white",
+                                "symbolFillColor": "white",
+                                "orient": "bottom-left",
+                                "direction": "horizontal"
+                            }
+                        },
+                        "color": {
+                            "field": "titled_player",
+                            "title": [
+                                "Weighted rate of titled",
+                                "players per 1000000 players"
+                            ],
+                            "legend": {
+                                "labelColor": "white",
+                                "titleColor": "white",
+                                "orient": "bottom-left",
+                                "direction": "horizontal"
+                            },
+                            "aggregate": "average",
+                            "scale": {
+                                "domain": [
+                                    0,
+                                    0.1,
+                                    0.5,
+                                    1,
+                                    10,
+                                    50,
+                                    100,
+                                    100
+                                ],
+                                "type": "threshold",
+                                "scheme": "yelloworangered"
+                            }
+                        }
+                    }
                 },
                 {
-                    "type": "formula",
-                    "as": "visible_partition",
-                    "expr": "datum.depth <= layer_select & (datum.move_count > min_move_select)"
+                    "mark": {
+                        "type": "text",
+                        "align": "left"
+                    },
+                    "transform": [
+                        {
+                            "calculate": "datum.Longitude + 10",
+                            "as": "dx"
+                        },
+                        {
+                            "calculate": "datum.Latitude + 30",
+                            "as": "dy"
+                        }
+                    ],
+                    "encoding": {
+                        "longitude": {
+                            "field": "dx"
+                        },
+                        "latitude": {
+                            "field": "dy"
+                        },
+                        "text": {
+                            "field": "Birthplace",
+                            "type": "nominal"
+                        },
+                        "color": {
+                            "value": "black"
+                        },
+                        "opacity": {
+                            "condition": {
+                                "test": "datum.Birthplace == 'Moscow' | datum.Birthplace == 'Dresden' | datum.Birthplace == 'Reykjavík' | datum.Birthplace == 'Riga'",
+                                "value": 1
+                            },
+                            "value": 0
+                        }
+                    }
                 }
             ]
-        }
-    ],
-    "scales": [
+        },
         {
-            "name": "color",
-            "type": "linear",
-            "domain": {
-                "data": "tree",
-                "field": "depth"
-            },
-            "range": {
-                "scheme": "greys"
-            }
-        }
-    ],
-    "marks": [
-        {
-            "name": "moves",
-            "type": "arc",
-            "from": {
-                "data": "tree"
-            },
-            "encode": {
-                "enter": {
-                    "x": {
-                        "signal": "width / 2"
-                    },
-                    "y": {
-                        "signal": "height / 2"
-                    },
-                    "fill": {
-                        "scale": "color",
-                        "field": "depth"
-                    },
-                    "tooltip": {
-                        "signal": "'Move: ' + datum.move + (datum.move_count ? ', Occurences: ' + datum.move_count + ' move(s)' : '') + ', Move number: ' + datum.depth"
+            "width": 800,
+            "height": 100,
+            "mark": "line",
+            "params": [
+                {
+                    "name": "time_brush",
+                    "select": {
+                        "type": "interval",
+                        "clear": "mouseup",
+                        "encodings": [
+                            "x"
+                        ]
+                    }
+                }
+            ],
+            "encoding": {
+                "x": {
+                    "field": "Title Year",
+                    "timeUnit": "year",
+                    "axis": {
+                        "title": "",
+                        "format": "%Y",
+                        "labelColor": "white",
+                        "titleColor": "white",
+                        "gridWidth": 0
                     }
                 },
-                "update": {
-                    "startAngle": {
-                        "field": "a0"
-                    },
-                    "endAngle": {
-                        "field": "a1"
-                    },
-                    "innerRadius": {
-                        "field": "r0"
-                    },
-                    "outerRadius": {
-                        "field": "r1"
-                    },
-                    "stroke": {
-                        "value": "#343a40"
-                    },
-                    "fillOpacity": {
-                        "field": "visible_partition"
-                    },
-                    "strokeWidth": {
-                        "signal": "stroke_width"
-                    },
-                    "zindex": {
-                        "value": 0
+                "y": {
+                    "aggregate": "count",
+                    "axis": {
+                        "title": "GMs by year",
+                        "tickCount": 5,
+                        "grid": false,
+                        "labelColor": "white",
+                        "titleColor": "white",
+                        "gridWidth": 0
                     }
                 },
-                "hover": {
-                    "stroke": {
-                        "value": "red"
+                "color": {
+                    "field": "Title",
+                    "scale": {
+                        "range": "diverging"
                     },
-                    "strokeWidth": {
-                        "value": 1
-                    },
-                    "zindex": {
-                        "value": 1
-                    }
+                    "legend": null
                 }
             }
         },
         {
-            "type": "text",
-            "from": {
-                "data": "moves"
-            },
-            "encode": {
-                "update": {
-                    "x": {
-                        "signal": "(datum.innerRadius+datum.outerRadius)/2 * cos((datum.startAngle+datum.endAngle)/2 - PI/2)"
-                    },
-                    "dx": {
-                        "signal": "width/2 - 14"
-                    },
-                    "y": {
-                        "signal": "(datum.innerRadius+datum.outerRadius)/2 * sin((datum.startAngle+datum.endAngle)/2 - PI/2)"
-                    },
-                    "dy": {
-                        "signal": "height/2"
-                    },
-                    "baseline": [
-                        {
-                            "value": "bottom"
+            "width": 800,
+            "height": 100,
+            "mark": "area",
+            "encoding": {
+                "x": {
+                    "field": "Title Year",
+                    "timeUnit": "year",
+                    "scale": {
+                        "domain": {
+                            "param": "time_brush"
                         }
-                    ],
-                    "fillOpacity": {
-                        "signal": "(datum.outerRadius < width/2) & ((datum.datum.move == 'initial setup') | (datum.datum.move == 'e4' & datum.datum.depth == 1 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'e5' & datum.datum.depth == 2 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'Nf3' & datum.datum.depth == 3 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'f4' & datum.datum.depth == 3 & datum.datum.move_count >= min_move_select) | (datum.datum.move == 'Nc6' & datum.datum.depth == 4 & datum.datum.move_count >= min_move_select))"
                     },
-                    "fill": {
-                        "value": "#ee0000"
-                    },
-                    "fontSize": {
-                        "value": 16
-                    },
-                    "fontStyle": {
-                        "value": "bold"
-                    },
-                    "text": {
-                        "signal": "(datum.datum.move != 'f4' || datum.datum.move_count != 152) ? datum.datum.move : 'f4: Kings gambit'"
+                    "axis": {
+                        "title": "Year",
+                        "tickCount": 10,
+                        "grid": true,
+                        "labelColor": "white",
+                        "titleColor": "white",
+                        "gridWidth": 1,
+                        "gridDash": [
+                            5,
+                            5
+                        ]
                     }
+                },
+                "y": {
+                    "aggregate": "count",
+                    "title": "GMs by year",
+                    "axis": {
+                        "labelColor": "white",
+                        "titleColor": "white",
+                        "gridWidth": 0
+                    }
+                },
+                "color": {
+                    "value": "white",
+                    "legend": null
                 }
             }
         }
